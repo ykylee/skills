@@ -6,7 +6,7 @@
 - 범위: 전체 태스크 목록, 우선순위, 진행 상태, 날짜별 기록 연결
 - 대상 독자: 개발자, AI 에이전트, 프로젝트 매니저
 - 상태: stable
-- 최종 수정일: 2026-07-09
+- 최종 수정일: 2026-07-10
 - 관련 문서: [세션 인계](./session_handoff.md), [프로젝트 프로파일](../../docs/PROJECT_PROFILE.md)
 
 ## 1. 운영 원칙
@@ -24,3 +24,7 @@
 - [x] TASK-002-B-verify: 1차 CI 검증 통과 (run 29022844646, 23s) + 재현성 (29023288041, 20s) + Node 20 해소 (29023548610, 18s)
 - [x] TASK-A-2: Node 20 deprecation 해소 — actions v-line 업그레이드 (checkout @v5, setup-node @v5 + 'lts/*', setup-python @v6)
 - [x] TASK-C: 운영 도구 보강 — scripts/skill-discover Python 3 구현 + .index.json 캐시 (.gitignore 추가)
+- [x] TASK-D: html-slides-builder 카탈로그 진입 — 저장소 루트 `html-deck/` → `skills/html-slides-builder/`, frontmatter 보정 (E030/E040/W100/W110 해소), lint 사전 검증 (2026-07-09)
+- [x] TASK-E: 이름 변경 `html-deck` → `html-slides-builder` — 디렉터리 mv, SKILL.md / references / scripts 잔재 정리, .index.json + CHANGELOG + handoff + README 동기화 (2026-07-09)
+- [x] TASK-PI: 외부 레퍼런스 deep-research — 15 confirmed / 10 refuted, 1순위 = Marpit. Axes 2/3 (디자인 시스템 + AI agent skills) 는 uninvestigated (2026-07-09 → 2026-07-10)
+- [ ] TASK-F: Marpit 통합 — `references/marpit-directives.md` 신설, verify_deck.py gate 2/3 directive 검출, 3-layer cascade 의 `/* @theme */` metadata 명문화 (다음 세션, pending)

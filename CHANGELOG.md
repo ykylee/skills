@@ -13,6 +13,9 @@
 ## [Unreleased]
 
 ### Added
+- `html-slides-builder` 스킬 (v1.1.0, doc): 단일 1920x1080 HTML 슬라이드 빌더 (키보드 네비,
+  PDF 인쇄, 6종 content-type spine, ASTRYX 테마 레이어). 위치: `skills/html-slides-builder/`.
+  `references/` 2건 (astryx-component-map.md, presentation-patterns.md), `scripts/verify_deck.py` 1건.
 - 운영 자동화 1차 실전 검증 통과 (GitHub Actions run `29022844646`): markdownlint-cli2 →
   `python3 scripts/skill-lint` → `lychee --offline` 3-step CI 검증 성공 (23s).
 - 운영 자동화 정책 결정: markdownlint 스타일 rule (`MD022` / `MD031` / `MD032` / `MD060`) 비활성화
@@ -20,6 +23,12 @@
 - 운영 도구 보강: `scripts/skill-discover` Python 3 stdlib-only 구현. `skill-discover/SKILL.md`
   §Procedure 1~7 의 실제 동작. `--index` 캐시 빌드, `category:X` / `harness:X` 토큰, `--json`,
   `--top N`. dry-run 결과: 인덱스 빌드 2 entries, 검색 (meta / category:meta / harness:generic-md) 정상.
+
+### Changed
+- 스킬 이름 변경 (TASK-E): `html-deck` → `html-slides-builder`. builder suffix 로 *도구 역할*
+  명시. 카테고리는 `doc` 유지 (산출물이 단일 HTML 문서). 영향: `skills/<name>/` 디렉터리명,
+  SKILL.md frontmatter `name`, 본문 `localStorage` key 예시, `skills/.index.json`, CHANGELOG,
+  session_handoff, README(루트) 트리 동기화.
 
 ### Changed
 - `.markdownlint.jsonc` — 의미 검증은 `scripts/skill-lint` 가 담당, markdownlint-cli2 는 *문법*

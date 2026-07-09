@@ -11,8 +11,10 @@
 ```
 skills/                       # 스킬 카탈로그
 ├── README.md                 # authoring 가이드
-└── <skill-name>/
-    └── SKILL.md              # manifest + 본문
+├── .index.json               # skill-discover 캐시 (.gitignore)
+├── html-slides-builder/      # doc — 단일 1920x1080 HTML 슬라이드 빌더
+├── skill-discover/           # meta — 카탈로그 검색
+└── skill-lint/               # meta — frontmatter / 링크 검증
 
 scripts/
 ├── skill-lint                # frontmatter / harness_compat / 링크 검증 (Python 3)

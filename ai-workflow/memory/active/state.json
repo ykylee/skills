@@ -1,6 +1,6 @@
 {
   "schema_version": "1",
-  "generated_at": "2026-07-09",
+  "generated_at": "2026-07-10",
   "purpose_digest": "사용자가 여러 AI 하네스(Claude Code 외 포함)에서 재사용할 범용 AI 워크플로우 스킬을 모아두고 배포하는 카탈로그",
   "purpose_digest_rev": 3,
   "source_of_truth": {
@@ -27,9 +27,9 @@
     "runtime_checks": "markdownlint-cli2 (markdown lint) + python3 scripts/skill-lint (frontmatter / harness_compat / 내부 링크) + lychee --offline (외부 링크)"
   },
   "session": {
-    "current_baseline": "TASK-C 운영 도구 보강 + 세션 마무리 commit 진행. skill-discover 실제 구현, .index.json 캐시 빌드 dry-run 정상, 모든 운영 도구(v-line 업그레이드 포함) 6차 CI 검증 통과.",
-    "current_axis": "범용 AI 워크플로우 스킬 카탈로그 — bootstrap + 운영 자동화 + 메타 스킬 2종 + 운영 도구 구현, v0.3.0 commit + CI 검증 통과",
-    "current_focus": "본 세션 종료 — TASK-C + 메모리 동기화 commit + push, 다음 세션은 신규 task 선정 (도메인 스킬 / harness 어댑터 / 운영 도구 추가 보강 등)",
+    "current_baseline": "TASK-D + TASK-E + TASK-PI 모두 done, TASK-F (Marpit 통합) 보류. html-slides-builder 가 정식 카탈로그 위치에 정착, deep-research 1순위 = Marpit. 본 세션 commit + push 후 종료.",
+    "current_axis": "범용 AI 워크플로우 스킬 카탈로그 — bootstrap + 운영 자동화 + 메타 스킬 2종 + 운영 도구 구현 + 도메인 스킬 1종(html-slides-builder), v0.3.0 이후 단계로 진입",
+    "current_focus": "본 세션 종료 — TASK-D/E/PI 메모리 동기화 commit + push. 다음 세션은 TASK-F (Marpit 통합) 또는 신규 task 선정.",
     "in_progress_items": [],
     "blocked_items": [],
     "recent_done_items": [
@@ -39,20 +39,26 @@
       "TASK-002-B-verify 운영 자동화 1차 CI 검증 통과 (run 29022844646) — 4 commit 사이클 후 clean",
       "TASK-002-B-verify-rep 재현성 확인 (run 29023288041) — 문서 변경 후 clean",
       "TASK-A-2 Node 20 deprecation 해소 — actions v-line 업그레이드 (checkout @v5, setup-node @v5 + 'lts/*', setup-python @v6), run 29023548610 통과",
-      "TASK-C 운영 도구 보강 — scripts/skill-discover (Python 3 stdlib-only, --index / --json / --top), skills/README.md §6, skill-discover/SKILL.md References, .gitignore (skills/.index.json)"
+      "TASK-C 운영 도구 보강 — scripts/skill-discover (Python 3 stdlib-only, --index / --json / --top), skills/README.md §6, skill-discover/SKILL.md References, .gitignore (skills/.index.json)",
+      "TASK-D html-slides-builder 카탈로그 진입 — 저장소 루트 html-deck/ → skills/html-slides-builder/, frontmatter 보정 (E030/E040 해소), 본문 lint W100/W110 보정 (When to use / Procedure / References 절), lint 사전 검증 clean (3 SKILL.md)",
+      "TASK-E 이름 변경 html-deck → html-slides-builder — 디렉터리 mv, SKILL.md frontmatter name + 본문 localStorage key 예시, references/astryx-component-map.md 8 라인 갱신, scripts/verify_deck.py docstring, .index.json + CHANGELOG + handoff + README 동기화, 잔재 0건",
+      "TASK-PI 외부 레퍼런스 deep-research — 5 phase 자동 (Scope/Search/Fetch/Verify/Synthesize), 106 agents, 15 confirmed / 10 refuted. 1순위 = Marpit (Marpit build-step-free section auto-scoping, three-scope directive system). Axes 2/3 (디자인 시스템 + AI agent skills) 는 uninvestigated — 후속 deep-research 별도 가능"
     ],
     "environment_constraints": []
   },
   "backlog": {
     "latest_backlog_path": "ai-workflow/memory/active/backlog/2026-07-09.md",
-    "task_count": 4,
+    "task_count": 7,
     "in_progress_items": [],
     "blocked_items": [],
     "done_items": [
       "TASK-001 표준 AI 워크플로우 초기 도입",
       "TASK-002-B 운영 자동화 (B-2)",
       "TASK-003-A 두 번째 메타 스킬 (skill-discover)",
-      "TASK-C 운영 도구 보강 (scripts/skill-discover 실제 구현 + .index.json)"
+      "TASK-C 운영 도구 보강 (scripts/skill-discover 실제 구현 + .index.json)",
+      "TASK-D html-slides-builder 카탈로그 진입 (위치 이동 + frontmatter 보정 + lint 사전 검증)",
+      "TASK-E 이름 변경 html-deck → html-slides-builder (디렉터리 mv + 잔재 정리 + 운영 문서 동기화)",
+      "TASK-PI 외부 레퍼런스 deep-research (Marpit 1순위, Axes 2/3 uninvestigated)"
     ]
   },
   "next_documents": [
@@ -65,6 +71,10 @@
     "skills/README.md",
     "skills/skill-lint/SKILL.md",
     "skills/skill-discover/SKILL.md",
+    "skills/html-slides-builder/SKILL.md",
+    "skills/html-slides-builder/references/presentation-patterns.md",
+    "skills/html-slides-builder/references/astryx-component-map.md",
+    "skills/html-slides-builder/scripts/verify_deck.py",
     "scripts/skill-discover",
     "CHANGELOG.md",
     "README.md",
