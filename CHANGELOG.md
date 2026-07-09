@@ -5,7 +5,7 @@
 - 대상 독자: 카탈로그 사용자, AI 에이전트, 기여자
 - 상태: active
 - 최종 수정일: 2026-07-09
-- 관련 문서: [README.md](./skills/README.md), [../ai-workflow/memory/active/PROJECT_PROFILE.md](../ai-workflow/memory/active/PROJECT_PROFILE.md)
+- 관련 문서: [README.md](./skills/README.md), [./ai-workflow/memory/active/PROJECT_PROFILE.md](./ai-workflow/memory/active/PROJECT_PROFILE.md)
 
 본 문서는 [Keep a Changelog](https://keepachangelog.com/ko/) 의 정신을 따른다.
 버전은 [Semantic Versioning](https://semver.org/lang/ko/) 을 지향한다.

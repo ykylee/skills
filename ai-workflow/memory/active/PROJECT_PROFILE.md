@@ -7,7 +7,7 @@
 - 대상 독자: 저장소 관리자, AI agent, 온보딩 담당자
 - 상태: draft
 - 최종 수정일: 2026-07-09
-- 관련 문서: [PURPOSE.md](./PURPOSE.md), [공통 표준](../core/global_workflow_standard.md)
+- 관련 문서: [PURPOSE.md](./PURPOSE.md), [공통 표준](../../core/global_workflow_standard.md)
 
 ## 1. 프로젝트 개요
 - 프로젝트명: `skills` (저장소명 = 디렉터리명)
