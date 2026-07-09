@@ -1,8 +1,7 @@
 {
   // markdownlint-cli2 설정 (https://github.com/DavidAnson/markdownlint-cli2)
-  // 일반 markdown rule 중 카탈로그와 충돌하는 것을 비활성화.
-  // 카탈로그-특유 rule (frontmatter, name==dir, harness_compat)은
-  // scripts/skill-lint 가 담당한다.
+  // 카탈로그의 *의미 검증* 은 scripts/skill-lint 가 담당한다.
+  // markdownlint-cli2 는 *문법 오류* 만 잡는다 — *스타일 공백 / 표 형식* 은 의도적 비활성화.
 
   "default": true,
 
@@ -14,6 +13,18 @@
 
   // 형제 단락 중복만 금지 (다른 section 의 같은 제목은 허용)
   "MD024": { "siblings_only": true },
+
+  // 헤딩 앞뒤 빈 줄 강제하지 않음 (가독성 vs 운영 부담)
+  "MD022": false,
+
+  // fenced code block 앞뒤 빈 줄 강제하지 않음
+  "MD031": false,
+
+  // list 앞뒤 빈 줄 강제하지 않음
+  "MD032": false,
+
+  // table column style (compact pipe 허용)
+  "MD060": false,
 
   // 카탈로그 본문에 허용할 inline element
   "MD033": {
