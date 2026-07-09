@@ -34,9 +34,9 @@ jobs:
           echo "$(npm config get prefix)/bin" >> "$GITHUB_PATH"
 
       - name: Install lychee
-        run: |
-          curl -sSfL https://raw.githubusercontent.com/lycheeverse/lychee/master/install.sh | bash
-          echo "$PWD" >> "$GITHUB_PATH"
+        uses: taiki-e/install-action@v2
+        with:
+          tool: lychee
 
       - name: Run markdownlint (skills + README + CHANGELOG)
         run: markdownlint-cli2 "skills/**/*.md" "README.md" "CHANGELOG.md"
