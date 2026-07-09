@@ -57,6 +57,9 @@
 - **Node.js 20 deprecation**: `.github/workflows/skill-lint.yml` 의 `actions/setup-node@v4` 가
   Node 20 사용. GitHub 의 2025-09-19 정책으로 Node 20 강제 종료 예정. 향후 `@v4` → `@v5` 또는
   Node 24 명시 필요. **강제 에러는 아님** (annotation 단계).
+- **운영 자동화 deprecation 해소 (TASK-A-2)**: GitHub Actions 의 v-line 업그레이드 적용.
+  `actions/checkout@v5`, `actions/setup-node@v5` + `node-version: 'lts/*'`, `actions/setup-python@v6`.
+  Node 20 deprecation annotation 해소 예상.
 - **Python 3.10+ 의존**: `scripts/skill-lint` 는 GitHub Actions `3.12`, 로컬 사용자에게 Python 3.10+
   요구. README 에 명시.
 - **YAML mini-parser 한계**: 1-depth 만 지원. 더 깊은 nested 필요 시 `PyYAML` 도입 별도 task.

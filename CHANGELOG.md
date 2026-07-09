@@ -21,6 +21,9 @@
 ### Changed
 - `.github/workflows/skill-lint.yml` — lychee 설치를 `taiki-e/install-action@v2` (tool: lychee) 로
   교체. `curl | bash + PATH` 의 불안정성 제거.
+- `.github/workflows/skill-lint.yml` — 액션 v-line 업그레이드 (Node 20 deprecation 해소):
+  `actions/checkout@v4` → `@v5`, `actions/setup-node@v4` → `@v5` + `node-version: '20'` → `'lts/*'`,
+  `actions/setup-python@v5` → `@v6`. 각 major 1 step (A-2 점진).
 - `CHANGELOG.md` — 저장소 루트이므로 `./ai-workflow/...` 링크로 수정 (이전 `../ai-workflow/...`).
 - `PROJECT_PROFILE.md` — `../../core/global_workflow_standard.md` 로 수정 (이전 `../core/...`,
   한 단계 위로 부족).
