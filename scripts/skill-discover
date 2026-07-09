@@ -1,0 +1,255 @@
+#!/usr/bin/env python3
+"""skill-discover: 카탈로그 SKILL.md 인덱싱 + 검색.
+
+skill-lint/SKILL.md §Procedure 의 7단계 절차를 *실제 구현* 한 도구.
+본 스크립트는 harness 비종속 약속을 유지하기 위해 *카탈로그 운영자* 가
+로컬 / CI 에서 호출하는 *운영 도구* 다 (PURPOSE.md §3 예외 참조).
+
+Usage:
+    # 인덱스만 출력
+    python3 scripts/skill-discover
+
+    # .index.json 빌드 (캐시)
+    python3 scripts/skill-discover --index
+
+    # 검색 (자유 텍스트 / category:X / harness:X 토큰)
+    python3 scripts/skill-discover meta
+    python3 scripts/skill-discover category:meta harness:claude-code
+    python3 scripts/skill-discover --top 5 --json 메타
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import re
+import sys
+from pathlib import Path
+
+NAME_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
+
+
+def parse_frontmatter(text: str) -> tuple[dict | None, list]:
+    """skill-lint 와 동일 로직의 1-depth YAML mini-parser."""
+    if not text.startswith("---"):
+        return None, [("E001", "frontmatter 시작 마커 (---) 없음")]
+    end = text.find("\n---", 3)
+    if end == -1:
+        return None, [("E001", "frontmatter 종료 마커 (---) 없음")]
+
+    raw = text[3:end].strip("\n")
+    fm: dict = {}
+    lines = raw.split("\n")
+    i = 0
+
+    while i < len(lines):
+        line = lines[i]
+        s = line.strip()
+        if not s or s.startswith("#"):
+            i += 1
+            continue
+        if ":" not in line:
+            i += 1
+            continue
+        key, _, rest = line.partition(":")
+        key = key.strip()
+        rest = rest.strip()
+
+        if not rest:
+            # (a) list
+            if i + 1 < len(lines) and re.match(r"^\s+-\s+", lines[i + 1]):
+                items: list = []
+                j = i + 1
+                while j < len(lines) and re.match(r"^\s+-\s+", lines[j]):
+                    items.append(lines[j].strip()[2:].strip().strip('"').strip("'"))
+                    j += 1
+                fm[key] = items
+                i = j
+                continue
+            # (b) 1-depth nested
+            if i + 1 < len(lines) and re.match(r"^\s+\S", lines[i + 1]) and ":" in lines[i + 1]:
+                nested: dict = {}
+                j = i + 1
+                while j < len(lines) and re.match(r"^\s+\S", lines[j]) and ":" in lines[j]:
+                    sub = lines[j].strip()
+                    sk, _, sv = sub.partition(":")
+                    sv = sv.strip()
+                    if not sv:
+                        sub_items: list = []
+                        k2 = j + 1
+                        while k2 < len(lines) and re.match(r"^\s+-\s+", lines[k2]):
+                            sub_items.append(lines[k2].strip()[2:].strip().strip('"').strip("'"))
+                            k2 += 1
+                        if sub_items:
+                            nested[sk.strip()] = sub_items
+                            j = k2
+                            continue
+                        nested[sk.strip()] = ""
+                    elif sv.startswith("[") and sv.endswith("]"):
+                        inner = sv[1:-1].strip()
+                        nested[sk.strip()] = [
+                            x.strip().strip('"').strip("'")
+                            for x in inner.split(",")
+                            if x.strip()
+                        ]
+                    else:
+                        nested[sk.strip()] = sv.strip('"').strip("'")
+                    j += 1
+                if nested:
+                    fm[key] = nested
+                    i = j
+                    continue
+            fm[key] = ""
+            i += 1
+            continue
+
+        if rest.startswith("[") and rest.endswith("]"):
+            inner = rest[1:-1].strip()
+            items = []
+            if inner:
+                items = [
+                    x.strip().strip('"').strip("'")
+                    for x in inner.split(",")
+                    if x.strip()
+                ]
+            fm[key] = items
+            i += 1
+            continue
+
+        fm[key] = rest.strip('"').strip("'")
+        i += 1
+
+    return fm, []
+
+
+def build_index(skills_root: Path) -> list[dict]:
+    """skills_root/*/SKILL.md 를 인덱싱. 각 entry 는 {name, description, category, harness_compat, path}."""
+    index: list[dict] = []
+    if not skills_root.is_dir():
+        return index
+    for f in sorted(skills_root.glob("*/SKILL.md")):
+        text = f.read_text(encoding="utf-8")
+        fm, _ = parse_frontmatter(text)
+        if fm is None:
+            continue
+        meta = fm.get("metadata", {}) or {}
+        if not isinstance(meta, dict):
+            meta = {}
+        entry = {
+            "name": fm.get("name", f.parent.name) or f.parent.name,
+            "description": (fm.get("description", "") or "").strip(),
+            "category": meta.get("category", "") or "",
+            "harness_compat": meta.get("harness_compat", []) or [],
+            "path": str(f.relative_to(Path.cwd())),
+        }
+        index.append(entry)
+    return index
+
+
+def tokenize_query(q: str) -> dict:
+    """category:X / harness:X / 키워드 분리."""
+    tokens = {"category": [], "harness": [], "keywords": []}
+    for part in q.split():
+        if part.startswith("category:"):
+            tokens["category"].append(part[len("category:"):])
+        elif part.startswith("harness:"):
+            tokens["harness"].append(part[len("harness:"):])
+        else:
+            tokens["keywords"].append(part.lower())
+    return tokens
+
+
+def score_entry(entry: dict, tokens: dict) -> float:
+    score = 0.0
+    name_lower = entry["name"].lower()
+    desc_lower = entry["description"].lower()
+    for c in tokens["category"]:
+        if entry["category"] == c:
+            score += 3
+    for kw in tokens["keywords"]:
+        if kw in name_lower:
+            score += 2
+        if kw in desc_lower:
+            score += 2
+    for h in tokens["harness"]:
+        if h in entry["harness_compat"]:
+            score += 1
+    if "generic-md" in entry["harness_compat"]:
+        score += 0.5
+    return score
+
+
+def format_table(results: list[tuple[float, dict]]) -> str:
+    out = []
+    out.append(f"{'name':<20} {'category':<10} {'score':>5}  harness")
+    out.append("-" * 60)
+    for s, e in results:
+        out.append(
+            f"{e['name']:<20} {e['category']:<10} {s:>5}  {','.join(e['harness_compat'])}"
+        )
+    return "\n".join(out)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="카탈로그 스킬 검색.")
+    parser.add_argument("--path", default="skills", help="스킬 루트 (default: skills)")
+    parser.add_argument("--top", type=int, default=3, help="상위 N개 (default 3)")
+    parser.add_argument("--json", action="store_true", help="JSON 출력")
+    parser.add_argument("--index", action="store_true", help=".index.json 빌드 후 종료")
+    parser.add_argument("query", nargs="*", help="검색 질의 (공백 구분)")
+    args = parser.parse_args()
+
+    root = Path(args.path).resolve()
+    if not root.exists():
+        print(f"error: {root} 없음", file=sys.stderr)
+        return 2
+
+    index = build_index(root)
+
+    if args.index:
+        out = root / ".index.json"
+        payload = {
+            "generated_at": None,  # ISO timestamp 는 git 에 추적 가능하므로 생략
+            "schema_version": 1,
+            "skills": index,
+        }
+        out.write_text(json.dumps(payload, indent=2, ensure_ascii=False))
+        print(f"[skill-discover] {len(index)} entries → {out.relative_to(Path.cwd())}")
+        return 0
+
+    if not args.query:
+        # 인덱스만 출력
+        if args.json:
+            print(json.dumps({"count": len(index), "skills": index}, indent=2, ensure_ascii=False))
+        else:
+            print(f"[skill-discover] {len(index)} entries in {root.name}/")
+            for e in index:
+                print(f"  {e['name']:<20} {e['category']:<10} {','.join(e['harness_compat'])}")
+        return 0
+
+    tokens = tokenize_query(" ".join(args.query))
+    scored = [(score_entry(e, tokens), e) for e in index]
+
+    # category/harness 토큰이 있으면 score 0 제외 (필터)
+    if tokens["category"] or tokens["harness"]:
+        scored = [(s, e) for s, e in scored if s > 0]
+
+    scored.sort(key=lambda x: (-x[0], x[1]["name"]))
+    top = scored[:args.top]
+
+    if args.json:
+        print(json.dumps(
+            {"count": len(index), "results": [{"score": s, **e} for s, e in top]},
+            indent=2, ensure_ascii=False,
+        ))
+    else:
+        if not top:
+            print("[skill-discover] no exact match.")
+            return 1
+        print(f"[skill-discover] top {len(top)} (of {len(index)}):")
+        print(format_table(top))
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

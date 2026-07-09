@@ -74,6 +74,9 @@ metadata:
   필요하면 §Score tuning 섹션에 한 줄 명시.
 - **harness 비종속 약속**: 본 스킬은 `generic-md` 로 해석 가능. 즉 어떤 harness 라도
   markdown 으로 본 SKILL.md 를 읽고 §Procedure 를 그대로 따라 검색 가능.
+- **구현 도구**: 본 SKILL.md 의 §Procedure 1~7 단계를 *실제 구현* 한 Python 스크립트가
+  [`scripts/skill-discover`](../../scripts/skill-discover) 다. harness 비종속 약속은
+  *절차 명세* 에 있고, 구현은 카탈로그 운영자(또는 CI) 가 호출하는 *운영 도구* 다.
 
 ## Score tuning
 
@@ -92,3 +95,4 @@ metadata:
 - [../README.md §3 SKILL.md 포맷](../README.md) — 인덱싱 대상 포맷 정의
 - [../skill-lint/SKILL.md](../skill-lint/SKILL.md) — 인덱스 빌드 자동화 후보
 - [../skill-lint/SKILL.md §Recommended tooling](../skill-lint/SKILL.md) — 도구 분리 원칙
+- [../../scripts/skill-discover](../../scripts/skill-discover) — §Procedure 1~7 의 Python 구현

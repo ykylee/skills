@@ -21,3 +21,6 @@
 - [x] TASK-001: 표준 AI 워크플로우 초기 도입 (a~e 세션 1·2 전부 done, 2026-07-09)
 - [x] TASK-002-B: 운영 자동화 (B-2, markdownlint-cli2 + lychee + skill-lint + GitHub Actions + pre-push hook + 저장소 README, 2026-07-09)
 - [x] TASK-003-A: 두 번째 메타 스킬 — skill-discover (skills/skill-discover/SKILL.md v0.1.0, CHANGELOG v0.3.0, 2026-07-09)
+- [x] TASK-002-B-verify: 1차 CI 검증 통과 (run 29022844646, 23s) + 재현성 (29023288041, 20s) + Node 20 해소 (29023548610, 18s)
+- [x] TASK-A-2: Node 20 deprecation 해소 — actions v-line 업그레이드 (checkout @v5, setup-node @v5 + 'lts/*', setup-python @v6)
+- [x] TASK-C: 운영 도구 보강 — scripts/skill-discover Python 3 구현 + .index.json 캐시 (.gitignore 추가)

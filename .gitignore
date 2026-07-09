@@ -22,3 +22,7 @@
 !/ai-workflow/core/
 !/ai-workflow/memory/active/
 # === WORKFLOW KIT END ===
+
+# === CATALOG BUILD ARTIFACTS ===
+# skill-discover 가 빌드하는 캐시 (CI / 로컬에서 매번 재생성)
+skills/.index.json

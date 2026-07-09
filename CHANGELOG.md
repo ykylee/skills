@@ -17,6 +17,33 @@
   `python3 scripts/skill-lint` → `lychee --offline` 3-step CI 검증 성공 (23s).
 - 운영 자동화 정책 결정: markdownlint 스타일 rule (`MD022` / `MD031` / `MD032` / `MD060`) 비활성화
   — 카탈로그는 *의미 검증* (frontmatter / harness_compat / 링크) 이 핵심.
+- 운영 도구 보강: `scripts/skill-discover` Python 3 stdlib-only 구현. `skill-discover/SKILL.md`
+  §Procedure 1~7 의 실제 동작. `--index` 캐시 빌드, `category:X` / `harness:X` 토큰, `--json`,
+  `--top N`. dry-run 결과: 인덱스 빌드 2 entries, 검색 (meta / category:meta / harness:generic-md) 정상.
+
+### Changed
+- `.markdownlint.jsonc` — 의미 검증은 `scripts/skill-lint` 가 담당, markdownlint-cli2 는 *문법*
+  만 잡는다 (스타일 rule 비활성화).
+- `.github/workflows/skill-lint.yml` — lychee 설치를 `taiki-e/install-action@v2` (tool: lychee) 로
+  교체. `curl | bash + PATH` 의 불안정성 제거.
+- `.github/workflows/skill-lint.yml` — 액션 v-line 업그레이드 (Node 20 deprecation 해소):
+  `actions/checkout@v4` → `@v5`, `actions/setup-node@v4` → `@v5` + `node-version: '20'` → `'lts/*'`,
+  `actions/setup-python@v5` → `@v6`. 각 major 1 step (A-2 점진).
+- `skills/README.md` §6 — 검색 절차 + scoring 가중치 추가.
+- `skill-discover/SKILL.md` — Trade-offs 에 *구현 도구* 1줄 추가, References 에 `scripts/skill-discover`.
+- `README.md` (저장소 루트) — 디렉터리 트리에 `scripts/skill-discover` 추가, 빠른 시작 / 로컬 lint
+  절차에 검색 / 인덱스 빌드 명령 추가.
+- `CHANGELOG.md` — 저장소 루트이므로 `./ai-workflow/...` 링크로 수정 (이전 `../ai-workflow/...`).
+- `PROJECT_PROFILE.md` — `../../core/global_workflow_standard.md` 로 수정 (이전 `../core/...`,
+  한 단계 위로 부족).
+
+### Fixed
+- 1차 CI 실패 (`29022405829`) — markdownlint 스타일 48 errors 비활성화로 해결.
+- 2차 CI 실패 (`29022615698`) — lychee `command not found` (PATH 미적용) → install-action 으로 해결.
+- 3차 CI 실패 (`29022734640`) — `CHANGELOG.md` / `PROJECT_PROFILE.md` 깨진 링크 2건 수정.
+- Node.js 20 deprecation annotation — 액션 v-line 업그레이드로 해소 (6차 CI 검증 통과, run `29023548610`).
+
+## [0.3.0] - 2026-07-09
 
 ### Changed
 - `.github/workflows/skill-lint.yml` — lychee 설치를 `taiki-e/install-action@v2` (tool: lychee) 로

@@ -15,7 +15,8 @@ skills/                       # 스킬 카탈로그
     └── SKILL.md              # manifest + 본문
 
 scripts/
-└── skill-lint                # 카탈로그-특유 frontmatter / 본문 검증 (Python 3)
+├── skill-lint                # frontmatter / harness_compat / 링크 검증 (Python 3)
+└── skill-discover            # SKILL.md 인덱싱 + 검색 (Python 3)
 
 .github/workflows/
 └── skill-lint.yml            # GitHub Actions (markdownlint-cli2 + lychee + skill-lint)
@@ -36,6 +37,7 @@ CHANGELOG.md                  # 버전별 변경 기록
 2. 로컬에서 `python3 scripts/skill-lint --path skills` 실행 → clean
 3. PR 을 올리면 GitHub Actions 가 lint / link-check 자동 실행
 4. `CHANGELOG.md` 의 `[Unreleased]` 에 한 줄 추가
+5. (검색 가능성 확인) `python3 scripts/skill-discover <name>` 으로 인덱스 등장 확인
 
 ### 로컬 lint
 
@@ -50,6 +52,11 @@ python3 scripts/skill-lint --path skills --strict
 
 # 기계 판독 가능한 JSON
 python3 scripts/skill-lint --path skills --json
+
+# 카탈로그 검색 (skill-discover)
+python3 scripts/skill-discover                                   # 인덱스 출력
+python3 scripts/skill-discover --index                           # .index.json 캐시 빌드
+python3 scripts/skill-discover category:meta harness:claude-code # 토큰 검색
 ```
 
 ### pre-push hook (선택)

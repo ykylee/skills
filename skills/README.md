@@ -148,6 +148,24 @@ metadata:
 - [ ] `CHANGELOG.md` 에 본 변경 1줄 기록
 - [ ] `session_handoff.md` 의 Recent Done / Next Actions 반영
 
+검색 / 인덱싱은 [`skill-discover`](./skill-discover/SKILL.md) 가 담당한다. 로컬 / CI 에서
+다음 절차로 호출:
+
+```bash
+python3 scripts/skill-discover                                  # 인덱스 출력
+python3 scripts/skill-discover --index                          # .index.json 빌드
+python3 scripts/skill-discover meta                             # 자유 텍스트 검색
+python3 scripts/skill-discover category:meta harness:claude-code   # 토큰 필터
+python3 scripts/skill-discover --top 5 --json 메타                # JSON
+```
+
+검색 scoring (skill-discover §Procedure 3):
+- 카테고리 정확 일치: +3
+- 키워드 ∈ `name`: +2
+- 키워드 ∈ `description`: +2
+- `harness_compat` 매치: +1
+- `generic-md` 보너스: +0.5
+
 ## 다음에 읽을 문서
 - [PURPOSE.md](../ai-workflow/memory/active/PURPOSE.md) — scope / non-scope
 - [PROJECT_PROFILE.md](../ai-workflow/memory/active/PROJECT_PROFILE.md) — 운영 명령 / 정책

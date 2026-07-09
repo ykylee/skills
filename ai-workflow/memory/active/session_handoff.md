@@ -11,10 +11,11 @@
 
 ## Current Focus
 
-- **TASK-003-A 종료 + commit 6cd8d17 완료, 본 세션 마무리**: TASK-001 (a~e) + TASK-002-B (운영 자동화) +
-  TASK-003-A (skill-discover) 모두 done. 카탈로그 *bootstrap + lint 자동화 + 메타 스킬 2종* 상태
-  달성. v0.3.0 릴리즈 후 commit 6cd8d17 (26 files / 2218 insertions) 완료. Push 는 사용자 confirm 대기.
-  다음 세션은 신규 task 선정.
+- **TASK-C 운영 도구 보강 종료 + 세션 마무리 진행**: TASK-001 (a~e) + TASK-002-B (운영 자동화) +
+  TASK-003-A (skill-discover SKILL.md) + TASK-002-B-verify (1차 CI 검증) +
+  TASK-A-2 (Node 20 deprecation 해소) + TASK-C (skill-discover 실제 구현, .index.json 캐시) 모두 done.
+  운영 도구 보강으로 `scripts/skill-discover` 가 skill-discover/SKILL.md §Procedure 의 *실제 동작* 으로
+  동작. 본 세션 마무리 commit + push 진행. 다음 세션은 신규 task 선정.
 
 ## Work Status
 
@@ -34,12 +35,20 @@
 - TASK-002-B 운영 자동화 (이전 세션): .markdownlint.jsonc, .github/workflows/skill-lint.yml,
   .githooks/pre-push, scripts/skill-lint (YAML mini-parser 버그 수정), README.md, PURPOSE §3 예외,
   PROJECT_PROFILE §3 runtime_checks, CHANGELOG v0.2.0
-- TASK-003-A 두 번째 메타 스킬 (본 세션):
-  - `skills/skill-discover/SKILL.md` v0.1.0 — 카테고리·키워드·harness_compat 검색 절차
-    (7단계 Procedure + score tuning + error code + harness 비종속 호출 예시)
-  - `CHANGELOG.md` — `[0.3.0] - 2026-07-09` Added 섹션 추가
-  - `state.json` — `purpose_digest_rev: 3`, recent_done_items 에 TASK-003-A 추가,
-    `next_documents` 에 `skills/skill-discover/SKILL.md` 추가, `task_count: 3`
+- TASK-003-A 두 번째 메타 스킬 (이전 세션): skills/skill-discover/SKILL.md v0.1.0, CHANGELOG v0.3.0
+- TASK-002-B-verify 1차 CI 검증 (이전 세션): 4-cycle (6cd8d17 → 42a36fc → d39993c → 3937de2)
+  후 run 29022844646 통과. 5차 CI (29023288041) 재현성 확인.
+- TASK-A-2 Node 20 deprecation 해소 (이전 세션): actions v-line 업그레이드
+  (checkout @v5, setup-node @v5 + 'lts/*', setup-python @v6). 6차 CI (29023548610) 통과.
+- TASK-C 운영 도구 보강 (본 세션):
+  - `scripts/skill-discover` Python 3 stdlib-only 구현. skill-discover/SKILL.md §Procedure 1~7 의
+    *실제 동작*. `--index` 캐시 빌드 (skills/.index.json), `category:X` / `harness:X` 토큰, `--json`,
+    `--top N`. dry-run 정상 (인덱스 2 entries, 검색 / JSON 정상).
+  - `skills/README.md` §6 — 검색 절차 + scoring 가중치 추가.
+  - `skill-discover/SKILL.md` — Trade-offs 에 *구현 도구* 1줄, References 에 `scripts/skill-discover`.
+  - `README.md` (저장소 루트) — 디렉터리 트리 / 빠른 시작 / 로컬 lint 갱신.
+  - `.gitignore` — `skills/.index.json` 캐시 제외.
+  - `CHANGELOG.md` [Unreleased] — TASK-C 항목 추가, TASK-A-2 해소 표시.
 
 ## Next Actions
 
@@ -52,16 +61,11 @@
 
 ## Risks & Blockers
 
-- **운영 자동화 1차 실전 검증 통과**: GitHub Actions run `29022844646` — 3 step (markdownlint /
-  skill-lint / lychee) 모두 clean. *해소*.
-- **Node.js 20 deprecation**: `.github/workflows/skill-lint.yml` 의 `actions/setup-node@v4` 가
-  Node 20 사용. GitHub 의 2025-09-19 정책으로 Node 20 강제 종료 예정. 향후 `@v4` → `@v5` 또는
-  Node 24 명시 필요. **강제 에러는 아님** (annotation 단계).
-- **운영 자동화 deprecation 해소 (TASK-A-2)**: GitHub Actions 의 v-line 업그레이드 적용.
-  `actions/checkout@v5`, `actions/setup-node@v5` + `node-version: 'lts/*'`, `actions/setup-python@v6`.
-  Node 20 deprecation annotation 해소 예상.
-- **Python 3.10+ 의존**: `scripts/skill-lint` 는 GitHub Actions `3.12`, 로컬 사용자에게 Python 3.10+
-  요구. README 에 명시.
-- **YAML mini-parser 한계**: 1-depth 만 지원. 더 깊은 nested 필요 시 `PyYAML` 도입 별도 task.
+- **운영 자동화 1차 실전 검증 통과 (해소)**: GitHub Actions run `29022844646` (3 step clean) +
+  `29023288041` (재현성 확인) + `29023548610` (Node 20 deprecation 해소 후).
+- **Python 3.10+ 의존**: `scripts/skill-lint` / `scripts/skill-discover` 는 GitHub Actions `3.12`,
+  로컬 사용자에게 Python 3.10+ 요구. README 에 명시.
+- **YAML mini-parser 중복**: skill-lint 와 skill-discover 가 *동일한 1-depth mini-parser* 를
+  inline 으로 가짐. 향후 `scripts/_frontmatter.py` 모듈로 추출 리팩터링 별도 task.
 - **`.markdownlint.jsonc` 의 globs 미사용**: 호출 globs 는 GitHub Actions / pre-push 에서 명시.
 - **harness 어댑터 정책**: Claude Code 외 harness 호환은 별도 task 분리 권장.
