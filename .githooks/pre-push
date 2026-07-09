@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# skill-lint pre-push hook
+# 설치: git config core.hooksPath .githooks
+#
+# push 전 카탈로그 frontmatter / 본문 정합성을 빠르게 검증한다.
+# 외부 markdownlint / lychee 는 GitHub Actions 에서만 실행 (속도 / 의존성).
+
+set -e
+
+# 첫 push 등 origin/main 가 아직 없을 수 있어 fallback.
+BRANCH=$(git symbolic-ref --quiet refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@' || true)
+if [ -z "$BRANCH" ]; then
+  BRANCH=$(git remote show origin 2>/dev/null | awk '/HEAD branch/ {print $NF}' || true)
+fi
+if [ -z "$BRANCH" ]; then
+  BRANCH="main"
+fi
+
+CHANGED=$(git diff --name-only "origin/${BRANCH}..HEAD" 2>/dev/null || git diff --name-only HEAD 2>/dev/null || echo "")
+SKILL_CHANGED=$(echo "$CHANGED" | grep -E '^skills/.*\.md$' || true)
+
+echo "[pre-push] skill-lint ..."
+if [ -n "$SKILL_CHANGED" ]; then
+  echo "[pre-push] 변경된 skills/*.md:"
+  echo "$SKILL_CHANGED" | sed 's/^/  /'
+fi
+
+python3 scripts/skill-lint --path skills
+echo "[pre-push] OK"

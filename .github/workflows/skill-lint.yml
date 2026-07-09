@@ -1,0 +1,53 @@
+name: skill-lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# 외부 링크 네트워크 검사는 timeout 으로 실패할 수 있어 별도 트리거(예: weekly) 권장.
+# 기본은 offline 만 수행한다.
+
+jobs:
+  lint:
+    name: skill-lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install markdownlint-cli2
+        run: |
+          npm install -g markdownlint-cli2
+          echo "$(npm config get prefix)/bin" >> "$GITHUB_PATH"
+
+      - name: Install lychee
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/lycheeverse/lychee/master/install.sh | bash
+          echo "$PWD" >> "$GITHUB_PATH"
+
+      - name: Run markdownlint (skills + README + CHANGELOG)
+        run: markdownlint-cli2 "skills/**/*.md" "README.md" "CHANGELOG.md"
+
+      - name: Run frontmatter / manifest validator (skill-lint)
+        run: python3 scripts/skill-lint --path skills
+
+      - name: Run lychee link check (offline)
+        run: lychee --offline --no-progress "skills/**/*.md" "README.md" "CHANGELOG.md"
+
+      - name: Summarize on failure
+        if: failure()
+        run: |
+          echo "::error::skill-lint failed. 자세한 내역은 위 step 의 log 참조."

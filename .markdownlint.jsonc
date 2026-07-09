@@ -1,0 +1,28 @@
+{
+  // markdownlint-cli2 설정 (https://github.com/DavidAnson/markdownlint-cli2)
+  // 일반 markdown rule 중 카탈로그와 충돌하는 것을 비활성화.
+  // 카탈로그-특유 rule (frontmatter, name==dir, harness_compat)은
+  // scripts/skill-lint 가 담당한다.
+
+  "default": true,
+
+  // 긴 링크 표 / 코드 블록 / frontmatter 등이 line-length 제약을 받지 않도록
+  "MD013": false,
+
+  // frontmatter 가 첫 줄에 오므로 first-line-h1 검사 무시
+  "MD041": false,
+
+  // 형제 단락 중복만 금지 (다른 section 의 같은 제목은 허용)
+  "MD024": { "siblings_only": true },
+
+  // 카탈로그 본문에 허용할 inline element
+  "MD033": {
+    "allowed_elements": ["br", "kbd", "details", "summary", "sub", "sup", "a"]
+  },
+
+  // 코드 블록의 언어 미명시 허용 (markdownlint 의 기본 MD040 무력화)
+  "MD040": false,
+
+  // trailing 공백 두 칸 (line break) 허용
+  "MD009": { "br_spaces": 2 }
+}
