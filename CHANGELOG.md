@@ -60,19 +60,6 @@
 - 2차 CI 실패 (`29022615698`) — lychee `command not found` (PATH 미적용) → install-action 으로 해결.
 - 3차 CI 실패 (`29022734640`) — `CHANGELOG.md` / `PROJECT_PROFILE.md` 깨진 링크 2건 수정.
 
-## [0.3.0] - 2026-07-09
-
-### Added
-- 두 번째 메타 스킬: `skill-discover` (`skills/skill-discover/SKILL.md`) — 카테고리·키워드·harness_compat
-  기반 검색 절차 (인덱스 빌드 → 토큰화 → scoring → 정렬 → top-N → 호출 예시 7단계).
-  `metadata.harness_compat: [claude-code, generic-md]`, `category: meta`, `version: 0.1.0`.
-
-### Changed
-- (없음)
-
-### Breaking
-- (없음)
-
 ## [0.2.0] - 2026-07-09
 
 ### Added
