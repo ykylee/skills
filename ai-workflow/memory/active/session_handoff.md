@@ -11,9 +11,10 @@
 
 ## Current Focus
 
-- **TASK-003-A 종료, 커밋 진행, 본 세션 마무리**: TASK-001 (a~e) + TASK-002-B (운영 자동화) +
+- **TASK-003-A 종료 + commit 6cd8d17 완료, 본 세션 마무리**: TASK-001 (a~e) + TASK-002-B (운영 자동화) +
   TASK-003-A (skill-discover) 모두 done. 카탈로그 *bootstrap + lint 자동화 + 메타 스킬 2종* 상태
-  달성. v0.3.0 릴리즈 후 본 세션 commit. 다음 세션은 신규 task 선정 대기.
+  달성. v0.3.0 릴리즈 후 commit 6cd8d17 (26 files / 2218 insertions) 완료. Push 는 사용자 confirm 대기.
+  다음 세션은 신규 task 선정.
 
 ## Work Status
 
@@ -42,7 +43,8 @@
 
 ## Next Actions
 
-- [ ] 본 세션 commit 진행 (사용자 요청) — git add / git commit (Co-Authored-By 포함)
+- [x] 본 세션 commit 진행 (사용자 요청) — commit 6cd8d17 (26 files / 2218 insertions)
+- [ ] push — 사용자 confirm 대기 (GitHub 원격 추가 / `git push -u origin main`)
 - [ ] 다음 세션 (선택 항목):
   - **A. 도메인 스킬 1~2개** — 사용자 일상의 구체적 워크플로우 (문서/코딩/리서치)
   - **B. harness 어댑터 1차 시도** — Claude Code 외 harness 호출을 위한 얇은 어댑터 또는 호환 가이드
@@ -50,9 +52,13 @@
 
 ## Risks & Blockers
 
-- **Python 3.10+ 의존**: `scripts/skill-lint` 는 GitHub Actions `3.12`, 로컬 사용자에게 Python 3.10+ 요구.
+- **운영 자동화 1차 실전 검증 통과**: GitHub Actions run `29022844646` — 3 step (markdownlint /
+  skill-lint / lychee) 모두 clean. *해소*.
+- **Node.js 20 deprecation**: `.github/workflows/skill-lint.yml` 의 `actions/setup-node@v4` 가
+  Node 20 사용. GitHub 의 2025-09-19 정책으로 Node 20 강제 종료 예정. 향후 `@v4` → `@v5` 또는
+  Node 24 명시 필요. **강제 에러는 아님** (annotation 단계).
+- **Python 3.10+ 의존**: `scripts/skill-lint` 는 GitHub Actions `3.12`, 로컬 사용자에게 Python 3.10+
+  요구. README 에 명시.
 - **YAML mini-parser 한계**: 1-depth 만 지원. 더 깊은 nested 필요 시 `PyYAML` 도입 별도 task.
 - **`.markdownlint.jsonc` 의 globs 미사용**: 호출 globs 는 GitHub Actions / pre-push 에서 명시.
 - **harness 어댑터 정책**: Claude Code 외 harness 호환은 별도 task 분리 권장.
-- **첫 PR / push 시 실제 CI 동작 검증**: 운영 자동화의 첫 실전 검증 필요. 사용자가 GitHub push 후
-  Actions 로그 확인 권장.

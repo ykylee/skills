@@ -12,6 +12,24 @@
 
 ## [Unreleased]
 
+### Added
+- 운영 자동화 1차 실전 검증 통과 (GitHub Actions run `29022844646`): markdownlint-cli2 →
+  `python3 scripts/skill-lint` → `lychee --offline` 3-step CI 검증 성공 (23s).
+- 운영 자동화 정책 결정: markdownlint 스타일 rule (`MD022` / `MD031` / `MD032` / `MD060`) 비활성화
+  — 카탈로그는 *의미 검증* (frontmatter / harness_compat / 링크) 이 핵심.
+
+### Changed
+- `.github/workflows/skill-lint.yml` — lychee 설치를 `taiki-e/install-action@v2` (tool: lychee) 로
+  교체. `curl | bash + PATH` 의 불안정성 제거.
+- `CHANGELOG.md` — 저장소 루트이므로 `./ai-workflow/...` 링크로 수정 (이전 `../ai-workflow/...`).
+- `PROJECT_PROFILE.md` — `../../core/global_workflow_standard.md` 로 수정 (이전 `../core/...`,
+  한 단계 위로 부족).
+
+### Fixed
+- 1차 CI 실패 (`29022405829`) — markdownlint 스타일 48 errors 비활성화로 해결.
+- 2차 CI 실패 (`29022615698`) — lychee `command not found` (PATH 미적용) → install-action 으로 해결.
+- 3차 CI 실패 (`29022734640`) — `CHANGELOG.md` / `PROJECT_PROFILE.md` 깨진 링크 2건 수정.
+
 ## [0.3.0] - 2026-07-09
 
 ### Added

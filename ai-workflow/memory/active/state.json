@@ -27,15 +27,16 @@
     "runtime_checks": "markdownlint-cli2 (markdown lint) + python3 scripts/skill-lint (frontmatter / harness_compat / 내부 링크) + lychee --offline (외부 링크)"
   },
   "session": {
-    "current_baseline": "TASK-003-A 두 번째 메타 스킬 (skill-discover) 추가 완료, v0.3.0 릴리즈. 카탈로그 첫 확장 종료, 커밋 직전.",
-    "current_axis": "범용 AI 워크플로우 스킬 카탈로그 — bootstrap + 운영 자동화 + 메타 스킬 2종",
-    "current_focus": "본 세션 종료 — 커밋 진행, 다음 세션은 신규 task 선정 대기",
+    "current_baseline": "TASK-002-B 1차 실전 CI 검증 통과 (run 29022844646, 23s, 3 step clean). 4-cycle verify-and-fix 사이클 (6cd8d17 / 42a36fc / d39993c / 3937de2) 종료, 검증 통과 기록 commit 직전.",
+    "current_axis": "범용 AI 워크플로우 스킬 카탈로그 — bootstrap + 운영 자동화 + 메타 스킬 2종, v0.3.0 commit + CI 검증 통과",
+    "current_focus": "본 세션 종료 — 검증 통과 기록 commit 진행, push, 다음 세션은 신규 task 선정 (Node.js 20 / 도메인 스킬 / harness 어댑터 / 운영 도구 보강 중)",
     "in_progress_items": [],
     "blocked_items": [],
     "recent_done_items": [
       "TASK-001a~e 표준 AI 워크플로우 초기 도입 (TASK-001)",
       "TASK-002-B 운영 자동화 (B-2) — .markdownlint.jsonc, .github/workflows/skill-lint.yml, .githooks/pre-push, scripts/skill-lint, 저장소 README.md",
-      "TASK-003-A 두 번째 메타 스킬 — skills/skill-discover/SKILL.md (v0.1.0), CHANGELOG.md v0.3.0"
+      "TASK-003-A 두 번째 메타 스킬 — skills/skill-discover/SKILL.md (v0.1.0), CHANGELOG.md v0.3.0",
+      "TASK-002-B-verify 운영 자동화 1차 CI 검증 통과 (run 29022844646) — 4 commit 사이클 (6cd8d17 / 42a36fc / d39993c / 3937de2) 후 clean"
     ],
     "environment_constraints": []
   },
