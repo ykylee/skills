@@ -47,13 +47,14 @@
       "wiki/index.md 신규 (R4 anchor 기반 단일 페이지 인덱스, 운영 도구 + 레퍼런스 link 통합, ~75줄) — CLAUDE.md 의 '다음에 읽을 문서' 에 wiki 명시되어 있었으나 부재하던 wiki 를 본 세션에서 보강",
       "Axes 2/3 후속 deep-research (2026-07-10) — 13 confirmed → 8 findings. 디자인 시스템: Open Props (deck 보강 후보, 4.0 kB core, 500+ sub-atomic tokens) + Panda CSS @layer tokens (cascade 통합) 추천, W3C DTCG preview (do-not-implement 경고 2026-07-10) → Style Dictionary bridge, USWDS rule out (Sass-only). AI agent skills: agentskills.io = canonical cross-vendor (40+ 제품, Claude Code / Cursor / Cline / VS Code / OpenAI Codex / GitHub Copilot / Gemini CLI / Roo Code / Spring AI), 우리 SKILL.md catalog 표준 정합이나 확장 필드 (when_to_use, version, author, platforms, nested metadata) 는 Claude-Code-flavored → portable 제한. Progressive disclosure (~100 token metadata always, body on-demand ≤5k tokens). 1차 4 open question 중 3개 해소, 1개는 정책 결정 (standard-strict vs. Claude-flavored).",
       "TASK-PI-Followup §A: Open Props + tokens layer 통합 (2026-07-10) — astryx-component-map.md §2 cascade 3-layer → 4-layer (Panda CSS @layer tokens 개념만 차용, framework 도입 X). §2.4 tokens layer slot 정의 + §6.4 Open Props preset (CDN link + npm PostCSS JIT recipe). §6.3 Forest → §6.5 renumber. SKILL.md §ASTRYX-Inspired Design System 절에 Optional tokens layer 1 paragraph + When to skip 1줄. Backward compatible.",
-      "frontmatter 정책 결정 (TASK-PI-Followup §A 잔여, 2026-07-10) — agentskills.io canonical 40+ 제품 정합 + Claude-Code-flavored extension 허용 = 현재 상태 유지. hybrid migration (depth-2 nested, metadata.claude_code.*) 은 YAML mini-parser recursive depth-n 확장 시 동시에 (별도 task). 본 세션 = 정책 문서만, 코드 변경 0건. PROJECT_PROFILE.md §5 정책 + CHANGELOG.md Added 1줄."
+      "frontmatter 정책 결정 (TASK-PI-Followup §A 잔여, 2026-07-10) — agentskills.io canonical 40+ 제품 정합 + Claude-Code-flavored extension 허용 = 현재 상태 유지. hybrid migration (depth-2 nested, metadata.claude_code.*) 은 YAML mini-parser recursive depth-n 확장 시 동시에 (별도 task). 본 세션 = 정책 문서만, 코드 변경 0건. PROJECT_PROFILE.md §5 정책 + CHANGELOG.md Added 1줄.",
+      "YAML mini-parser recursive depth-n + 3 SKILL.md depth-2 nested 재구성 (2026-07-10) — scripts/_frontmatter.py 모듈 추출 (recursive depth-n nested object + nested list 지원). 두 parser 중복 단일화. 3 SKILL.md frontmatter 를 metadata.claude_code.* depth-2 nested 구조로 재구성. hermes namespace 폐기. skill-lint E040 path 갱신. 검증 clean (3 SKILL.md, 3 entries, markdownlint 0 error)."
     ],
     "environment_constraints": []
   },
   "backlog": {
     "latest_backlog_path": "ai-workflow/memory/active/backlog/2026-07-10.md",
-    "task_count": 11,
+    "task_count": 12,
     "in_progress_items": [],
     "blocked_items": [],
     "done_items": [
@@ -67,7 +68,8 @@
       "TASK-F Marpit 통합 (marpit-directives.md 신설 + astryx §2 분할 + SKILL §Procedure 보강 + verify_deck.py --strict + 기존 MD024/MD029 즉시 해소)",
       "Axes 2/3 후속 deep-research (디자인 시스템 + AI agent skills 2축 narrow, 13 confirmed → 8 findings, 1차 4 open question 중 3개 해소 + 1개 정책 결정 격상)",
       "TASK-PI-Followup §A: Open Props + tokens layer 통합 (astryx-component-map.md §2 cascade 3-layer → 4-layer, §2.4 tokens slot + §6.4 Open Props preset + §6.3 Forest renumber §6.5 + SKILL.md §ASTRYX 절 보강, backward compatible)",
-      "frontmatter 정책 결정 (TASK-PI-Followup §A 잔여) = 현재 상태 유지 (hybrid migration depth-2 nested 는 YAML mini-parser recursive depth-n 확장 시 동시 진행, 별도 task). PROJECT_PROFILE.md §5 정책 추가 + CHANGELOG.md Added 1줄. 코드 변경 0건."
+      "frontmatter 정책 결정 (TASK-PI-Followup §A 잔여) = 현재 상태 유지 (hybrid migration depth-2 nested 는 YAML mini-parser recursive depth-n 확장 시 동시 진행, 별도 task). PROJECT_PROFILE.md §5 정책 추가 + CHANGELOG.md Added 1줄. 코드 변경 0건.",
+      "YAML mini-parser recursive depth-n + 3 SKILL.md depth-2 nested 재구성 (scripts/_frontmatter.py 추출 + 두 parser 중복 단일화 + 3 SKILL.md frontmatter metadata.claude_code.* nested 구조로 재구성, hermes namespace 폐기, skill-lint E040 path 갱신). 3 commit (parser 단일화 / SKILL.md 재구성 / 운영 문서 동기화)."
     ]
   },
   "next_documents": [

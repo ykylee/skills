@@ -34,6 +34,14 @@
   depth-n 확장 시 *동시에* (별도 task). 코드 변경 없음, PROJECT_PROFILE.md §5 정책으로만
   기록. 2차 deep-research (TASK-PI-Followup, 2026-07-10) 의 1차 4 open question 중 마지막 1개
   해소.
+- YAML mini-parser recursive depth-n + 3 SKILL.md depth-2 nested 재구성 (2026-07-10): hybrid
+  정책 *구현*. `scripts/_frontmatter.py` 모듈 추출 (두 parser 의 중복 단일화 + recursive
+  depth-n nested object / nested list 지원). 3 SKILL.md (`html-slides-builder`, `skill-lint`,
+  `skill-discover`) 의 frontmatter 를 `metadata.claude_code.{when_to_use, version, author,
+  license, platforms, harness_compat, category, tags, related_skills}` 의 depth-2 nested
+  구조로 재구성. hermes namespace 폐기. skill-lint E040 path 갱신 (`metadata.claude_code.
+  harness_compat`). lint 검증: skill-lint 3 SKILL.md clean, skill-discover 3 entries 정상,
+  markdownlint 0 error.
 - ASTRYX 4-layer cascade + Open Props preset (html-slides-builder, astryx-component-map.md):
   §2.4 tokens layer slot (Panda CSS `@layer tokens` *개념만* 차용 — framework 도입 X) +
   §6.4 Open Props sub-atomic absorption recipe. §6.3 Forest 가 §6.5 로 renumber, §6.3 은
