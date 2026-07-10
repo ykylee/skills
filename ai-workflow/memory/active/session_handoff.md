@@ -123,17 +123,22 @@
 - wiki/index.md 신규 (본 세션, done) — CLAUDE.md 의 "다음에 읽을 문서" 에 명시되어 있으나
   부재하던 R4 anchor 기반 wiki. §1~§6 (overview / state / active-ops / catalog / slash / how-to).
   운영 도구 + 레퍼런스 link 통합.
+- Axes 2/3 후속 deep-research (본 세션, done) — 13 confirmed → 8 findings 으로 합성. 디자인 시스템:
+  Open Props (deck 보강 후보, 4.0 kB core) + Panda CSS `@layer tokens` (cascade 통합) 추천,
+  W3C DTCG preview (do-not-implement 경고, 2026-07-10) → Style Dictionary bridge 필요.
+  USWDS rule out. AI agent skills: agentskills.io = canonical cross-vendor (40+ 제품);
+  우리 SKILL.md catalog 표준 정합이나 확장 필드는 Claude-Code-flavored → portable 제한.
+  1차 4 open question 중 3개 해소, 1개는 *정책 결정* (standard-strict vs. Claude-flavored).
 
 ## Next Actions
 
-- [x] TASK-F commit (`abf0fcf`) + wiki/index.md 신규 작성 + wiki commit
+- [x] TASK-F commit (`abf0fcf`) + wiki/index.md 신규 작성 + wiki commit (`4b98c38`) + Axes 2/3 후속 deep-research + 운영 문서 동기화
 - [ ] push — 사용자 confirm 대기 (GitHub 원격 추가 / `git push -u origin main`)
 - [ ] 다음 세션 (선택 항목):
-  - **A. Axes 2/3 후속 deep-research** — 디자인 시스템 / AI agent skills 만 좁혀서 2차
-    (축 2개로 budget ↓, 10-15분)
-  - **B. 신규 task** — 도메인 스킬 1~2개 / harness 어댑터 / 운영 도구 추가 보강
-  - **C. Marpit §3 발현 검증** — hand-written .html 에서 `/* @theme: */` + `data-spot` 패턴이
-    실제 빌더에서 어떻게 활용되는지 *테스트* (handoff Risks 참조)
+  - **A. Open Props / Panda CSS @layer tokens 의 deck 보강** (2차 deep-research 의 1순위 디자인 시스템 후보) — verify_deck.py 의 gate 확장 / ASTRYX layer 와의 통합 검토
+  - **B. agentskills.io strict vs. Claude-Code extension 정책 결정** (2차 deep-research 의 잔여 정책) — SKILL.md 의 확장 필드 표준화 vs. harness 친화 유지
+  - **C. Marpit §3 hand-written 발현 검증** — `/* @theme: */` + `data-spot` 패턴 실제 deck 빌더 테스트
+  - **D. 신규 task** — 도메인 스킬 1~2개 / harness 어댑터 / 운영 도구 추가 보강
 
 ## Risks & Blockers
 
@@ -150,3 +155,11 @@
 - **Marpit section-ancestor scoping 의 hand-written 재현은 inference**: Marpit *output* 에서는
   확인됐지만, hand-written single .html 에서 `:where([data-slide-root])` prefix 로 재현하는 것은
   TASK-F 에서 *테스트 필요*.
+- **W3C DTCG preview (2026-07-10 do-not-implement)**: 2차 deep-research 의 디자인 시스템 보강
+  후보 중 DTCG 직접 도입은 *미루고* Style Dictionary bridge 를 통해 간접 활용. DTCG 가 stable
+  되면 native import 검토.
+- **agentskills.io strict vs. Claude-Code extension 정책 결정 미완료**: 2차 deep-research 의
+  잔여 정책. 1차 4 open question 중 1개. 다음 세션 결정 사항 (handoff Next Actions §B 참조).
+- **Marpit scope label 의 hand-written 활용성**: `<!-- @scope: ... -->` 라벨은 *문서화* 목적.
+  실제 build-step 없는 deck 에서는 metadata-comment grep 외 활용 없음. 향후 도구 추가 시
+  활용 가능.
