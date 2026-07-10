@@ -6,7 +6,7 @@
 - Scope: current focus, task status, key changes, next actions, risks
 - Audience: AI agents, maintainers
 - Status: draft
-- Updated: 2026-07-10 (TASK-F done + wiki 신규 + Axes 2/3 deep-research + §A Open Props/tokens layer 통합 + §A 잔여 frontmatter 정책 결정 + §A hybrid 정책 *구현* (parser + 3 SKILL.md depth-2 nested 재구성) + §A Marpit §3 hand-written 발현 검증 (test deck + verify_deck.py --bg fallback) 진행)
+- Updated: 2026-07-10 (TASK-F done + wiki 신규 + Axes 2/3 deep-research + §A Open Props/tokens layer 통합 + §A 잔여 frontmatter 정책 결정 + §A hybrid 정책 *구현* (parser + 3 SKILL.md depth-2 nested 재구성) + §A Marpit §3 hand-written 발현 검증 (test deck + verify_deck.py --bg fallback) + §B .gitignore `__pycache__/` + push + antd 적용 가능성 검토 (도입 보류) 진행)
 - Related docs: [Purpose](./PURPOSE.md), [Project Profile](./PROJECT_PROFILE.md), [Work Backlog](./work_backlog.md)
 
 ## Current Focus
@@ -159,15 +159,22 @@
   + `*$py.class` 패턴 추가. Python 3 가 `scripts/_frontmatter.py` / `scripts/skill-lint` /
   `scripts/skill-discover` 의 .pyc 바이트코드 캐시를 누적하던 것을 git 추적 차단. 기존
   untracked `scripts/__pycache__/` 정리.
+- Ant Design (antd) 적용 가능성 검토 (본 세션, done) — **antd 도입 보류**. (a) deep-research
+  5 axes (CSS-in-JS architecture / vanilla HTML 부재 / cssVar runtime-hash / static-extract
+  SSR-only / 1920x1080 정합) + (b) minimal sample build (Vite 5 + React 18 + antd 5.21,
+  dist 552 kB, JS 555 kB / gzip 178 kB / CSS 48 bytes, build step 필수, node_modules 161 MB).
+  우리 html-slides-builder deck (~20-50 kB) 대비 **~10x**, **no-build 원칙 위배**. 권고:
+  antd 직접 도입 *보류*. 대안: UnoCSS CDN runtime (`<script src="https://cdn.jsdelivr.net/npm/@unocss/
+  runtime"></script>`) 또는 ASTRYX 정합 hand-authored layer (이미 §A hybrid 정책으로 구현됨).
+  다음 세션 후보: UnoCSS 도입 가능성 검토.
 
 ## Next Actions
 
-- [x] TASK-F commit (`abf0fcf`) + wiki/index.md 신규 작성 + wiki commit (`4b98c38`) + Axes 2/3 후속 deep-research commit (`c284442`) + Open Props + tokens layer 통합 commit (`1459873`) + §A 잔여 frontmatter 정책 결정 commit (`1a1461a`) + §A hybrid 정책 *구현* — parser 단일화 commit (`297d016`) + SKILL.md depth-2 nested 재구성 commit (`e5e3d61`) + 운영 문서 동기화 commit (`334b98f`) + §A Marpit §3 hand-written 발현 검증 commit (예정)
-- [ ] push — 사용자 confirm 대기 (GitHub 원격 추가 / `git push -u origin main`)
+- [x] TASK-F commit (`abf0fcf`) + wiki/index.md 신규 작성 + wiki commit (`4b98c38`) + Axes 2/3 후속 deep-research commit (`c284442`) + Open Props + tokens layer 통합 commit (`1459873`) + §A 잔여 frontmatter 정책 결정 commit (`1a1461a`) + §A hybrid 정책 *구현* — parser 단일화 commit (`297d016`) + SKILL.md depth-2 nested 재구성 commit (`e5e3d61`) + 운영 문서 동기화 commit (`334b98f`) + §A Marpit §3 hand-written 발현 검증 commit (`19ccd7e`) + §B .gitignore `__pycache__/` commit (`35dabd5`) + push 완료 + §antd 적용 가능성 검토 commit (예정)
 - [ ] 다음 세션 (선택 항목):
-  - **A. 신규 task** — 도메인 스킬 1~2개 / harness 어댑터 / 운영 도구 추가 보강
-  - **B. .gitignore 의 `__pycache__/` 추가** — 본 task 의 가장자리 변경
-  - **C. Browser 시각 검증** — 실제 브라우저에서의 4-layer cascade / data-theme toggle 시각 확인
+  - **A. UnoCSS 도입 가능성 검토** — antd 대안. CDN runtime 으로 no-build 가능, design-token 스타일 preset 풍부. FOUC / no-SSR / no-print-CSS caveat 정량 평가.
+  - **B. Browser 시각 검증** — 실제 브라우저에서의 4-layer cascade / data-theme toggle 시각 확인
+  - **C. 신규 task** — 도메인 스킬 1~2개 / harness 어댑터 / 운영 도구 추가 보강
 
 ## Risks & Blockers
 

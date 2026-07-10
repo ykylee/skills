@@ -50,13 +50,14 @@
       "frontmatter 정책 결정 (TASK-PI-Followup §A 잔여, 2026-07-10) — agentskills.io canonical 40+ 제품 정합 + Claude-Code-flavored extension 허용 = 현재 상태 유지. hybrid migration (depth-2 nested, metadata.claude_code.*) 은 YAML mini-parser recursive depth-n 확장 시 동시에 (별도 task). 본 세션 = 정책 문서만, 코드 변경 0건. PROJECT_PROFILE.md §5 정책 + CHANGELOG.md Added 1줄.",
       "YAML mini-parser recursive depth-n + 3 SKILL.md depth-2 nested 재구성 (2026-07-10) — scripts/_frontmatter.py 모듈 추출 (recursive depth-n nested object + nested list 지원). 두 parser 중복 단일화. 3 SKILL.md frontmatter 를 metadata.claude_code.* depth-2 nested 구조로 재구성. hermes namespace 폐기. skill-lint E040 path 갱신. 검증 clean (3 SKILL.md, 3 entries, markdownlint 0 error).",
       "Marpit §3 hand-written 발현 검증 (2026-07-10) — 3-slide test deck /tmp/_test_warm_deck.html (ephemeral): 4-layer cascade (reset / tokens / astryx-base / astryx-theme) + /* @theme: warm */ + /* mood: WARM */ + <!-- slide N: ROLE — title --> + <!-- @scope: ... --> + data-spot= hint + data-theme toggle. verify_deck.py --gate 1 (--strict) / --gate 2 / --gate 3 (3 slides) / --gate 4 (3 notes) / --mood-check (warm hue family, dark=#1C1917, light=#FAF7F2) 모두 통과. 부수적 보강: verify_deck.py 의 --mood-check 가 --bg-dark 만 찾던 것을 --bg fallback 으로 보강. handoff Risks 의 Marpit section-ancestor scoping hand-written 재현 inference 해소.",
-      ".gitignore 의 __pycache__/ 패턴 추가 (2026-07-10, 가장자리 변경) — **/__pycache__/ + *.py[cod] + *$py.class. scripts/_frontmatter.py / scripts/skill-lint / scripts/skill-discover 의 .pyc 캐시 추적 차단. 기존 scripts/__pycache__/ 정리."
+      ".gitignore 의 __pycache__/ 패턴 추가 (2026-07-10, 가장자리 변경) — **/__pycache__/ + *.py[cod] + *$py.class. scripts/_frontmatter.py / scripts/skill-lint / scripts/skill-discover 의 .pyc 캐시 추적 차단. 기존 scripts/__pycache__/ 정리.",
+      "Ant Design (antd) 적용 가능성 검토 (2026-07-10) — 도입 보류. (a) deep-research 5 axes: antd v5/v6 CSS-in-JS runtime architecture, vanilla HTML 진입점 없음 (유일한 static-extract 는 SSR-time 전용), cssVar runtime-hash 제약, 1920x1080 는 orthogonal blocker. (b) minimal sample build: Vite 5 + React 18 + antd 5.21, dist 552 kB (JS 555 kB / gzip 178 kB / CSS 48 bytes), node_modules 161 MB, build step 필수. 우리 deck ~20-50 kB 대비 ~10x, no-build 원칙 위배. 권고: UnoCSS CDN runtime 또는 ASTRYX 정합 hand-authored layer. 다음 세션: UnoCSS 도입 검토 후보."
     ],
     "environment_constraints": []
   },
   "backlog": {
     "latest_backlog_path": "ai-workflow/memory/active/backlog/2026-07-10.md",
-    "task_count": 14,
+    "task_count": 15,
     "in_progress_items": [],
     "blocked_items": [],
     "done_items": [
@@ -73,7 +74,8 @@
       "frontmatter 정책 결정 (TASK-PI-Followup §A 잔여) = 현재 상태 유지 (hybrid migration depth-2 nested 는 YAML mini-parser recursive depth-n 확장 시 동시 진행, 별도 task). PROJECT_PROFILE.md §5 정책 추가 + CHANGELOG.md Added 1줄. 코드 변경 0건.",
       "YAML mini-parser recursive depth-n + 3 SKILL.md depth-2 nested 재구성 (scripts/_frontmatter.py 추출 + 두 parser 중복 단일화 + 3 SKILL.md frontmatter metadata.claude_code.* nested 구조로 재구성, hermes namespace 폐기, skill-lint E040 path 갱신). 3 commit (parser 단일화 / SKILL.md 재구성 / 운영 문서 동기화).",
       "Marpit §3 hand-written 발현 검증 (3-slide test deck /tmp/_test_warm_deck.html ephemeral, 4-layer cascade + metadata comments + data-spot + data-theme toggle. verify_deck.py --gate 1|2|3|4 + --mood-check + --strict 모두 통과. 부수적 보강: verify_deck.py 의 --mood-check 가 --bg-dark 만 찾던 것을 --bg fallback 으로 보강, SKILL.md / astryx-component-map.md §6 theme preset 예시 코드와 정합). handoff Risks 해소.",
-      ".gitignore 의 __pycache__/ 패턴 추가 (가장자리 변경) — **/__pycache__/ + *.py[cod] + *$py.class. Python 3 가 scripts/_frontmatter.py / scripts/skill-lint / scripts/skill-discover 의 .pyc 캐시를 git 추적 차단. 기존 untracked scripts/__pycache__/ 정리."
+      ".gitignore 의 __pycache__/ 패턴 추가 (가장자리 변경) — **/__pycache__/ + *.py[cod] + *$py.class. Python 3 가 scripts/_frontmatter.py / scripts/skill-lint / scripts/skill-discover 의 .pyc 캐시를 git 추적 차단. 기존 untracked scripts/__pycache__/ 정리.",
+      "Ant Design (antd) 적용 가능성 검토 (2026-07-10) — 도입 보류. deep-research 5 axes (CSS-in-JS architecture / vanilla HTML 부재 / cssVar runtime-hash / static-extract SSR-only / 1920x1080 정합) + minimal sample build (Vite 5 + React 18 + antd 5.21, dist 552 kB, JS 555 kB / gzip 178 kB / CSS 48 bytes, node_modules 161 MB, build step 필수). 우리 html-slides-builder deck (~20-50 kB) 대비 ~10x, no-build 원칙 위배. 권고: UnoCSS CDN runtime 또는 ASTRYX 정합 hand-authored layer (이미 §A hybrid 정책 구현)."
     ]
   },
   "next_documents": [

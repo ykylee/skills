@@ -55,6 +55,16 @@
   / `*.py[cod]` / `*$py.class` 패턴 추가. Python 3 가 `scripts/_frontmatter.py`,
   `scripts/skill-lint`, `scripts/skill-discover` 의 .pyc 바이트코드 캐시를 누적하던 것을
   git 추적 차단. 기존 untracked `scripts/__pycache__/` 정리.
+- Ant Design (antd) 적용 가능성 검토 (2026-07-10): deep-research + minimal sample build
+  (`/tmp/antd-sample/`, ephemeral) 결과 **antd 도입 보류**. sample build: Vite 5 + React 18
+  / antd 5.21 minimal scaffold → dist 552 kB (JS 555 kB / gzip 178 kB / CSS 48 bytes),
+  build step 필수, React runtime 필수, node_modules 161 MB. 우리 html-slides-builder
+  deck (~20-50 kB) 대비 **~10x**, **no-build 원칙 위배**. deep-research 5 axes 결과:
+  antd v5/v6 CSS-in-JS runtime architecture, vanilla HTML 진입점 없음 (유일한
+  static-extraction 도구는 SSR-time 전용), cssVar theming 의 runtime-hash-knowledge
+  제약. 권고: antd 직접 도입 보류, design-system fidelity 필요 시 **UnoCSS CDN runtime**
+  (`<script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"></script>`) 또는 **ASTRYX
+  정합 hand-authored layer** (이미 §A hybrid 정책으로 구현됨).
 - ASTRYX 4-layer cascade + Open Props preset (html-slides-builder, astryx-component-map.md):
   §2.4 tokens layer slot (Panda CSS `@layer tokens` *개념만* 차용 — framework 도입 X) +
   §6.4 Open Props sub-atomic absorption recipe. §6.3 Forest 가 §6.5 로 renumber, §6.3 은
