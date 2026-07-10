@@ -1,17 +1,17 @@
 ---
 name: html-slides-builder
 description: Build a single-file 1920x1080 HTML slide deck with keyboard nav for presentations. Triggers: 'HTML 슬라이드', '발표자료', 'standalone deck', 'pitch deck'. Distinct from powerpoint.
-when_to_use: 사용자가 HTML 슬라이드 / 발표자료 / pitch deck / IR 자료 / 컨설팅 발표 를 단일 .html 파일로 만들어달라고 할 때, 또는 '10/20/30' / SCQA / Pyramid 같은 구조가 필요할 때
-version: 1.1.0
-author: Hermes Agent
-license: MIT
-platforms: [linux, macos, windows]
 metadata:
-  harness_compat:
-    - claude-code
-    - generic-md
-  category: doc
-  hermes:
+  claude_code:
+    when_to_use: 사용자가 HTML 슬라이드 / 발표자료 / pitch deck / IR 자료 / 컨설팅 발표 를 단일 .html 파일로 만들어달라고 할 때, 또는 '10/20/30' / SCQA / Pyramid 같은 구조가 필요할 때
+    version: 1.1.0
+    author: Hermes Agent
+    license: MIT
+    platforms: [linux, macos, windows]
+    harness_compat:
+      - claude-code
+      - generic-md
+    category: doc
     tags: [presentation, slides, deck, html, standalone, keyboard-nav, design]
     related_skills: [claude-design, powerpoint, consulting-deepdive-report, architecture-diagram]
 ---

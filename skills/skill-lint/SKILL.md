@@ -1,13 +1,14 @@
 ---
 name: skill-lint
 description: 스킬 카탈로그의 SKILL.md frontmatter 정합성, name/description 규칙, harness_compat, references 링크를 검증합니다. 새 스킬 추가 또는 PR 전 사용.
-when_to_use: 새 스킬을 skills/ 에 추가한 직후, PR 올리기 전, 또는 저장소 lint 실패가 의심될 때
 metadata:
-  harness_compat:
-    - claude-code
-    - generic-md
-  category: meta
-  version: 0.2.0
+  claude_code:
+    when_to_use: 새 스킬을 skills/ 에 추가한 직후, PR 올리기 전, 또는 저장소 lint 실패가 의심될 때
+    harness_compat:
+      - claude-code
+      - generic-md
+    category: meta
+    version: 0.2.0
 ---
 
 # skill-lint

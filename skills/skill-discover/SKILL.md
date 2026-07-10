@@ -1,13 +1,14 @@
 ---
 name: skill-discover
 description: 카탈로그의 스킬을 카테고리·키워드·harness_compat 로 검색하고 추천합니다. 새 작업 시작 전 "이런 일에 쓸 스킬이 있나?" 검색할 때 사용.
-when_to_use: 새 작업을 시작하기 전 사용 가능한 스킬을 빠르게 훑어볼 때, 또는 "어떤 스킬이 있는지" 인덱스가 필요할 때
 metadata:
-  harness_compat:
-    - claude-code
-    - generic-md
-  category: meta
-  version: 0.1.0
+  claude_code:
+    when_to_use: 새 작업을 시작하기 전 사용 가능한 스킬을 빠르게 훑어볼 때, 또는 "어떤 스킬이 있는지" 인덱스가 필요할 때
+    harness_compat:
+      - claude-code
+      - generic-md
+    category: meta
+    version: 0.1.0
 ---
 
 # skill-discover
