@@ -26,3 +26,11 @@
 # === CATALOG BUILD ARTIFACTS ===
 # skill-discover 가 빌드하는 캐시 (CI / 로컬에서 매번 재생성)
 skills/.index.json
+
+# === PYTHON CACHES ===
+# Python 3 가 scripts/*.py 의 .pyc 바이트코드를 캐시 (skills/_frontmatter.py,
+# skill-lint, skill-discover 가 import 시). 빌드 산출물이므로 git 추적 차단.
+# `**/__pycache__/` 패턴으로 모든 디렉터리의 __pycache__/ 매칭.
+**/__pycache__/
+*.py[cod]
+*$py.class

@@ -51,6 +51,10 @@
   `--bg-dark` 만 찾던 것을 `--bg` fallback 으로 보강 (SKILL.md / astryx-component-map.md §6
   theme preset 예시 코드와 정합). handoff Risks 항목 ("Marpit section-ancestor scoping 의
   hand-written 재현은 inference") 해소.
+- `.gitignore` 의 `__pycache__/` 패턴 추가 (2026-07-10, 가장자리 변경): `**/__pycache__/`
+  / `*.py[cod]` / `*$py.class` 패턴 추가. Python 3 가 `scripts/_frontmatter.py`,
+  `scripts/skill-lint`, `scripts/skill-discover` 의 .pyc 바이트코드 캐시를 누적하던 것을
+  git 추적 차단. 기존 untracked `scripts/__pycache__/` 정리.
 - ASTRYX 4-layer cascade + Open Props preset (html-slides-builder, astryx-component-map.md):
   §2.4 tokens layer slot (Panda CSS `@layer tokens` *개념만* 차용 — framework 도입 X) +
   §6.4 Open Props sub-atomic absorption recipe. §6.3 Forest 가 §6.5 로 renumber, §6.3 은

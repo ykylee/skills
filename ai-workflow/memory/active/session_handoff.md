@@ -155,6 +155,10 @@
   부수적 보강: verify_deck.py 의 `--mood-check` 가 `--bg-dark` 만 찾던 것을 `--bg` fallback
   으로 보강 (SKILL.md / astryx-component-map.md §6 예시 코드 정합). handoff Risks 의
   "Marpit section-ancestor scoping 의 hand-written 재현은 inference" 해소.
+- `.gitignore` 의 `__pycache__/` 패턴 추가 (본 세션, done) — `**/__pycache__/` + `*.py[cod]`
+  + `*$py.class` 패턴 추가. Python 3 가 `scripts/_frontmatter.py` / `scripts/skill-lint` /
+  `scripts/skill-discover` 의 .pyc 바이트코드 캐시를 누적하던 것을 git 추적 차단. 기존
+  untracked `scripts/__pycache__/` 정리.
 
 ## Next Actions
 
