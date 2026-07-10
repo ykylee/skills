@@ -29,3 +29,4 @@
 - [x] TASK-E: 이름 변경 `html-deck` → `html-slides-builder` — 디렉터리 mv, SKILL.md / references / scripts 잔재 정리, .index.json + CHANGELOG + handoff + README 동기화 (2026-07-09)
 - [x] TASK-PI: 외부 레퍼런스 deep-research — 15 confirmed / 10 refuted, 1순위 = Marpit. Axes 2/3 (디자인 시스템 + AI agent skills) 는 uninvestigated (2026-07-09 → 2026-07-10)
 - [x] TASK-F: Marpit 통합 — `references/marpit-directives.md` 신설 (~160줄, 3-scope directive 규약), astryx-component-map.md §2 분할 (2.1/2.2/2.3) + §6 끝 참조, SKILL.md §Procedure Phase 1 step 6 보강 + §References 추가, verify_deck.py `--strict` 옵션, 기존 MD024 + MD029 즉시 해소 (CHANGELOG `### Infra` 분리 + SKILL.md Phase 2/3/4 step 1~N renumber). lint 사전 검증 clean (2026-07-10)
+- [x] wiki/index.md 신규 (R4 anchor 기반 단일 페이지 인덱스, 운영 도구 + 레퍼런스 link 통합, ~75줄) — CLAUDE.md 의 "다음에 읽을 문서" 에 wiki 명시되어 있었으나 부재하던 wiki 를 본 세션에서 보강 (2026-07-10)

@@ -120,11 +120,13 @@
     FAIL 아님 — marpit-directives.md §4 의 canonical list 와 연동).
   - lint 정합: CHANGELOG 두 번째 `### Changed` → `### Infra` 분리 (MD024 해소), SKILL.md §Procedure
     Phase 2/3/4 의 step 번호 7~13 → 각 Phase 별 1~N 으로 renumber (MD029 해소).
+- wiki/index.md 신규 (본 세션, done) — CLAUDE.md 의 "다음에 읽을 문서" 에 명시되어 있으나
+  부재하던 R4 anchor 기반 wiki. §1~§6 (overview / state / active-ops / catalog / slash / how-to).
+  운영 도구 + 레퍼런스 link 통합.
 
 ## Next Actions
 
-- [x] TASK-F commit (TASK-D + TASK-E + TASK-PI + TASK-F 완료분)
-- [ ] wiki/index.md 신규 작성 + wiki commit
+- [x] TASK-F commit (`abf0fcf`) + wiki/index.md 신규 작성 + wiki commit
 - [ ] push — 사용자 confirm 대기 (GitHub 원격 추가 / `git push -u origin main`)
 - [ ] 다음 세션 (선택 항목):
   - **A. Axes 2/3 후속 deep-research** — 디자인 시스템 / AI agent skills 만 좁혀서 2차
