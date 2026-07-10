@@ -25,100 +25,16 @@ import re
 import sys
 from pathlib import Path
 
+from _frontmatter import parse_frontmatter
+
 NAME_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 
 
-def parse_frontmatter(text: str) -> tuple[dict | None, list]:
-    """skill-lint 와 동일 로직의 1-depth YAML mini-parser."""
-    if not text.startswith("---"):
-        return None, [("E001", "frontmatter 시작 마커 (---) 없음")]
-    end = text.find("\n---", 3)
-    if end == -1:
-        return None, [("E001", "frontmatter 종료 마커 (---) 없음")]
+def parse_frontmatter_unused(text: str) -> None:
+    """DEPRECATED: parse_frontmatter 는 _frontmatter 모듈에서 import 함 (top of file).
 
-    raw = text[3:end].strip("\n")
-    fm: dict = {}
-    lines = raw.split("\n")
-    i = 0
-
-    while i < len(lines):
-        line = lines[i]
-        s = line.strip()
-        if not s or s.startswith("#"):
-            i += 1
-            continue
-        if ":" not in line:
-            i += 1
-            continue
-        key, _, rest = line.partition(":")
-        key = key.strip()
-        rest = rest.strip()
-
-        if not rest:
-            # (a) list
-            if i + 1 < len(lines) and re.match(r"^\s+-\s+", lines[i + 1]):
-                items: list = []
-                j = i + 1
-                while j < len(lines) and re.match(r"^\s+-\s+", lines[j]):
-                    items.append(lines[j].strip()[2:].strip().strip('"').strip("'"))
-                    j += 1
-                fm[key] = items
-                i = j
-                continue
-            # (b) 1-depth nested
-            if i + 1 < len(lines) and re.match(r"^\s+\S", lines[i + 1]) and ":" in lines[i + 1]:
-                nested: dict = {}
-                j = i + 1
-                while j < len(lines) and re.match(r"^\s+\S", lines[j]) and ":" in lines[j]:
-                    sub = lines[j].strip()
-                    sk, _, sv = sub.partition(":")
-                    sv = sv.strip()
-                    if not sv:
-                        sub_items: list = []
-                        k2 = j + 1
-                        while k2 < len(lines) and re.match(r"^\s+-\s+", lines[k2]):
-                            sub_items.append(lines[k2].strip()[2:].strip().strip('"').strip("'"))
-                            k2 += 1
-                        if sub_items:
-                            nested[sk.strip()] = sub_items
-                            j = k2
-                            continue
-                        nested[sk.strip()] = ""
-                    elif sv.startswith("[") and sv.endswith("]"):
-                        inner = sv[1:-1].strip()
-                        nested[sk.strip()] = [
-                            x.strip().strip('"').strip("'")
-                            for x in inner.split(",")
-                            if x.strip()
-                        ]
-                    else:
-                        nested[sk.strip()] = sv.strip('"').strip("'")
-                    j += 1
-                if nested:
-                    fm[key] = nested
-                    i = j
-                    continue
-            fm[key] = ""
-            i += 1
-            continue
-
-        if rest.startswith("[") and rest.endswith("]"):
-            inner = rest[1:-1].strip()
-            items = []
-            if inner:
-                items = [
-                    x.strip().strip('"').strip("'")
-                    for x in inner.split(",")
-                    if x.strip()
-                ]
-            fm[key] = items
-            i += 1
-            continue
-
-        fm[key] = rest.strip('"').strip("'")
-        i += 1
-
-    return fm, []
+    본 함수는 module-level 의 *inline 정의 자리표시자* 일 뿐, 호출되지 않는다.
+    """
 
 
 def build_index(skills_root: Path) -> list[dict]:
@@ -134,11 +50,14 @@ def build_index(skills_root: Path) -> list[dict]:
         meta = fm.get("metadata", {}) or {}
         if not isinstance(meta, dict):
             meta = {}
+        cc = meta.get("claude_code", {}) or {}
+        if not isinstance(cc, dict):
+            cc = {}
         entry = {
             "name": fm.get("name", f.parent.name) or f.parent.name,
             "description": (fm.get("description", "") or "").strip(),
-            "category": meta.get("category", "") or "",
-            "harness_compat": meta.get("harness_compat", []) or [],
+            "category": cc.get("category", "") or "",
+            "harness_compat": cc.get("harness_compat", []) or [],
             "path": str(f.relative_to(Path.cwd())),
         }
         index.append(entry)
