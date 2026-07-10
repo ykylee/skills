@@ -123,6 +123,17 @@
   palette (build step 필요). Swap pattern + recommended decision flow + verify_deck.py
   contract. ASTRYX 가 *여전히 1순위* 인 *decision tree* 명시. 코드 변경 없음 (sample
   변경 X, runtime 변경 X).
+- UnoCSS deep-research (2026-07-10, §B 검증·근거 강화): `astryx-component-map.md` §11+§12
+  갱신. 5 axes workflow `wc3la5p3f` 결과 (15 surviving claims, 4 load-bearing facts):
+  ① §11 표에서 stale `preset-uno` row *제거* (officially deprecated, renamed to
+  `preset-wind3`) + deprecated 노트. ② `preset-attributify` 보강 — *additive mode, NOT a
+  standalone engine*; JSX/TSX 는 `transformerAttributifyJsx()` 필수 (valueless attribute 의
+  JSX rewrite 문제). ③ CDN runtime caveats 추가 — *preflights 안 ship* (reset CSS link
+  전, `<un-cloak>` rule inline 필수), default bundled = Wind3 (mini 사용 시
+  `mini.global.js` 명시). ④ `preset-mini` 보강 — strict subset (container/animation/
+  gradient 제외). ⑤ §12 보강 — 6 가지 *operational* yes-branch 표 (preflights/JSX/
+  preset-mini load/FOUC/JSX authoring/preflights by default). 권고 synthesis 통합. 코드
+  변경 없음 (sample 변경 X, runtime 변경 X).
 - ASTRYX 4-layer cascade + Open Props preset (html-slides-builder, astryx-component-map.md):
   §2.4 tokens layer slot (Panda CSS `@layer tokens` *개념만* 차용 — framework 도입 X) +
   §6.4 Open Props sub-atomic absorption recipe. §6.3 Forest 가 §6.5 로 renumber, §6.3 은

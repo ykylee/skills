@@ -661,24 +661,44 @@ stays identical.
 
 | Preset | CDN URL | Authoring style | Notes |
 |---|---|---|---|
-| **Uno (default, wind3)** | `unocss/runtime/uno.global.js` | class-based (`class="text-amber-400"`) | shipped. Tailwind v3 / Wind utilities + base defaults. |
-| `preset-mini` | `unocss/runtime/preset-mini.global.js` | class-based, *subset only* | smaller (~30 kB gzip). Strips wind3 → core utilities only. Best when you want utility-class syntax with minimal CSS surface. |
-| `preset-attributify` | `unocss/runtime/preset-attributify.global.js` | **attribute-based** (`<div text="sm fg-amber">`) | *no FOUC*: utilities are computed against HTML attributes, so there's nothing to scroll/paint later. Bigger runtime (~50 kB gzip). Pairs well with HTML templates that already use attribute-heavy conventions. |
+| **Uno (default, wind3)** | `unocss/runtime/uno.global.js` | class-based (`class="text-amber-400"`) | shipped. Bundles `preset-wind3` (Tailwind v3 / Wind utilities) + base defaults. **UnoCSS core is un-opinionated — every utility comes from a preset.** A vanilla `@unocss/core` without preset emits zero utilities. |
+| `preset-mini` | `unocss/runtime/preset-mini.global.js` | class-based, *subset only* | smaller (~30 kB gzip). Strips wind3 → core utilities only. **Strict subset of preset-wind3**: explicitly excludes opinionated Tailwind additions (container, animation, gradient, etc.). Best when you want utility-class syntax with minimal CSS surface. |
+| `preset-attributify` | `unocss/runtime/preset-attributify.global.js` | **attribute-based** (`<div text="sm fg-amber">`) | *additive mode*, **NOT a standalone engine**. Requires another preset (wind3, mini, etc.) under it for utilities. JSX/TSX additionally requires `transformerAttributifyJsx()` because JSX rewrites valueless attributes like `<div foo>` to `<div foo={true}>`, which silently breaks attribute-selector matching. Bigger runtime (~50 kB gzip). *No FOUC*: utilities attached to HTML attributes, no scan race. |
 | `preset-icons` | add to any preset above | inline SVG icons (`<span i-carbon-logo-github />`) | adds icon system. ~10 kB gzip extra. Skips icons if unused. |
 | `preset-web-fonts` | add to any preset above | declarative font loading (e.g., `<html font="sans:Inter">`) | adds font preloading. ~5 kB gzip extra. Skips fonts if unused. |
-| `preset-uno` (palette) | bundle in custom build | class-based, *Uno's own* palette | different from Tailwind's scales — useful if you want to fully opt out of the Wind3 influence. Requires a *build step* (out of §10's no-build scope). |
+
+> **`@unocss/preset-uno` is officially deprecated and renamed to `@unocss/preset-wind3`.**
+> Preset-uno is *not* a separate current alternative; the Uno build's bundled
+> preset-wind3 has its own palette and slots in where preset-uno used to live.
+
+**CDN runtime caveats (verified 2026-07-10, deep-research §B):**
+
+1. **Preflights are NOT shipped.** The UnoCSS CDN runtime is un-opinionated and does
+   *not* include Tailwind-like preflights / resets. If you want browser reset
+   behavior (margins zeroed, headings sane, etc.), add a *separate* link to
+   `@unocss/reset` (`normalize.min.css` or `tailwind.min.css`) **before** the
+   `<script src="...uno.global.js">` line. Skipping this is *the* #1 reason UnoCSS
+   decks look "unstyled" on first paint *beyond* the FOUC window.
+2. **The default bundled preset is Wind3**, not preset-mini. If you actually want
+   preset-mini on the runtime, point the script at `unocss/runtime/preset-mini.global.js`.
+3. **The `un-cloak` mitigation requires explicit CSS.** UnoCSS docs recommend
+   `[un-cloak] { display: none }` (or `visibility: hidden`) in your stylesheet; the
+   runtime does *not* auto-emit this rule. The shipped sample at
+   `references/examples/uno-cdn-deck.html` shows the inline pattern.
 
 **Recommended swap decision** when you reach for §10 (UnoCSS adoption):
 
 1. Start with the **Uno build** (shipped). Verify the deck works end-to-end with the
-   inline critical CSS pattern.
+   inline critical CSS pattern + reset link.
 2. If deck body is large (>20 slides) and slide-1 utility classes drift (i.e., you're
    repeating `text-amber-400` and similar across slides), swap to `preset-mini` for a
    smaller runtime and *slightly* faster atomic generation.
 3. If you want the *cleanest* FOUC story — utilities attached to HTML attributes rather
-   than class names — use `preset-attributify` and rewrite the class=... attributes to
-   the attributify syntax (`<div text="sm fg-amber">`). The first paint is stable
-   because attribute selectors have no scanning race.
+   than class names — use `preset-attributify` *with* the bundled preset unchanged. The
+   first paint is stable because attribute selectors have no scanning race. **But** if
+   your deck content uses JSX/TSX (e.g. via a server-side render template), you must
+   also enable `transformerAttributifyJsx()` or attribute selectors silently fail to
+   match.
 4. Add `preset-icons` / `preset-web-fonts` only if you actually use icons or web fonts in
    the deck — both preset-check the DOM and skip themselves when unused, so they're
    free to leave in.
@@ -687,13 +707,16 @@ stays identical.
 
 - If you've already committed to `class="..."` syntax, swapping to `preset-attributify`
   means rewriting every utility-bearing element in the deck. That's a different
-  *authoring style*, not a swap.
+  *authoring style*, not a swap. Plus, if you render through JSX, add the transformer.
 - If you need pixel-perfect Tailwind v3 parity, the Uno build's bundled `preset-wind3`
-  is the *exact* match. `preset-mini` cuts the surface (no plugins, no utilities from
-  experimental branches), which can surprise authors expecting every Tailwind class
+  is the *exact* match. `preset-mini` cuts the surface (container / animation /
+  gradient / and others), which can surprise authors expecting every Tailwind class
   name.
 - If you don't actually need a CDN runtime (you'd rather hand-author), you don't need a
   preset at all — go back to §5 and write the cascade.
+- If you're tempted by `preset-uno` (the UnoCSS team's *old* palette), that's *Wind3's
+  predecessor* — UnoCSS renamed it because `preset-wind3` is the live palette. Don't
+  cargo-cult the old name into a 2026 deck.
 
 **Verification after swapping presets:**
 
@@ -722,4 +745,28 @@ ASTRYX (§5) is the better default:
 - "I have a build pipeline that already produces a hot-reload dev loop."
 - "The slide count will exceed 30 and utility-class-first authoring pays off at scale."
 
-Otherwise ASTRYX wins (smaller deck, no FOUC, no CDN dependency, no runtime).
+**§B deep-research-surfaced yes-branches (commonly underweighted):**
+
+In addition to the five authoring-style yes/no questions above, six *operational* yes/no
+questions are routinely missed by authors adopting UnoCSS. Each maps to a concrete fix or
+a clear "don't reach for UnoCSS yet":
+
+| Operational concern | If yes | Recommended action |
+|---|---|---|
+| "I need Tailwind-like preflights / reset" | Yes | Link `@unocss/reset/normalize.min.css` (or `tailwind.min.css`) **before** the runtime `<script>` in `<head>`. |
+| "I render through JSX/TSX" | Yes | Use `preset-attributify` only *together with* `transformerAttributifyJsx()`, or rewrite markup without valueless attributes. |
+| "I want class-based authoring but tiny payload" | Yes | Swap to `preset-mini.global.js` (strict subset of wind3; ~30 kB); do *not* expect pixel-perfect Tailwind v3 parity. |
+| "I want no FOUC at all" | Yes | Use `preset-attributify` (attribute selectors have no scan race), or pre-render at build time (breaks no-build). |
+| "I'm authoring JS-heavy decks with React-style components" | Yes | ASTRYX + plain HTML is faster, smaller, and FOUC-free. UnoCSS presupposes static markup. |
+| "I need a CSS framework that ships *preflights* by default" | Yes | Reconsider UnoCSS in favor of Tailwind itself (or Preline / daisyUI). UnoCSS leaves preflights as an author responsibility by design. |
+
+**Recommendation synthesis (deep-research-confirmed):**
+
+- The §10 CDN runtime is a *fine opt-in* for utility-class-loving authors with a
+  static-HTML deck, *provided* the three caveats above are handled (reset link,
+  `un-cloak` rule, FOUC mitigation).
+- The §11 alternative presets are *operational refinements*, not new architectures.
+  `preset-attributify` removes one specific limitation (FOUC, in plain-HTML decks);
+  the rest trade payload for surface coverage.
+- ASTRYX hand-authored remains the *cheapest, smallest, most predictable* base — when in
+  doubt, §5.
