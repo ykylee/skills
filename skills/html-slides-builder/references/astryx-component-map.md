@@ -643,3 +643,83 @@ pattern. If you fork it, copy the `<style>` block in `<head>` (lines after
 `<!-- UnoCSS CDN runtime -->`) along with the rest.
 
 If all five pass, the ASTRYX discipline is doing its job.
+
+---
+
+## 11. Alternative UnoCSS presets (utility-class authoring)
+
+The shipped sample at `references/examples/uno-cdn-deck.html` uses UnoCSS's **Uno build**
+(`uno.global.js`) — which bundles `preset-wind3` (Tailwind v3 / Wind utilities) plus a
+few defaults. For authors who want a *different* flavor of utility-class authoring, UnoCSS
+ships additional presets. This section maps each preset to the CDN script tag you swap
+in, the authoring style it expects, and the FOUC / size trade-off.
+
+**Swap pattern:** replace the `<script src="...">` line with the runtime that bundles the
+preset you want. Everything else (the inline critical CSS, the ASTRYX cascade `<style>`
+block, the `data-` attribute story, the gate-4 allowlist, the verify_deck.py contract)
+stays identical.
+
+| Preset | CDN URL | Authoring style | Notes |
+|---|---|---|---|
+| **Uno (default, wind3)** | `unocss/runtime/uno.global.js` | class-based (`class="text-amber-400"`) | shipped. Tailwind v3 / Wind utilities + base defaults. |
+| `preset-mini` | `unocss/runtime/preset-mini.global.js` | class-based, *subset only* | smaller (~30 kB gzip). Strips wind3 → core utilities only. Best when you want utility-class syntax with minimal CSS surface. |
+| `preset-attributify` | `unocss/runtime/preset-attributify.global.js` | **attribute-based** (`<div text="sm fg-amber">`) | *no FOUC*: utilities are computed against HTML attributes, so there's nothing to scroll/paint later. Bigger runtime (~50 kB gzip). Pairs well with HTML templates that already use attribute-heavy conventions. |
+| `preset-icons` | add to any preset above | inline SVG icons (`<span i-carbon-logo-github />`) | adds icon system. ~10 kB gzip extra. Skips icons if unused. |
+| `preset-web-fonts` | add to any preset above | declarative font loading (e.g., `<html font="sans:Inter">`) | adds font preloading. ~5 kB gzip extra. Skips fonts if unused. |
+| `preset-uno` (palette) | bundle in custom build | class-based, *Uno's own* palette | different from Tailwind's scales — useful if you want to fully opt out of the Wind3 influence. Requires a *build step* (out of §10's no-build scope). |
+
+**Recommended swap decision** when you reach for §10 (UnoCSS adoption):
+
+1. Start with the **Uno build** (shipped). Verify the deck works end-to-end with the
+   inline critical CSS pattern.
+2. If deck body is large (>20 slides) and slide-1 utility classes drift (i.e., you're
+   repeating `text-amber-400` and similar across slides), swap to `preset-mini` for a
+   smaller runtime and *slightly* faster atomic generation.
+3. If you want the *cleanest* FOUC story — utilities attached to HTML attributes rather
+   than class names — use `preset-attributify` and rewrite the class=... attributes to
+   the attributify syntax (`<div text="sm fg-amber">`). The first paint is stable
+   because attribute selectors have no scanning race.
+4. Add `preset-icons` / `preset-web-fonts` only if you actually use icons or web fonts in
+   the deck — both preset-check the DOM and skip themselves when unused, so they're
+   free to leave in.
+
+**When NOT to swap presets:**
+
+- If you've already committed to `class="..."` syntax, swapping to `preset-attributify`
+  means rewriting every utility-bearing element in the deck. That's a different
+  *authoring style*, not a swap.
+- If you need pixel-perfect Tailwind v3 parity, the Uno build's bundled `preset-wind3`
+  is the *exact* match. `preset-mini` cuts the surface (no plugins, no utilities from
+  experimental branches), which can surprise authors expecting every Tailwind class
+  name.
+- If you don't actually need a CDN runtime (you'd rather hand-author), you don't need a
+  preset at all — go back to §5 and write the cascade.
+
+**Verification after swapping presets:**
+
+```bash
+# Same as the §10 verification — gate 1 still applies because the runtime is on
+# jsdelivr.net (already in the gate-4 allowlist).
+python3 skills/html-slides-builder/scripts/verify_deck.py <deck.html> --gate 4 --expected-n N --mood-check --strict
+```
+
+The current `verify_deck.py` does *not* parse preset-specific syntax. If a deck switches
+to `preset-attributify`, the gate 1 metadata comment check still passes (comments are
+preserved), the slide-counter and notes-count gates still pass, but the gate-3 *body
+word-count cap* still applies verbatim. Adapting the verifier to recognize attributify
+syntax is out of scope for §A.5; the existing verifier is utility-class-agnostic and
+treats both styles identically for structural integrity.
+
+## 12. When UNO CSS adoption is the wrong call (decision tree)
+
+If after reading §10 + §11 you find yourself answering *yes* to more than two of these,
+ASTRYX (§5) is the better default:
+
+- "I am rebuilding this deck in another tool's framework anyway."
+- "My organization has standardized on a Tailwind / Wind3 design system, not this one."
+- "I need a preset that no ASTRYX layer mapping covers (motion preset, custom animation
+  tokens)."
+- "I have a build pipeline that already produces a hot-reload dev loop."
+- "The slide count will exceed 30 and utility-class-first authoring pays off at scale."
+
+Otherwise ASTRYX wins (smaller deck, no FOUC, no CDN dependency, no runtime).

@@ -116,6 +116,13 @@
   실제 utility classes (~30 rules + body visibility toggle) inline 으로 pre-inject,
   UnoCSS runtime 이 *이후* 추가 utilities 채움. verify_deck.py ALL GATES PASSED (file 9 →
   11.6 KB).
+- UnoCSS 대안 preset 안내 (2026-07-10, B, §11+§12 신규): `references/astryx-component-map.md`
+  끝에 §11 (Alternative UnoCSS presets) + §12 (When UNO CSS adoption is the wrong call)
+  추가. `preset-mini` (~30 kB, utility subset), `preset-attributify` (attribute-based,
+  no-FOUC, ~50 kB), `preset-icons` (~10 kB), `preset-web-fonts` (~5 kB), `preset-uno`
+  palette (build step 필요). Swap pattern + recommended decision flow + verify_deck.py
+  contract. ASTRYX 가 *여전히 1순위* 인 *decision tree* 명시. 코드 변경 없음 (sample
+  변경 X, runtime 변경 X).
 - ASTRYX 4-layer cascade + Open Props preset (html-slides-builder, astryx-component-map.md):
   §2.4 tokens layer slot (Panda CSS `@layer tokens` *개념만* 차용 — framework 도입 X) +
   §6.4 Open Props sub-atomic absorption recipe. §6.3 Forest 가 §6.5 로 renumber, §6.3 은

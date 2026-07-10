@@ -55,13 +55,14 @@
       "UnoCSS 적용 가능성 검토 (2026-07-10, antd 후속) — minimal sample HTML + CDN runtime 정량 측정: raw 175 kB / gzip 48 kB (https://cdn.jsdelivr.net/npm/@unocss/runtime/uno.global.js) / no build step / npm 불필요. antd (gzip 178 kB) 대비 ~3.7x 작음 + no-build 정합. 단 FOUC caveat (un-cloak 으로 mitigation) + atomic CSS runtime generation overhead + @media print dynamic injection 정합 미검증. 결론: ASTRYX hand-authored 가 1순위, UnoCSS CDN runtime 이 옵션. 권고: 기본 §A hybrid 정책 유지, 선택적 UnoCSS CDN runtime 가능.",
       "§A.5 선택적 UnoCSS CDN runtime 안내 (2026-07-10, antd/UnoCSS 후속) — astryx-component-map.md §10 (선택적 UnoCSS CDN runtime) 절 신규. SKILL.md §ASTRYX-Inspired Design System 절에 cross-reference 단락 추가. ASTRYX hand-authored + Open Props 가 기본, UnoCSS 는 opt-in 작성법 대안. verify_deck.py 모든 gate + --mood-check + --strict 그대로 통과 (UnoCSS 는 authoring syntax 만 영향).",
       "§A.5 UnoCSS CDN runtime sample deck (2026-07-10, §A.5 실증) — skills/html-slides-builder/references/examples/uno-cdn-deck.html 신규 (~9 KB, 3 slides). ASTRYX 4-layer cascade + UnoCSS CDN runtime + Marpit metadata + data-theme toggle + localStorage + keydown + @media print. verify_deck.py ALL GATES PASSED (--gate 1|2|3|4 --mood-check --strict). 부수적 보강: verify_deck.py gate 4 allowlist 확장 (cdn.jsdelivr.net / unpkg.com, web fonts 와 같은 카테고리) + REMOTE_SCRIPT_RE regex trailing host 포함 보강 (group(0) 가 host 까지 매치하도록).",
-      "FOUC mitigation (A1+A3 결합, 2026-07-10) — astryx-component-map.md §10 에 FOUC caveat 단락 추가 (3가지 mitigation pattern + priority ordering). uno-cdn-deck.html 의 <head> 에 pre-paint critical CSS inline 추가 (slide 1 의 actual utility classes ~30 rules + body visibility toggle). verify_deck.py ALL GATES PASSED (file 9 → 11.6 KB)."
+      "FOUC mitigation (A1+A3 결합, 2026-07-10) — astryx-component-map.md §10 에 FOUC caveat 단락 추가 (3가지 mitigation pattern + priority ordering). uno-cdn-deck.html 의 <head> 에 pre-paint critical CSS inline 추가 (slide 1 의 actual utility classes ~30 rules + body visibility toggle). verify_deck.py ALL GATES PASSED (file 9 → 11.6 KB).",
+      "UnoCSS 대안 preset 안내 (B, 2026-07-10) — references/astryx-component-map.md 끝에 §11 (Alternative UnoCSS presets) + §12 (When UNO CSS adoption is the wrong call) 신규. preset-mini (30 kB subset), preset-attributify (50 kB, attribute-based, no-FOUC), preset-icons, preset-web-fonts, preset-uno (build step). Swap pattern + recommended decision flow + verify_deck.py contract. ASTRYX 가 1순위 decision tree. 코드 변경 없음 (sample X, runtime X)."
     ],
     "environment_constraints": []
   },
   "backlog": {
     "latest_backlog_path": "ai-workflow/memory/active/backlog/2026-07-10.md",
-    "task_count": 19,
+    "task_count": 20,
     "in_progress_items": [],
     "blocked_items": [],
     "done_items": [
@@ -83,7 +84,8 @@
       "UnoCSS 적용 가능성 검토 (2026-07-10, antd 후속) — minimal sample HTML + CDN runtime 정량 측정: raw 175 kB / gzip 48 kB / no build step / npm 불필요. antd sample (gzip 178 kB, build step 필수) 대비 ~3.7x 작음 + no-build 정합. 단 FOUC caveat + atomic CSS runtime generation overhead + @media print dynamic injection 정합 미검증. 결론: ASTRYX hand-authored 가 1순위, UnoCSS CDN runtime 이 옵션. 권고: 기본 §A hybrid 정책 유지, *선택적* UnoCSS CDN runtime 가능.",
       "§A.5 선택적 UnoCSS CDN runtime 안내 (2026-07-10, antd/UnoCSS 후속) — astryx-component-map.md §10 (선택적 UnoCSS CDN runtime) 절 신규 (adoption 기준 / 안 할 경우 / un-cloak + script 1줄 recipe / trade-off 표 / verification). SKILL.md §ASTRYX-Inspired Design System 절에 cross-reference 단락. ASTRYX hand-authored + Open Props 가 기본, UnoCSS 는 opt-in 작성법 대안.",
       "§A.5 UnoCSS CDN runtime sample deck (2026-07-10, §A.5 실증) — skills/html-slides-builder/references/examples/uno-cdn-deck.html 신규 (~9 KB, 3 slides). ASTRYX 4-layer cascade + UnoCSS CDN runtime utility classes + Marpit metadata comments + data-theme toggle + localStorage + keydown + @media print. verify_deck.py ALL GATES PASSED. 부수적 보강: verify_deck.py gate 4 allowlist 확장 (cdn.jsdelivr.net / unpkg.com) + regex trailing host 포함 보강 (group(0) 버그 fix).",
-      "FOUC mitigation (A1+A3 결합, 2026-07-10) — astryx-component-map.md §10 에 FOUC caveat 단락 추가 (3가지 mitigation pattern + priority ordering). uno-cdn-deck.html 의 <head> 에 pre-paint critical CSS inline 추가 (slide 1 의 actual utility classes ~30 rules + body visibility toggle). verify_deck.py ALL GATES PASSED (file 9 → 11.6 KB)."
+      "FOUC mitigation (A1+A3 결합, 2026-07-10) — astryx-component-map.md §10 에 FOUC caveat 단락 추가 (3가지 mitigation pattern + priority ordering). uno-cdn-deck.html 의 <head> 에 pre-paint critical CSS inline 추가 (slide 1 의 actual utility classes ~30 rules + body visibility toggle). verify_deck.py ALL GATES PASSED (file 9 → 11.6 KB).",
+      "UnoCSS 대안 preset 안내 (B, 2026-07-10) — references/astryx-component-map.md 끝에 §11 (Alternative UnoCSS presets) + §12 (When UNO CSS adoption is the wrong call) 신규. preset-mini (30 kB subset), preset-attributify (50 kB, attribute-based, no-FOUC), preset-icons, preset-web-fonts, preset-uno (build step). Swap pattern + recommended decision flow + verify_deck.py contract. ASTRYX 가 1순위 decision tree. 코드 변경 없음 (sample X, runtime X)."
     ]
   },
   "next_documents": [
