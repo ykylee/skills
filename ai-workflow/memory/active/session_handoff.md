@@ -6,7 +6,7 @@
 - Scope: current focus, task status, key changes, next actions, risks
 - Audience: AI agents, maintainers
 - Status: draft
-- Updated: 2026-07-10 (TASK-F done + wiki 신규 진행)
+- Updated: 2026-07-10 (TASK-F done + wiki 신규 + Axes 2/3 deep-research + §A Open Props/tokens layer 통합 진행)
 - Related docs: [Purpose](./PURPOSE.md), [Project Profile](./PROJECT_PROFILE.md), [Work Backlog](./work_backlog.md)
 
 ## Current Focus
@@ -129,16 +129,21 @@
   USWDS rule out. AI agent skills: agentskills.io = canonical cross-vendor (40+ 제품);
   우리 SKILL.md catalog 표준 정합이나 확장 필드는 Claude-Code-flavored → portable 제한.
   1차 4 open question 중 3개 해소, 1개는 *정책 결정* (standard-strict vs. Claude-flavored).
+- Open Props + tokens layer 통합 (TASK-PI-Followup §A, 본 세션, done) — astryx-component-map.md
+  §2 cascade 3-layer → 4-layer (`reset / **tokens** / astryx-base / astryx-theme`, Panda CSS
+  *개념만* 차용, framework 도입 X). §2.4 tokens layer slot 정의 + §6.4 Open Props preset (CDN
+  link + npm PostCSS JIT recipe). §6.3 Forest → §6.5 renumber, §6.3 reserved. SKILL.md
+  §ASTRYX-Inspired Design System 절에 "Optional tokens layer" 1 paragraph + "When to skip" 1줄.
+  **Backward compatible**: tokens layer 가 비어있어도 3-layer cascade 정상.
 
 ## Next Actions
 
-- [x] TASK-F commit (`abf0fcf`) + wiki/index.md 신규 작성 + wiki commit (`4b98c38`) + Axes 2/3 후속 deep-research + 운영 문서 동기화
+- [x] TASK-F commit (`abf0fcf`) + wiki/index.md 신규 작성 + wiki commit (`4b98c38`) + Axes 2/3 후속 deep-research commit (`c284442`) + Open Props + tokens layer 통합 commit (예정)
 - [ ] push — 사용자 confirm 대기 (GitHub 원격 추가 / `git push -u origin main`)
 - [ ] 다음 세션 (선택 항목):
-  - **A. Open Props / Panda CSS @layer tokens 의 deck 보강** (2차 deep-research 의 1순위 디자인 시스템 후보) — verify_deck.py 의 gate 확장 / ASTRYX layer 와의 통합 검토
-  - **B. agentskills.io strict vs. Claude-Code extension 정책 결정** (2차 deep-research 의 잔여 정책) — SKILL.md 의 확장 필드 표준화 vs. harness 친화 유지
-  - **C. Marpit §3 hand-written 발현 검증** — `/* @theme: */` + `data-spot` 패턴 실제 deck 빌더 테스트
-  - **D. 신규 task** — 도메인 스킬 1~2개 / harness 어댑터 / 운영 도구 추가 보강
+  - **A. agentskills.io strict vs. Claude-Code extension 정책 결정** (2차 deep-research 의 잔여 정책) — SKILL.md 의 확장 필드 표준화 vs. harness 친화 유지
+  - **B. Marpit §3 hand-written 발현 검증** — `/* @theme: */` + `data-spot` 패턴 실제 deck 빌더 테스트
+  - **C. 신규 task** — 도메인 스킬 1~2개 / harness 어댑터 / 운영 도구 추가 보강
 
 ## Risks & Blockers
 
@@ -163,3 +168,8 @@
 - **Marpit scope label 의 hand-written 활용성**: `<!-- @scope: ... -->` 라벨은 *문서화* 목적.
   실제 build-step 없는 deck 에서는 metadata-comment grep 외 활용 없음. 향후 도구 추가 시
   활용 가능.
+- **ASTRYX 4-layer cascade 의 backward compatibility 검증 미완료**: tokens layer 가 비어있어도
+  3-layer cascade 정상이라고 *문서화* 했으나, 실제 deck 빌더에서의 검증은 TASK-PI-Followup
+  §C (Marpit 발현 검증) 와 통합하여 별도 세션에서 수행 권장.
+- **Open Props 의 CDN 의존성**: §6.4 Recipe A 는 unpkg.com CDN 에 의존. 오프라인 환경에서는
+  Recipe B (npm PostCSS JIT) 권장. 둘 다 사용자의 build 환경 선택.

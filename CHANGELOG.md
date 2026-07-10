@@ -26,6 +26,10 @@
 - `references/marpit-directives.md` (html-slides-builder, v0.1.0): Marpit 3-scope directive 규약을
   우리 hand-written no-build deck 에 매핑 (global / local / spot + metadata comment 규약 +
   anti-patterns). TASK-PI deep-research 의 1순위 후속.
+- ASTRYX 4-layer cascade + Open Props preset (html-slides-builder, astryx-component-map.md):
+  §2.4 tokens layer slot (Panda CSS `@layer tokens` *개념만* 차용 — framework 도입 X) +
+  §6.4 Open Props sub-atomic absorption recipe. §6.3 Forest 가 §6.5 로 renumber, §6.3 은
+  *reserved*. 2차 deep-research (Axes 2 디자인 시스템) 의 1순위 후보 = Open Props 후속.
 
 ### Changed
 - 스킬 이름 변경 (TASK-E): `html-deck` → `html-slides-builder`. builder suffix 로 *도구 역할*
@@ -37,6 +41,11 @@
   참조 1줄 추가. `SKILL.md` §Procedure Phase 1 step 6 끝에 metadata comment 규약 1 paragraph,
   §References 에 marpit-directives.md 항목 + `--strict` 옵션 추가. `scripts/verify_deck.py` 에
   `--strict` 옵션 신규 (gate 1 에서 `/* @theme: */` / `/* mood: */` 부재 시 WARN, FAIL 아님).
+- ASTRYX cascade 3-layer → 4-layer (TASK-PI-Followup §A): `astryx-component-map.md` §2 의
+  cascade order 가 `reset / astryx-base / astryx-theme` → `reset / **tokens** / astryx-base /
+  astryx-theme`. `§5` 의 pasted CSS block 도 tokens slot 추가. SKILL.md §ASTRYX-Inspired
+  Design System 절에 "Optional tokens layer" 1 paragraph + "When to skip" 1줄 추가. **Backward
+  compatible**: tokens layer 가 비어있어도 3-layer cascade 정상.
 
 ### Infra
 - `.markdownlint.jsonc` — 의미 검증은 `scripts/skill-lint` 가 담당, markdownlint-cli2 는 *문법*

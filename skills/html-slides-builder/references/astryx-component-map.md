@@ -25,7 +25,7 @@ The intersection is **design discipline**: token naming, layer cascade, componen
 
 ## 2. The 3-Layer CSS Cascade (mandatory structure)
 
-ASTRYX's stylesheet is split into three layers applied in this exact order. Use the same structure inside your deck's `<style>` block — it makes the cascade predictable and theme-swap possible in 1 edit.
+ASTRYX's stylesheet is split into four layers applied in this exact order. Use the same structure inside your deck's `<style>` block — it makes the cascade predictable and theme-swap possible in 1 edit.
 
 ### 2.1 Layer structure
 
@@ -37,21 +37,30 @@ ASTRYX's stylesheet is split into three layers applied in this exact order. Use 
   /* ...minimal, ~20 lines... */
 }
 
-/* @layer 2: astryx-base — component styles that DON'T change with theme */
+/* @layer 2: tokens — sub-atomic primitive values (Open Props or hand-rolled raw dimensions) */
+@layer tokens {
+  :root {
+    /* Open Props sub-atomic imports — space, font-size, aspect-ratio, easing, etc. */
+    /* or hand-rolled: --op-size-1: 4px; --op-size-3: 16px; --op-font-size-2: 1.5rem; */
+  }
+}
+
+/* @layer 3: astryx-base — component styles that DON'T change with theme */
 @layer astryx-base {
   .slide { width: 1920px; height: 1080px; padding: 80px; display: flex; flex-direction: column; }
   .title { font-family: var(--font-display); font-size: 88px; line-height: 1.1; font-weight: 700; }
   .body-text { font-size: 32px; line-height: 1.5; }
   /* ...all the .slide, .card, .stat, .quote, .cta structural styles... */
+  /* references --space-* / --text-* semantic tokens which re-export --op-* primitives from the tokens layer */
 }
 
-/* @layer 3: astryx-theme — token values, swappable per theme */
+/* @layer 4: astryx-theme — semantic token values, swappable per theme */
 @layer astryx-theme {
   :root {
     --bg: #0F172A;       /* slate-950 */
     --fg: #E2E8F0;
     --accent: #22D3EE;
-    /* ...all color, radius, shadow, motion tokens... */
+    /* semantic tokens — what the base layer reads as var(--space-4) etc. */
   }
   /* .theme-light override block, .theme-warm override block, etc. */
 }
@@ -92,7 +101,42 @@ Marpit's section auto-scoping is not available in our hand-written .html — we 
 
 Skip `:where([data-slide-root])` prefix-style scoping — it is over-engineered for hand-written .html.
 
-**Completion criterion:** swapping the `@layer astryx-theme` block to a new theme block re-skins the entire deck with zero changes to `@layer astryx-base` or to slide HTML.
+### 2.4 The tokens layer (optional primitive-value slot)
+
+Panda CSS's `@layer tokens` pattern (see [Panda CSS docs](https://panda-css.com/docs/concepts/cascade-layers)) is borrowed as a *positional slot only* — the framework itself is not introduced. The slot sits between `@layer reset` and `@layer astryx-base` and holds *sub-atomic* primitive values (raw dimensions, raw colors, raw font sizes). These are deliberately *un-named* — semantic naming happens in `@layer astryx-base` (`var(--space-4)`) and theme values in `@layer astryx-theme` (`var(--accent)`).
+
+```css
+@layer tokens {
+  :root {
+    /* Open Props sub-atomic primitives — see §6.4 for the import recipe */
+    --op-size-fluid-1: clamp(0.5rem, 1vw, 1rem);
+    --op-size-4: 4px;
+    --op-size-7: 16px;
+    /* ...or hand-roll a few you actually use; the layer exists to absorb growth. */
+  }
+}
+```
+
+The astryx-base layer then *re-exports* primitives as semantic tokens:
+
+```css
+@layer astryx-base {
+  :root {
+    /* semantic names; values come from the tokens layer via Open Props or hand-rolls */
+    --space-4: var(--op-size-7);            /* 16px → "card padding inner" */
+    --text-body: 1.5rem;                    /* 24px, mono-fonts come from tokens too */
+  }
+}
+```
+
+**Why a separate tokens layer:**
+- **Open Props adoption becomes optional and incremental.** New decks can start with empty `@layer tokens { }` and adopt `npm install open-props` later without touching `@layer astryx-base` or `@layer astryx-theme`.
+- **Theme overrides stay narrow.** `@layer astryx-theme` only overrides *semantic* tokens (`--bg`, `--accent`); primitive spikes (raw spans) live in the tokens layer and don't drift per-theme.
+- **No build step required.** Everything stays in plain CSS custom properties — Panda CSS the framework is a different toolchain; we adopt only its *cascade-layer order*.
+
+**Backward compatibility:** decks still written with the 3-layer cascade (`reset / astryx-base / astryx-theme`) work as before. The tokens layer is a *recommendation*, not a hard requirement — when omitted, the cascade is unchanged from the pre-§6.4 era.
+
+**Completion criterion:** swapping the `@layer astryx-theme` block to a new theme block re-skins the entire deck with zero changes to `@layer tokens`, `@layer astryx-base`, or to slide HTML.
 
 ---
 
@@ -191,7 +235,7 @@ Each row maps an ASTRYX component to its plain-HTML equivalent. The "props" colu
 
 ## 5. Pasted CSS for the base + theme layers
 
-This block is the complete `@layer astryx-base` + `@layer astryx-theme` for a default dark deck. Paste it into your `<style>` block; then override `:root` variables only to re-skin.
+This block is the complete `@layer reset` + `@layer astryx-base` + `@layer astryx-theme` for a default dark deck, with an *optional* `@layer tokens` slot for primitive sub-atomic values (see §2.4 and §6.4 for Open Props adoption). Paste it into your `<style>` block; then override `:root` variables only to re-skin. Drop the `@layer tokens` block entirely if you don't need primitive-token absorption — the cascade stays valid as a 3-layer structure.
 
 ```css
 @layer reset {
@@ -200,7 +244,17 @@ This block is the complete `@layer astryx-base` + `@layer astryx-theme` for a de
   body { font-family: var(--font-body); background: var(--bg); color: var(--fg); -webkit-font-smoothing: antialiased; }
 }
 
+@layer tokens {
+  /* Optional: sub-atomic primitives (Open Props or hand-rolled). See §6.4. */
+  /* :root { --op-size-7: 16px; --op-font-size-2: 1.5rem; ... } */
+}
+
 @layer astryx-base {
+  /* Re-export semantic tokens from primitives in the tokens layer. */
+  :root {
+    --space-4: 16px;                /* falls back to a literal if @layer tokens is empty */
+    --text-body: 32px;
+  }
   /* Canvas */
   .deck { width: 1920px; height: 1080px; transform-origin: top left; position: relative; }
   .slide { position: absolute; inset: 0; padding: var(--space-8); display: none; flex-direction: column; gap: var(--space-6); }
@@ -355,7 +409,58 @@ Save each block as its own file under `tokens/<theme-name>.css` and load it afte
 }
 ```
 
-### 6.3 Forest / sustainability (green-led)
+### 6.3 (reserved)
+
+The §6.3 slot is reserved for a future theme preset. Today's deck ships with §6.1 (light), §6.2 (warm), §6.5 (forest) — §6.4 is the Open Props absorption recipe, intentionally not numbered as a theme.
+
+### 6.4 Open Props sub-atomic absorption (optional 4th layer)
+
+Adopt [Open Props](https://open-props.style/) (~4 kB core, 500+ sub-atomic tokens; see the 2차 deep-research synthesis in `session_handoff.md`) into the new `@layer tokens` slot defined in §2.4. The primitives stay in that layer; semantic tokens in `@layer astryx-base` re-export them; theme overrides in `@layer astryx-theme` stay theme-scoped.
+
+**Recipe A — single-file static deck (`<link>` from a CDN):**
+
+```html
+<!-- In <head>, before your <style> block -->
+<link rel="stylesheet" href="https://unpkg.com/open-props/minimize.min.css">
+<link rel="stylesheet" href="https://unpkg.com/open-props/normalize.min.css">
+```
+
+```css
+@layer tokens {
+  :root { /* Open Props sub-atomic primitives already available as --size-*, --space-*, --font-size-*, --ease-*, --duration-*, --aspect-*, --shadow-*, etc. */ }
+}
+@layer astryx-base {
+  :root {
+    --space-2: var(--size-2);    /* 8px  — primitive re-export from tokens */
+    --space-4: var(--size-4);    /* 16px — card inner */
+    --text-h2: var(--font-size-fluid-2);
+  }
+  /* .slide / .card / .stat remain identical to §5; values resolve via tokens layer */
+}
+```
+
+**Recipe B — npm-managed deck (PostCSS JIT, import only what you use):**
+
+```bash
+npm install open-props
+```
+
+```css
+/* In the deck's main stylesheet, imported by your build pipeline */
+@layer tokens {
+  :root {
+    @import 'open-props/sizes';
+    @import 'open-props/fonts';
+    /* JIT pulls only the tokens you reference in this file */
+  }
+}
+```
+
+**What the recipes share:** the boundary is consistent — `@layer tokens` absorbs raw primitives, `@layer astryx-base` names them semantically, `@layer astryx-theme` overrides only on `:root[data-theme="..."]` blocks. Theme-switching (data-theme attribute) doesn't trigger Open Props reload; only the semantic tokens change, the primitives stay static.
+
+**What this is not:** Open Props is a *primitive source*, not a design system. Don't try to use `var(--blue-5)` or `var(--gray-6)` directly in slide HTML — those are implementation details of the tokens layer. Reach for `var(--accent)` / `var(--fg-muted)` / `var(--space-4)` in components; the theme layer decides what those resolve to.
+
+### 6.5 Forest / sustainability (green-led)
 
 ```css
 @layer astryx-theme {
@@ -408,6 +513,7 @@ ASTRYX's design discipline maps directly to the html-slides-builder anti-slop au
 | You need multiple themes (light/dark/warm) for different audiences | Single audience, single look |
 | You're going to revise the deck and want a stable visual foundation | Throwaway deck, won't be updated |
 | The audience expects "designed" — investors, execs, conference stage | Casual review, internal team, low ceremony |
+| You're adopting Open Props (or any sub-atomic tokens library) via §6.4 — the tokens layer slot makes primitive absorption first-class | You write everything from scratch and never expect a shared primitive source |
 
 ---
 

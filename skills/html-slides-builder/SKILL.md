@@ -225,10 +225,13 @@ For decks where brand consistency matters (multi-deck libraries, executive audie
 - The audience expects "designed" (investors, execs, conference stage)
 - You want the deck to be re-skinnable in 15 minutes via theme swap
 
+**Optional tokens layer (NEW — 4-layer cascade):** for decks where you also want to consume a sub-atomic tokens library (Open Props is the recommended choice — see `references/astryx-component-map.md` §2.4 and §6.4), insert `@layer tokens { :root { /* primitive imports */ } }` between `@layer reset` and `@layer astryx-base`. The base layer then re-exports primitives as semantic tokens (`--space-4: var(--op-size-7)`). The theme layer stays theme-scoped — Open Props adoption does not affect theme switching. Skip the tokens layer entirely if you don't need primitive absorption; the cascade remains valid as a 3-layer structure.
+
 **When to skip the ASTRYX layer:**
 - One-off personal talk
 - 5 slides or fewer
 - Brand identity is not the goal
+- You don't need cross-deck primitive absorption (no Open Props / no shared token source)
 
 The ASTRYX layer is the same plain HTML/CSS as a hand-rolled deck, but it locks the token names, color discipline, and component shapes so multiple decks can share a visual system.
 
