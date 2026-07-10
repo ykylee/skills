@@ -6,7 +6,7 @@
 - Scope: current focus, task status, key changes, next actions, risks
 - Audience: AI agents, maintainers
 - Status: draft
-- Updated: 2026-07-10 (TASK-F done + wiki 신규 + Axes 2/3 deep-research + §A Open Props/tokens layer 통합 진행)
+- Updated: 2026-07-10 (TASK-F done + wiki 신규 + Axes 2/3 deep-research + §A Open Props/tokens layer 통합 + §A 잔여 frontmatter 정책 결정 진행)
 - Related docs: [Purpose](./PURPOSE.md), [Project Profile](./PROJECT_PROFILE.md), [Work Backlog](./work_backlog.md)
 
 ## Current Focus
@@ -135,14 +135,23 @@
   link + npm PostCSS JIT recipe). §6.3 Forest → §6.5 renumber, §6.3 reserved. SKILL.md
   §ASTRYX-Inspired Design System 절에 "Optional tokens layer" 1 paragraph + "When to skip" 1줄.
   **Backward compatible**: tokens layer 가 비어있어도 3-layer cascade 정상.
+- frontmatter 정책 결정 (TASK-PI-Followup §A 잔여, 본 세션, done) — agentskills.io canonical
+  40+ 제품 정합 + Claude-Code-flavored extension 허용 = **현재 상태 유지**. 향후 migration
+  방향 = hybrid (depth-2 nested, `metadata.claude_code.*`); 이 migration 은 scripts/skill-lint
+  · scripts/skill-discover 의 YAML mini-parser recursive depth-n 확장 시 *동시에* (별도
+  task). 본 세션 결정: **코드 변경 0건**, PROJECT_PROFILE.md §5 정책으로만 기록. parser 가
+  depth 2 nested 의 list 값 처리를 못 하는 한계 *명시* — 본 세션은 정책 문서만.
 
 ## Next Actions
 
-- [x] TASK-F commit (`abf0fcf`) + wiki/index.md 신규 작성 + wiki commit (`4b98c38`) + Axes 2/3 후속 deep-research commit (`c284442`) + Open Props + tokens layer 통합 commit (예정)
+- [x] TASK-F commit (`abf0fcf`) + wiki/index.md 신규 작성 + wiki commit (`4b98c38`) + Axes 2/3 후속 deep-research commit (`c284442`) + Open Props + tokens layer 통합 commit (`1459873`) + §A 잔여 frontmatter 정책 결정 commit (예정)
 - [ ] push — 사용자 confirm 대기 (GitHub 원격 추가 / `git push -u origin main`)
 - [ ] 다음 세션 (선택 항목):
-  - **A. agentskills.io strict vs. Claude-Code extension 정책 결정** (2차 deep-research 의 잔여 정책) — SKILL.md 의 확장 필드 표준화 vs. harness 친화 유지
-  - **B. Marpit §3 hand-written 발현 검증** — `/* @theme: */` + `data-spot` 패턴 실제 deck 빌더 테스트
+  - **A. YAML mini-parser recursive depth-n 확장** — `scripts/_frontmatter.py` 추출 + recursive
+    depth-n 지원. 두 parser 중복 제거와 결합 가능. frontmatter 정책의 hybrid migration
+    (depth-2 nested) 선행 조건.
+  - **B. Marpit §3 hand-written 발현 검증** — `/* @theme: */` + `data-spot` 패턴 실제 deck
+    빌더 테스트
   - **C. 신규 task** — 도메인 스킬 1~2개 / harness 어댑터 / 운영 도구 추가 보강
 
 ## Risks & Blockers

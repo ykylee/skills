@@ -26,6 +26,14 @@
 - `references/marpit-directives.md` (html-slides-builder, v0.1.0): Marpit 3-scope directive 규약을
   우리 hand-written no-build deck 에 매핑 (global / local / spot + metadata comment 규약 +
   anti-patterns). TASK-PI deep-research 의 1순위 후속.
+- frontmatter 정책 결정 (TASK-PI-Followup §A 잔여, 2026-07-10): agentskills.io canonical 40+
+  제품 (Claude Code / Cursor / Cline / VS Code / OpenAI Codex / GitHub Copilot / Gemini CLI /
+  Roo Code / Spring AI) 의 base shape 정합 + Claude-Code-flavored extension 허용 — *현재 상태
+  유지* 결정. 향후 migration 방향 = hybrid (depth-2 nested, `metadata.claude_code.*`); 이
+  migration 은 scripts/skill-lint · scripts/skill-discover 의 YAML mini-parser recursive
+  depth-n 확장 시 *동시에* (별도 task). 코드 변경 없음, PROJECT_PROFILE.md §5 정책으로만
+  기록. 2차 deep-research (TASK-PI-Followup, 2026-07-10) 의 1차 4 open question 중 마지막 1개
+  해소.
 - ASTRYX 4-layer cascade + Open Props preset (html-slides-builder, astryx-component-map.md):
   §2.4 tokens layer slot (Panda CSS `@layer tokens` *개념만* 차용 — framework 도입 X) +
   §6.4 Open Props sub-atomic absorption recipe. §6.3 Forest 가 §6.5 로 renumber, §6.3 은
