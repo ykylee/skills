@@ -65,6 +65,17 @@
   제약. 권고: antd 직접 도입 보류, design-system fidelity 필요 시 **UnoCSS CDN runtime**
   (`<script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"></script>`) 또는 **ASTRYX
   정합 hand-authored layer** (이미 §A hybrid 정책으로 구현됨).
+- UnoCSS 적용 가능성 검토 (2026-07-10, antd 후속): minimal sample HTML (`/tmp/unocss-test.html`,
+  ephemeral, ~5 kB) + CDN runtime 정량 측정 (`https://cdn.jsdelivr.net/npm/@unocss/runtime/
+  uno.global.js`, raw 175 kB / gzip 48 kB / single script tag / no build step / npm
+  불필요). antd sample (gzip 178 kB, build step 필수) 대비 **~3.7x 작음** + no-build
+  정합. 단 FOUC caveat (첫 paint unstyled, `un-cloak` attribute 로 mitigation) +
+  atomic CSS runtime generation overhead + `@media print` 의 dynamic injection 정합
+  미검증. **결론 — ASTRYX hand-authored 가 1순위, UnoCSS CDN runtime 이 옵션**.
+  권고: 기본 deck 작성은 ASTRYX 정합 layer + Open Props absorption (§A hybrid 정책)
+  유지. *선택적* 도구로 UnoCSS CDN runtime 한 줄 추가 가능 — 작성자가
+  Tailwind-syntax (utility-class) 선호 시. SKILL.md 또는 astryx-component-map.md 에
+  §A.5 (선택적) 섹션으로 추가 가능.
 - ASTRYX 4-layer cascade + Open Props preset (html-slides-builder, astryx-component-map.md):
   §2.4 tokens layer slot (Panda CSS `@layer tokens` *개념만* 차용 — framework 도입 X) +
   §6.4 Open Props sub-atomic absorption recipe. §6.3 Forest 가 §6.5 로 renumber, §6.3 은

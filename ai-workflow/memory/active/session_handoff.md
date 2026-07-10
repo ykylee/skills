@@ -6,7 +6,7 @@
 - Scope: current focus, task status, key changes, next actions, risks
 - Audience: AI agents, maintainers
 - Status: draft
-- Updated: 2026-07-10 (TASK-F done + wiki 신규 + Axes 2/3 deep-research + §A Open Props/tokens layer 통합 + §A 잔여 frontmatter 정책 결정 + §A hybrid 정책 *구현* (parser + 3 SKILL.md depth-2 nested 재구성) + §A Marpit §3 hand-written 발현 검증 (test deck + verify_deck.py --bg fallback) + §B .gitignore `__pycache__/` + push + antd 적용 가능성 검토 (도입 보류) 진행)
+- Updated: 2026-07-10 (TASK-F done + wiki 신규 + Axes 2/3 deep-research + §A Open Props/tokens layer 통합 + §A 잔여 frontmatter 정책 결정 + §A hybrid 정책 *구현* (parser + 3 SKILL.md depth-2 nested 재구성) + §A Marpit §3 hand-written 발현 검증 (test deck + verify_deck.py --bg fallback) + §B .gitignore `__pycache__/` + push + antd 적용 가능성 검토 (도입 보류) + UnoCSS 적용 가능성 검토 (ASTRYX 1순위 + UnoCSS 옵션 권고) 진행)
 - Related docs: [Purpose](./PURPOSE.md), [Project Profile](./PROJECT_PROFILE.md), [Work Backlog](./work_backlog.md)
 
 ## Current Focus
@@ -167,13 +167,23 @@
   antd 직접 도입 *보류*. 대안: UnoCSS CDN runtime (`<script src="https://cdn.jsdelivr.net/npm/@unocss/
   runtime"></script>`) 또는 ASTRYX 정합 hand-authored layer (이미 §A hybrid 정책으로 구현됨).
   다음 세션 후보: UnoCSS 도입 가능성 검토.
+- UnoCSS 적용 가능성 검토 (본 세션, done, antd 후속) — minimal sample HTML
+  (`/tmp/unocss-test.html`, ephemeral) + CDN runtime 정량 측정 (`https://cdn.jsdelivr.net/npm/
+  @unocss/runtime/uno.global.js`, **raw 175 kB / gzip 48 kB / single script tag / no
+  build step / npm 불필요**). antd sample (gzip 178 kB, build step 필수) 대비
+  **~3.7x 작음** + no-build 정합. 단 FOUC caveat + atomic CSS runtime generation overhead
+  + `@media print` dynamic injection 정합 미검증. **결론 — ASTRYX hand-authored 가
+  1순위, UnoCSS CDN runtime 이 옵션**. 권고: 기본 deck 작성은 ASTRYX 정합 layer +
+  Open Props absorption (§A hybrid 정책) 유지. *선택적* 도구로 UnoCSS CDN runtime
+  한 줄 추가 가능 — 작성자가 Tailwind-syntax (utility-class) 선호 시. SKILL.md 또는
+  astryx-component-map.md 에 §A.5 (선택적) 섹션으로 추가 가능.
 
 ## Next Actions
 
-- [x] TASK-F commit (`abf0fcf`) + wiki/index.md 신규 작성 + wiki commit (`4b98c38`) + Axes 2/3 후속 deep-research commit (`c284442`) + Open Props + tokens layer 통합 commit (`1459873`) + §A 잔여 frontmatter 정책 결정 commit (`1a1461a`) + §A hybrid 정책 *구현* — parser 단일화 commit (`297d016`) + SKILL.md depth-2 nested 재구성 commit (`e5e3d61`) + 운영 문서 동기화 commit (`334b98f`) + §A Marpit §3 hand-written 발현 검증 commit (`19ccd7e`) + §B .gitignore `__pycache__/` commit (`35dabd5`) + push 완료 + §antd 적용 가능성 검토 commit (예정)
+- [x] TASK-F commit (`abf0fcf`) + wiki/index.md 신규 작성 + wiki commit (`4b98c38`) + Axes 2/3 후속 deep-research commit (`c284442`) + Open Props + tokens layer 통합 commit (`1459873`) + §A 잔여 frontmatter 정책 결정 commit (`1a1461a`) + §A hybrid 정책 *구현* — parser 단일화 commit (`297d016`) + SKILL.md depth-2 nested 재구성 commit (`e5e3d61`) + 운영 문서 동기화 commit (`334b98f`) + §A Marpit §3 hand-written 발현 검증 commit (`19ccd7e`) + §B .gitignore `__pycache__/` commit (`35dabd5`) + push 완료 + §antd 적용 가능성 검토 commit (`cfd3286`) + §A UnoCSS 적용 가능성 검토 commit (예정)
 - [ ] 다음 세션 (선택 항목):
-  - **A. UnoCSS 도입 가능성 검토** — antd 대안. CDN runtime 으로 no-build 가능, design-token 스타일 preset 풍부. FOUC / no-SSR / no-print-CSS caveat 정량 평가.
-  - **B. Browser 시각 검증** — 실제 브라우저에서의 4-layer cascade / data-theme toggle 시각 확인
+  - **A. SKILL.md / astryx-component-map.md 에 §A.5 (선택적 UnoCSS CDN runtime) 섹션 추가** — 작성자 Tailwind-syntax 선호 시 한 줄 + utility-class 권장
+  - **B. Browser 시각 검증** — 실제 브라우저에서의 4-layer cascade / data-theme toggle / UnoCSS FOUC 시각 확인
   - **C. 신규 task** — 도메인 스킬 1~2개 / harness 어댑터 / 운영 도구 추가 보강
 
 ## Risks & Blockers
