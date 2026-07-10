@@ -11,7 +11,9 @@ Usage:
     python3 verify_deck.py <deck.html> [--gate 1|2|3|4]
 
 Gates:
-    1 — File exists, non-empty, contains <!doctype html>
+    1 — File exists, non-empty, contains <!doctype html>; with --strict,
+         warn if no `/* @theme: */` or `/* mood: */` metadata comment
+         is present (see marpit-directives.md §4)
     2 — Scaffold: data-slide="N" count matches expected N; CSS variables
         for --bg/--fg/--accent present; @media print + prefers-reduced-motion
         present; script tag for keyboard handler present
@@ -126,7 +128,7 @@ def count_placeholders(html: str) -> int:
 def has_css_vars(html: str, names: list[str]) -> list[str]:
     return [n for n in names if f'--{n}' not in html]
 
-def gate1(path: Path) -> tuple[bool, list[str]]:
+def gate1(path: Path, strict: bool = False) -> tuple[bool, list[str]]:
     msgs = []
     if not path.exists():
         return False, [f"FAIL: file does not exist: {path}"]
@@ -138,6 +140,13 @@ def gate1(path: Path) -> tuple[bool, list[str]]:
     if "<html" not in html.lower():
         msgs.append("FAIL: missing <html>")
     msgs.append(f"OK: gate 1 base — {len(html)} bytes, {path.name}")
+    if strict:
+        theme = bool(re.search(r"/\*\s*@theme\s*:", html))
+        mood = bool(re.search(r"/\*\s*mood\s*:", html))
+        if not theme and not mood:
+            msgs.append("WARN: no `/* @theme: NAME */` or `/* mood: ... */` — see marpit-directives.md §4")
+        elif not mood:
+            msgs.append("WARN: no `/* mood: ... */` — `--mood-check` cannot validate palette")
     return (len([m for m in msgs if m.startswith('FAIL')]) == 0), msgs
 
 def gate2(html: str) -> tuple[bool, list[str]]:
@@ -225,11 +234,13 @@ def main():
                     help="expected slide count for gate 3 cross-check")
     ap.add_argument("--mood-check", action="store_true",
                     help="enforce themed sandwich: dark/light --bg-* must come from one declared mood")
+    ap.add_argument("--strict", action="store_true",
+                    help="warn when metadata comments (/* @theme: */, /* mood: */) are missing (marpit-directives.md §4)")
     args = ap.parse_args()
     if args.gate not in (1, 2, 3, 4):
         print("usage: --gate must be 1, 2, 3, or 4", file=sys.stderr)
         return 2
-    ok1, m1 = gate1(args.deck)
+    ok1, m1 = gate1(args.deck, strict=args.strict)
     print("\n".join(m1))
     if not ok1 or args.gate == 1:
         return 0 if ok1 else 1

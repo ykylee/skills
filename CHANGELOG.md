@@ -4,7 +4,7 @@
 - 범위: 추가/변경/제거된 스킬, 운영 정책, lint 절차 변경
 - 대상 독자: 카탈로그 사용자, AI 에이전트, 기여자
 - 상태: active
-- 최종 수정일: 2026-07-09
+- 최종 수정일: 2026-07-10
 - 관련 문서: [README.md](./skills/README.md), [./ai-workflow/memory/active/PROJECT_PROFILE.md](./ai-workflow/memory/active/PROJECT_PROFILE.md)
 
 본 문서는 [Keep a Changelog](https://keepachangelog.com/ko/) 의 정신을 따른다.
@@ -23,14 +23,22 @@
 - 운영 도구 보강: `scripts/skill-discover` Python 3 stdlib-only 구현. `skill-discover/SKILL.md`
   §Procedure 1~7 의 실제 동작. `--index` 캐시 빌드, `category:X` / `harness:X` 토큰, `--json`,
   `--top N`. dry-run 결과: 인덱스 빌드 2 entries, 검색 (meta / category:meta / harness:generic-md) 정상.
+- `references/marpit-directives.md` (html-slides-builder, v0.1.0): Marpit 3-scope directive 규약을
+  우리 hand-written no-build deck 에 매핑 (global / local / spot + metadata comment 규약 +
+  anti-patterns). TASK-PI deep-research 의 1순위 후속.
 
 ### Changed
 - 스킬 이름 변경 (TASK-E): `html-deck` → `html-slides-builder`. builder suffix 로 *도구 역할*
   명시. 카테고리는 `doc` 유지 (산출물이 단일 HTML 문서). 영향: `skills/<name>/` 디렉터리명,
   SKILL.md frontmatter `name`, 본문 `localStorage` key 예시, `skills/.index.json`, CHANGELOG,
   session_handoff, README(루트) 트리 동기화.
+- Marpit 통합 (TASK-F): `references/astryx-component-map.md` §2 를 §2.1 / §2.2 / §2.3 으로 분할
+  (§2.2 metadata convention 신규, §2.3 section scoping 신규), §6 끝에 `marpit-directives.md`
+  참조 1줄 추가. `SKILL.md` §Procedure Phase 1 step 6 끝에 metadata comment 규약 1 paragraph,
+  §References 에 marpit-directives.md 항목 + `--strict` 옵션 추가. `scripts/verify_deck.py` 에
+  `--strict` 옵션 신규 (gate 1 에서 `/* @theme: */` / `/* mood: */` 부재 시 WARN, FAIL 아님).
 
-### Changed
+### Infra
 - `.markdownlint.jsonc` — 의미 검증은 `scripts/skill-lint` 가 담당, markdownlint-cli2 는 *문법*
   만 잡는다 (스타일 rule 비활성화).
 - `.github/workflows/skill-lint.yml` — lychee 설치를 `taiki-e/install-action@v2` (tool: lychee) 로
@@ -51,6 +59,9 @@
 - 2차 CI 실패 (`29022615698`) — lychee `command not found` (PATH 미적용) → install-action 으로 해결.
 - 3차 CI 실패 (`29022734640`) — `CHANGELOG.md` / `PROJECT_PROFILE.md` 깨진 링크 2건 수정.
 - Node.js 20 deprecation annotation — 액션 v-line 업그레이드로 해소 (6차 CI 검증 통과, run `29023548610`).
+- markdownlint 기존 lint error 해소: `CHANGELOG.md` 의 두 번째 `### Changed` (TASK-002-B 운영
+  자동화 항목) → `### Infra` 로 분리 (MD024 siblings_only 해소). `SKILL.md` §Procedure Phase 2/3/4
+  의 step 번호 7~13 → 각 Phase 별 1~N 으로 renumber (MD029 ol-prefix 해소).
 
 ## [0.3.0] - 2026-07-09
 

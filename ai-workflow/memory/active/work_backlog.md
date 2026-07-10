@@ -16,6 +16,7 @@
 
 ## 2. 날짜별 백로그
 - [2026-07-09](./backlog/2026-07-09.md)
+- [2026-07-10](./backlog/2026-07-10.md)
 
 ## 3. 전체 작업 상태 요약
 - [x] TASK-001: 표준 AI 워크플로우 초기 도입 (a~e 세션 1·2 전부 done, 2026-07-09)
@@ -27,4 +28,4 @@
 - [x] TASK-D: html-slides-builder 카탈로그 진입 — 저장소 루트 `html-deck/` → `skills/html-slides-builder/`, frontmatter 보정 (E030/E040/W100/W110 해소), lint 사전 검증 (2026-07-09)
 - [x] TASK-E: 이름 변경 `html-deck` → `html-slides-builder` — 디렉터리 mv, SKILL.md / references / scripts 잔재 정리, .index.json + CHANGELOG + handoff + README 동기화 (2026-07-09)
 - [x] TASK-PI: 외부 레퍼런스 deep-research — 15 confirmed / 10 refuted, 1순위 = Marpit. Axes 2/3 (디자인 시스템 + AI agent skills) 는 uninvestigated (2026-07-09 → 2026-07-10)
-- [ ] TASK-F: Marpit 통합 — `references/marpit-directives.md` 신설, verify_deck.py gate 2/3 directive 검출, 3-layer cascade 의 `/* @theme */` metadata 명문화 (다음 세션, pending)
+- [x] TASK-F: Marpit 통합 — `references/marpit-directives.md` 신설 (~160줄, 3-scope directive 규약), astryx-component-map.md §2 분할 (2.1/2.2/2.3) + §6 끝 참조, SKILL.md §Procedure Phase 1 step 6 보강 + §References 추가, verify_deck.py `--strict` 옵션, 기존 MD024 + MD029 즉시 해소 (CHANGELOG `### Infra` 분리 + SKILL.md Phase 2/3/4 step 1~N renumber). lint 사전 검증 clean (2026-07-10)

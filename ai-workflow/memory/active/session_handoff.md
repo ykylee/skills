@@ -6,20 +6,23 @@
 - Scope: current focus, task status, key changes, next actions, risks
 - Audience: AI agents, maintainers
 - Status: draft
-- Updated: 2026-07-10
+- Updated: 2026-07-10 (TASK-F done + wiki 신규 진행)
 - Related docs: [Purpose](./PURPOSE.md), [Project Profile](./PROJECT_PROFILE.md), [Work Backlog](./work_backlog.md)
 
 ## Current Focus
 
-- **TASK-D + TASK-E + TASK-PI 완료, TASK-F 보류, 세션 마무리**: TASK-001 (a~e) +
+- **TASK-D + TASK-E + TASK-PI + TASK-F 완료, wiki 신규 + 세션 마무리**: TASK-001 (a~e) +
   TASK-002-B (운영 자동화) + TASK-003-A (skill-discover SKILL.md) + TASK-002-B-verify (1차 CI) +
   TASK-A-2 (Node 20 deprecation 해소) + TASK-C (skill-discover 실제 구현, .index.json 캐시) +
   TASK-D (html-deck 위치 이동 + frontmatter 보정 + 인덱스 갱신) +
   TASK-E (이름 변경 `html-deck` → `html-slides-builder` + 운영 문서 동기화 + lint 검증) +
-  TASK-PI (외부 레퍼런스 deep-research, 1순위 = Marpit) 모두 done.
-  html-slides-builder 가 정식 카탈로그 위치(`skills/html-slides-builder/`)에 정착.
-  TASK-F (Marpit 통합) 는 다음 세션 pending.
-  본 세션 마무리 commit + push 진행.
+  TASK-PI (외부 레퍼런스 deep-research, 1순위 = Marpit) +
+  TASK-F (Marpit 통합 — `references/marpit-directives.md` 신설, astryx-component-map.md §2 확장,
+  SKILL.md §Procedure Phase 1 step 6 보강, verify_deck.py `--strict` 옵션, 기존 MD024 + MD029
+  즉시 해소) 모두 done.
+  본 세션의 추가 산출물: `ai-workflow/wiki/index.md` 신규 (R4 anchor 기반 인덱스, 운영 도구 +
+  레퍼런스 link).
+  두 commit (① TASK-F, ② wiki) 진행.
 
 ## Work Status
 
@@ -41,10 +44,14 @@
   - 5 phase 자동, 106 agents, 15 confirmed / 10 refuted
   - 1순위 = Marpit (Marp-first markdown + section auto-scoping + build-step-free)
   - Axes 2/3 (디자인 시스템 + AI agent skills) 는 uninvestigated
-- TASK-F Marpit 통합: **pending (다음 세션)**
-  - `references/marpit-directives.md` 신설
-  - verify_deck.py gate 2/3 directive 검출
-  - 3-layer cascade 의 `/* @theme */` metadata 명문화
+- TASK-F Marpit 통합: **done (본 세션)**
+  - `references/marpit-directives.md` 신설 (~160줄, 3-scope directive 규약 + metadata comment 규약)
+  - `references/astryx-component-map.md` §2 분할 (2.1 layer / 2.2 metadata / 2.3 section scoping) + §6 끝 1줄
+  - `SKILL.md` §Procedure Phase 1 step 6 metadata comment 1 paragraph + §References 항목 추가
+  - `scripts/verify_deck.py` `--strict` 옵션 (gate 1 `/* @theme: */` + `/* mood: */` 부재 시 WARN)
+  - 기존 MD024 + MD029 즉시 해소 (CHANGELOG `### Infra` 분리 + SKILL.md Phase 2/3/4 step 1~N renumber)
+  - lint 사전 검증 clean (markdownlint-cli2 0 error, skill-lint 3 SKILL.md clean)
+- N/A: blocked
 - N/A: blocked
 
 ## Key Changes
@@ -101,23 +108,30 @@
     (1차 통합은 Marpit 패턴만으로 가능). 4 open question 식별.
   - 결과 보관: `/private/tmp/.../wxo7ehm8l.output` (2588 lines, 5 phase 로그 + 23 source 목록 +
     7 confirmed findings + 10 refuted + 4 open questions).
-- TASK-F Marpit 통합 (다음 세션, pending):
-  - 1순위 액션: `references/marpit-directives.md` 신설 (~50 줄), 우리 3-layer cascade 와의
-    매핑 + 사용 예시.
-  - 옵션: `references/astryx-component-map.md` 의 §2/§6 확장 (/* @theme */ metadata + section
-    scoping 명문화).
-  - 옵션: `scripts/verify_deck.py` 의 gate 2/3 에 directive 검출 추가.
+- TASK-F Marpit 통합 (본 세션, done) — 4건 신규 + 2건 lint 정합:
+  - 1순위 액션: `references/marpit-directives.md` 신설 — 3-scope directive (global / local / spot)
+    와의 매핑 표 + canonical metadata comment 규약 + 사용 예시 + anti-patterns. ~160줄, 본문 lint clean.
+  - `references/astryx-component-map.md` §2 → §2.1 layer structure + §2.2 metadata convention
+    (NEW) + §2.3 section scoping (NEW, hand-written 재현 명시). §6 끝에 marpit-directives.md
+    참조 1줄.
+  - `SKILL.md` §Procedure Phase 1 step 6 끝에 metadata comment 규약 1 paragraph, §References 에
+    marpit-directives.md 항목 추가, verify_deck.py 의 `--strict` 옵션도 §References 에 노출.
+  - `scripts/verify_deck.py` 에 `--strict` 옵션 추가 (gate 1 에서 metadata comment 부재 시 WARN,
+    FAIL 아님 — marpit-directives.md §4 의 canonical list 와 연동).
+  - lint 정합: CHANGELOG 두 번째 `### Changed` → `### Infra` 분리 (MD024 해소), SKILL.md §Procedure
+    Phase 2/3/4 의 step 번호 7~13 → 각 Phase 별 1~N 으로 renumber (MD029 해소).
 
 ## Next Actions
 
-- [x] 본 세션 commit 진행 (TASK-D + TASK-E + TASK-PI 완료분)
+- [x] TASK-F commit (TASK-D + TASK-E + TASK-PI + TASK-F 완료분)
+- [ ] wiki/index.md 신규 작성 + wiki commit
 - [ ] push — 사용자 confirm 대기 (GitHub 원격 추가 / `git push -u origin main`)
 - [ ] 다음 세션 (선택 항목):
-  - **A. TASK-F Marpit 통합** (1순위 권장) — `references/marpit-directives.md` 신설 + 3-layer
-    cascade 명문화 + verify_deck.py gate 2/3 확장
-  - **B. Axes 2/3 후속 deep-research** — 디자인 시스템 / AI agent skills 만 좁혀서 2차
+  - **A. Axes 2/3 후속 deep-research** — 디자인 시스템 / AI agent skills 만 좁혀서 2차
     (축 2개로 budget ↓, 10-15분)
-  - **C. 신규 task** — 도메인 스킬 1~2개 / harness 어댑터 / 운영 도구 추가 보강
+  - **B. 신규 task** — 도메인 스킬 1~2개 / harness 어댑터 / 운영 도구 추가 보강
+  - **C. Marpit §3 발현 검증** — hand-written .html 에서 `/* @theme: */` + `data-spot` 패턴이
+    실제 빌더에서 어떻게 활용되는지 *테스트* (handoff Risks 참조)
 
 ## Risks & Blockers
 

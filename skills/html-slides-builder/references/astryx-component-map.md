@@ -27,6 +27,8 @@ The intersection is **design discipline**: token naming, layer cascade, componen
 
 ASTRYX's stylesheet is split into three layers applied in this exact order. Use the same structure inside your deck's `<style>` block — it makes the cascade predictable and theme-swap possible in 1 edit.
 
+### 2.1 Layer structure
+
 ```css
 /* @layer 1: reset — strip browser defaults, set sane base */
 @layer reset {
@@ -56,6 +58,39 @@ ASTRYX's stylesheet is split into three layers applied in this exact order. Use 
 ```
 
 **Why this matters:** you can swap the entire visual identity of the deck by replacing one layer's contents. The base layer (layout, type scale, component shapes) stays constant; the theme layer (colors, shadows, accent) changes. This is the same separation that makes Figma variables + Style Dictionary useful at scale.
+
+### 2.2 Metadata convention
+
+Each `@layer astryx-theme :root[data-theme="NAME"]` block should be preceded by a metadata-comment header so the deck is grep-able and machine-validatable:
+
+```css
+/* @theme: warm */        /* preset name from §6 — light, warm, forest (default dark is unnamed) */
+/* mood: WARM */          /* palette family for verify_deck.py --mood-check */
+@layer astryx-theme {
+  :root[data-theme="warm"] {
+    --bg: #1C1917;
+    --bg-light: #FAF7F2;
+    --accent: #F59E0B;
+    /* … */
+  }
+}
+```
+
+The full rule set (global directives, local directives, spot directives, anti-patterns) is in `marpit-directives.md` §2–§4.
+
+### 2.3 Section scoping
+
+Marpit's section auto-scoping is not available in our hand-written .html — we don't run a build step. But the same intent is preserved structurally: each `<section class="slide" data-slide="N">` is a *local* scope, and any descendant element (`.callout`, `.stat`, …) can override only itself.
+
+```html
+<section class="slide" data-slide="3">
+  <!-- @scope: local — this slide's intent -->
+  <h1 class="title">Distribution channels</h1>
+  <div class="callout callout-info" data-spot="hint">Tier-2 cities drove 64% of growth.</div>
+</section>
+```
+
+Skip `:where([data-slide-root])` prefix-style scoping — it is over-engineered for hand-written .html.
 
 **Completion criterion:** swapping the `@layer astryx-theme` block to a new theme block re-skins the entire deck with zero changes to `@layer astryx-base` or to slide HTML.
 
@@ -340,6 +375,8 @@ Save each block as its own file under `tokens/<theme-name>.css` and load it afte
 ```
 
 **Completion criterion for the theme system:** you can change the entire visual identity of a 30-slide deck by editing ~15 lines in one `:root[data-theme="X"]` block.
+
+For the metadata-comment convention (`/* @theme: */`, `/* mood: */`, scope labels) that pairs with this theme system, see `references/marpit-directives.md` §2.2 and §4.
 
 ---
 

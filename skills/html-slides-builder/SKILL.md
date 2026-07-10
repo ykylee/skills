@@ -276,13 +276,13 @@ Phase 4 — POLISH    (patch: notes, print styles, help overlay, anti-slop repai
 3. **Classify and bound.** Brief is one-line → write a 3-Act outline (Hook/Body/Close). Brief has a goal/audience/slot → load `references/presentation-patterns.md` and run §9's 4-step recipe (classify → bound → apply framework → pick chart per Data slide).
 4. **Write the slide list.** One line per slide: `[Role] — title`. If outline exceeds the §5 slot cap, cut Act 2 or move overflow to appendix.
 5. **Run MECE check** on any 2nd-tier list of 3-5 items (Phase 1 fails if you skip this for persuasive decks).
-6. **Pick the palette and type** in one line: `bg-dark/bg-light/accent/display-font/body-font`. If using the ASTRYX layer, set the same choices in `:root` of `@layer astryx-theme` and pick the theme preset (light/dark/warm/forest) — see `references/astryx-component-map.md` §6. **Declare the mood** (`/* mood: WARM */` next to the palette — or COOL / FOREST / MONO) so the themed sandwich check is grep-able and `verify_deck.py --mood-check` can validate it.
+6. **Pick the palette and type** in one line: `bg-dark/bg-light/accent/display-font/body-font`. If using the ASTRYX layer, set the same choices in `:root` of `@layer astryx-theme` and pick the theme preset (light/dark/warm/forest) — see `references/astryx-component-map.md` §6. **Declare the mood** (`/* mood: WARM */` next to the palette — or COOL / FOREST / MONO) so the themed sandwich check is grep-able and `verify_deck.py --mood-check` can validate it. Add the corresponding metadata comments at the top of `<style>` (`/* @theme: NAME */` and `/* mood: ... */`) so `verify_deck.py --strict` and any future deck-conversion tooling can parse them — full convention in `references/marpit-directives.md` §2–§4.
 
 **Gate 1 — User confirmation required.** Show the slide list, surface, palette/type, MECE result. Wait for the user's "go" before Phase 2. Do NOT write any files in Phase 1.
 
 ### Phase 2 — SCAFFOLD (one write_file, ≤8KB)
 
-7. **Write the scaffold file.** Single `write_file` call containing:
+1. **Write the scaffold file.** Single `write_file` call containing:
    - `<!doctype html>` + `<meta charset>` + `<meta viewport>` + `<title>`
    - `<style>`: CSS variables for the palette/type, canvas (1920x1080), scaling wrapper, slide counter, keyboard hint chrome, `@media print`, `prefers-reduced-motion`
    - `<body>` shell with `.chrome`, `.deck-wrapper > .deck` containing **empty `<section class="slide" data-slide="1..N">` placeholders**, `.notes-panel`, `.overview`, `.help-overlay`
@@ -295,17 +295,17 @@ Only after Gate 2 passes, proceed to Phase 3.
 
 ### Phase 3 — CONTENT (3-5 slides per patch)
 
-8. **Author slides in chunks of 3-5.** Use `patch` to replace placeholder comments with real `<section class="slide" data-slide="N">` blocks. Order: Title → Section → Content (loop) → CTA → Thank You. One role per slide. Cap body text at ~30 words.
-9. **After each chunk: verify on disk.** Run `python3 scripts/verify_deck.py <deck.html> --gate 3 --expected-n N` and confirm the slide count matches what you wrote. Do NOT trust "I think I wrote 5 slides" — read it back.
-10. **If a patch fails or context fills up**, stop and tell the user where the deck stands ("10/15 slides authored, scaffold + slides 1-10 verified on disk, ready to continue from slide 11").
+1. **Author slides in chunks of 3-5.** Use `patch` to replace placeholder comments with real `<section class="slide" data-slide="N">` blocks. Order: Title → Section → Content (loop) → CTA → Thank You. One role per slide. Cap body text at ~30 words.
+2. **After each chunk: verify on disk.** Run `python3 scripts/verify_deck.py <deck.html> --gate 3 --expected-n N` and confirm the slide count matches what you wrote. Do NOT trust "I think I wrote 5 slides" — read it back.
+3. **If a patch fails or context fills up**, stop and tell the user where the deck stands ("10/15 slides authored, scaffold + slides 1-10 verified on disk, ready to continue from slide 11").
 
 **Gate 3 — All N slides present.** `verify_deck.py --gate 3` returns 0 and the slide count matches `--expected-n`. Walk every slide with `o` (overview mode) and verify each one's headline/body/visual reads correctly. Anti-slop audit scored ≤3/10 (see Anti-Slop Self-Audit below).
 
 ### Phase 4 — POLISH (small patches)
 
-11. **Add speaker notes.** One `patch` per slide or per 3-slide chunk. 60-90 words per slide in spoken voice. Skip on Title and Thank You unless required.
-12. **Repair anti-slop audit findings.** Re-score; fix only what the audit flagged, in the register it called for (tells 3/8/10 → re-compose; 1/2/9 → recolor; 4/5/6/7 → remove decoration).
-13. **Final verification.** `python3 scripts/verify_deck.py <deck.html> --gate 4 --expected-n N`. Then open the file, walk all keys (arrows/space/home/end/f/o/n/?), reload to test persistence, resize to test scaling, Cmd/Ctrl+P to test PDF export, browser console for errors. Tick every item in the Verification Checklist below.
+1. **Add speaker notes.** One `patch` per slide or per 3-slide chunk. 60-90 words per slide in spoken voice. Skip on Title and Thank You unless required.
+2. **Repair anti-slop audit findings.** Re-score; fix only what the audit flagged, in the register it called for (tells 3/8/10 → re-compose; 1/2/9 → recolor; 4/5/6/7 → remove decoration).
+3. **Final verification.** `python3 scripts/verify_deck.py <deck.html> --gate 4 --expected-n N`. Then open the file, walk all keys (arrows/space/home/end/f/o/n/?), reload to test persistence, resize to test scaling, Cmd/Ctrl+P to test PDF export, browser console for errors. Tick every item in the Verification Checklist below.
 
 **Gate 4 — Report.** Absolute path, slide count, slot length, verification status, what was tested.
 
@@ -399,4 +399,5 @@ For other content types (pitch, status, tutorial, keynote, recommendation), swap
 
 - `/references/presentation-patterns.md` — 6종 content-type spine (pitch, status, tutorial, keynote, internal review, recommendation) + SCQA / Pyramid / Golden Circle / Chart Chooser / MECE
 - `/references/astryx-component-map.md` — ASTRYX 디자인 시스템 매핑 (3-layer CSS cascade, semantic tokens, named components)
-- `/scripts/verify_deck.py` — Phase gate headless verifier (`--gate 1|2|3|4`, `--mood-check`, `--expected-n N`)
+- `/references/marpit-directives.md` — Marpit 3-scope directive 규약 (metadata comment 규약, theme/mood/scope label)
+- `/scripts/verify_deck.py` — Phase gate headless verifier (`--gate 1|2|3|4`, `--mood-check`, `--strict`, `--expected-n N`)

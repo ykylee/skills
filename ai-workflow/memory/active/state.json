@@ -2,12 +2,12 @@
   "schema_version": "1",
   "generated_at": "2026-07-10",
   "purpose_digest": "사용자가 여러 AI 하네스(Claude Code 외 포함)에서 재사용할 범용 AI 워크플로우 스킬을 모아두고 배포하는 카탈로그",
-  "purpose_digest_rev": 3,
+  "purpose_digest_rev": 4,
   "source_of_truth": {
     "project_profile_path": "ai-workflow/memory/active/PROJECT_PROFILE.md",
     "session_handoff_path": "ai-workflow/memory/active/session_handoff.md",
     "work_backlog_index_path": "ai-workflow/memory/active/work_backlog.md",
-    "latest_backlog_path": "ai-workflow/memory/active/backlog/2026-07-09.md",
+    "latest_backlog_path": "ai-workflow/memory/active/backlog/2026-07-10.md",
     "repository_assessment_path": "ai-workflow/memory/active/project_status_assessment.md"
   },
   "project": {
@@ -27,9 +27,9 @@
     "runtime_checks": "markdownlint-cli2 (markdown lint) + python3 scripts/skill-lint (frontmatter / harness_compat / 내부 링크) + lychee --offline (외부 링크)"
   },
   "session": {
-    "current_baseline": "TASK-D + TASK-E + TASK-PI 모두 done, TASK-F (Marpit 통합) 보류. html-slides-builder 가 정식 카탈로그 위치에 정착, deep-research 1순위 = Marpit. 본 세션 commit + push 후 종료.",
+    "current_baseline": "TASK-D + TASK-E + TASK-PI + TASK-F 모두 done. TASK-F (Marpit 통합) 는 references/marpit-directives.md 신설 + astryx-component-map.md §2 분할 + SKILL.md §Procedure Phase 1 step 6 보강 + verify_deck.py --strict 옵션 + 기존 MD024 + MD029 즉시 해소. html-slides-builder 가 정식 카탈로그 위치에 정착. 본 세션 TASK-F commit + wiki 신규 작성 + 두 commit 후 push.",
     "current_axis": "범용 AI 워크플로우 스킬 카탈로그 — bootstrap + 운영 자동화 + 메타 스킬 2종 + 운영 도구 구현 + 도메인 스킬 1종(html-slides-builder), v0.3.0 이후 단계로 진입",
-    "current_focus": "본 세션 종료 — TASK-D/E/PI 메모리 동기화 commit + push. 다음 세션은 TASK-F (Marpit 통합) 또는 신규 task 선정.",
+    "current_focus": "본 세션 — TASK-F commit 진행 중, wiki/index.md 신규 작성 후 두 commit + push. 다음 세션은 신규 task 선정 (axes 2/3 후속 deep-research / 신규 스킬 / 운영 도구 보강 후보).",
     "in_progress_items": [],
     "blocked_items": [],
     "recent_done_items": [
@@ -42,13 +42,14 @@
       "TASK-C 운영 도구 보강 — scripts/skill-discover (Python 3 stdlib-only, --index / --json / --top), skills/README.md §6, skill-discover/SKILL.md References, .gitignore (skills/.index.json)",
       "TASK-D html-slides-builder 카탈로그 진입 — 저장소 루트 html-deck/ → skills/html-slides-builder/, frontmatter 보정 (E030/E040 해소), 본문 lint W100/W110 보정 (When to use / Procedure / References 절), lint 사전 검증 clean (3 SKILL.md)",
       "TASK-E 이름 변경 html-deck → html-slides-builder — 디렉터리 mv, SKILL.md frontmatter name + 본문 localStorage key 예시, references/astryx-component-map.md 8 라인 갱신, scripts/verify_deck.py docstring, .index.json + CHANGELOG + handoff + README 동기화, 잔재 0건",
-      "TASK-PI 외부 레퍼런스 deep-research — 5 phase 자동 (Scope/Search/Fetch/Verify/Synthesize), 106 agents, 15 confirmed / 10 refuted. 1순위 = Marpit (Marpit build-step-free section auto-scoping, three-scope directive system). Axes 2/3 (디자인 시스템 + AI agent skills) 는 uninvestigated — 후속 deep-research 별도 가능"
+      "TASK-PI 외부 레퍼런스 deep-research — 5 phase 자동 (Scope/Search/Fetch/Verify/Synthesize), 106 agents, 15 confirmed / 10 refuted. 1순위 = Marpit (Marpit build-step-free section auto-scoping, three-scope directive system). Axes 2/3 (디자인 시스템 + AI agent skills) 는 uninvestigated — 후속 deep-research 별도 가능",
+      "TASK-F Marpit 통합 — references/marpit-directives.md 신설 (~160줄, three-scope directive 규약 + canonical metadata comment), astryx-component-map.md §2 분할 (§2.1 layer / §2.2 metadata / §2.3 section scoping) + §6 끝 참조, SKILL.md §Procedure Phase 1 step 6 보강 + §References 항목 추가, scripts/verify_deck.py --strict 옵션 (gate 1 metadata comment 부재 시 WARN), 기존 MD024 + MD029 즉시 해소 (CHANGELOG ### Infra 분리 + SKILL.md Phase 2/3/4 step 1~N renumber). lint 사전 검증 clean (markdownlint 0 error, skill-lint 3 SKILL.md clean)."
     ],
     "environment_constraints": []
   },
   "backlog": {
-    "latest_backlog_path": "ai-workflow/memory/active/backlog/2026-07-09.md",
-    "task_count": 7,
+    "latest_backlog_path": "ai-workflow/memory/active/backlog/2026-07-10.md",
+    "task_count": 8,
     "in_progress_items": [],
     "blocked_items": [],
     "done_items": [
@@ -58,7 +59,8 @@
       "TASK-C 운영 도구 보강 (scripts/skill-discover 실제 구현 + .index.json)",
       "TASK-D html-slides-builder 카탈로그 진입 (위치 이동 + frontmatter 보정 + lint 사전 검증)",
       "TASK-E 이름 변경 html-deck → html-slides-builder (디렉터리 mv + 잔재 정리 + 운영 문서 동기화)",
-      "TASK-PI 외부 레퍼런스 deep-research (Marpit 1순위, Axes 2/3 uninvestigated)"
+      "TASK-PI 외부 레퍼런스 deep-research (Marpit 1순위, Axes 2/3 uninvestigated)",
+      "TASK-F Marpit 통합 (marpit-directives.md 신설 + astryx §2 분할 + SKILL §Procedure 보강 + verify_deck.py --strict + 기존 MD024/MD029 즉시 해소)"
     ]
   },
   "next_documents": [
@@ -66,7 +68,7 @@
     "ai-workflow/memory/active/PROJECT_PROFILE.md",
     "ai-workflow/memory/active/session_handoff.md",
     "ai-workflow/memory/active/work_backlog.md",
-    "ai-workflow/memory/active/backlog/2026-07-09.md",
+    "ai-workflow/memory/active/backlog/2026-07-10.md",
     "ai-workflow/memory/active/project_status_assessment.md",
     "skills/README.md",
     "skills/skill-lint/SKILL.md",
@@ -74,7 +76,9 @@
     "skills/html-slides-builder/SKILL.md",
     "skills/html-slides-builder/references/presentation-patterns.md",
     "skills/html-slides-builder/references/astryx-component-map.md",
+    "skills/html-slides-builder/references/marpit-directives.md",
     "skills/html-slides-builder/scripts/verify_deck.py",
+    "ai-workflow/wiki/index.md",
     "scripts/skill-discover",
     "CHANGELOG.md",
     "README.md",
