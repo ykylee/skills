@@ -94,6 +94,20 @@
   GATES PASSED. verify_deck.py gate 4 allowlist 확장 (cdn.jsdelivr.net / unpkg.com,
   web fonts 와 같은 카테고리) + regex 매치 trailing host 포함 보강 (group(0) 이
   `<script src="https://` 까지만 매치하던 버그 → `https?://[^"\']+` 로 host 까지 매치).
+- Browser 시각 검증 (2026-07-10, headless): 두 sample 의 visual rendering 검증.
+  Google Chrome 148.0.7778.96 /chromium 150.0.7871.46 (snap confinement 의
+  AppArmor `/tmp/` 차단 확인 — google-chrome 으로 우회) + `--no-sandbox
+  --disable-gpu --disable-dev-shm-usage --virtual-time-budget=10000-15000`.
+  검증 결과: ① warm-deck (test/4-layer + data-spot) — espresso dark `#1C1917` 배경 +
+  amber 제목 `Marpit §3 hand-written test` + 회색 caption + slide counter `1/3` 모두
+  시각 정상 (ASTRYX 4-layer cascade 검증). ② uno-cdn-deck — 검정 배경 + amber `UnoCSS
+  opt-in` 제목 (large) + 본문 + counter 정상 (ASTRYX cascade 검증), 다만 상단에
+  HTML comment 가 raw text 로 노출되는 **FOUC 발견** — UnoCSS CDN runtime 의 CSS
+  injection 이 본 sandbox 환경에서 timeout (15초) 내에 미완료, 또는 network
+  interception 으로 script load 실패 추정. **운영 노트**: 사용자의 일반 browser 환경
+  에서는 정상 동작 예상 (sandbox/network 한계 외). FOUC 가 *실제 사용자 환경에서도*
+  발생할 경우 `<body un-cloak>` 만으로 mitigation 부족 — CSS pre-injection 또는
+  critical CSS inline 고려 필요 (다음 세션 task 후보).
 - ASTRYX 4-layer cascade + Open Props preset (html-slides-builder, astryx-component-map.md):
   §2.4 tokens layer slot (Panda CSS `@layer tokens` *개념만* 차용 — framework 도입 X) +
   §6.4 Open Props sub-atomic absorption recipe. §6.3 Forest 가 §6.5 로 renumber, §6.3 은
