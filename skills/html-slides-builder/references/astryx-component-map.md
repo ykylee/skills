@@ -596,4 +596,9 @@ curl -sI https://cdn.jsdelivr.net/npm/@unocss/runtime/uno.global.js
 The deck still passes `verify_deck.py --gate 1|2|3|4 --mood-check --strict` — UnoCSS only
 affects *authoring syntax*, not the rendered output.
 
+**Worked example:** `references/examples/uno-cdn-deck.html` — a 3-slide deck (Title /
+Section / Content + data-spot callout) that pairs the ASTRYX 4-layer cascade with the
+UnoCSS CDN runtime. Open in a browser, press `T` to toggle the warm theme, `O` for
+overview, `?` for help. Verify against `verify_deck.py` as a one-shot scaffold test.
+
 If all five pass, the ASTRYX discipline is doing its job.

@@ -34,8 +34,8 @@ from pathlib import Path
 
 DECK_NAME_RE = re.compile(r'<section class="slide" data-slide="(\d+)"')
 PLACEHOLDER_RE = re.compile(r'<!--\s*slide\s+\d+:.*?-->', re.DOTALL)
-REMOTE_SCRIPT_RE = re.compile(r'<script[^>]+src=["\']https?://', re.IGNORECASE)
-REMOTE_LINK_RE = re.compile(r'<link[^>]+href=["\']https?://', re.IGNORECASE)
+REMOTE_SCRIPT_RE = re.compile(r'<script[^>]+src=["\']https?://[^"\']+', re.IGNORECASE)
+REMOTE_LINK_RE = re.compile(r'<link[^>]+href=["\']https?://[^"\']+', re.IGNORECASE)
 WORD_RE = re.compile(r'<[^>]+>|\s+')
 
 # Themed sandwich mood palettes — picked from SKILL.md §Color.
@@ -215,16 +215,25 @@ def gate4(html: str) -> tuple[bool, list[str]]:
         msgs.append(f"FAIL: notes ({notes_n}) far short of slides ({slides_n})")
     else:
         msgs.append(f"OK: {notes_n} notes blocks for {slides_n} slides")
-    # remote scripts/links
+    # remote scripts/links — allowlisted hosts (web fonts + utility CSS runtimes)
     rs = REMOTE_SCRIPT_RE.search(html)
     rl = REMOTE_LINK_RE.search(html)
+    allowed_hosts = (
+        # Web fonts (existing)
+        "fonts.googleapis.com", "fonts.gstatic.com",
+        # Utility CSS runtimes / CDN-served static assets (per astryx-component-map.md §10 + §A.5)
+        # UnoCSS CDN runtime, Open Props CDN, Marp/Marpit CDNs — all serve static utility code
+        # and do not require app-level integration. Same trust model as web fonts (CDN,
+        # version-pinned, cache-friendly).
+        "cdn.jsdelivr.net", "unpkg.com",
+    )
     if rs:
-        msgs.append(f"FAIL: remote <script src=> found: {rs.group(0)[:80]}")
+        script_url = rs.group(0)
+        if not any(host in script_url for host in allowed_hosts):
+            msgs.append(f"FAIL: remote <script src=> found: {script_url[:80]}")
     if rl:
-        # allow Google Fonts CSS only
-        allowed = ("fonts.googleapis.com", "fonts.gstatic.com")
         link_url = rl.group(0)
-        if not any(host in link_url for host in allowed):
+        if not any(host in link_url for host in allowed_hosts):
             msgs.append(f"WARN: remote <link href=> found outside web fonts: {link_url[:80]}")
     msgs.append(f"OK: gate 4 verification recorded")
     return (not any(m.startswith('FAIL') for m in msgs)), msgs

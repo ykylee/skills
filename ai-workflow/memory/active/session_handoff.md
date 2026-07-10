@@ -184,6 +184,14 @@
   Inspired Design System 절에 "Optional UnoCSS CDN runtime (utility-class authoring,
   opt-in)" cross-reference 단락 추가. **기본** 작성법은 ASTRYX hand-authored + Open
   Props (이미 §A hybrid 정책으로 구현), UnoCSS 는 *opt-in* 작성법 대안으로 안내.
+- §A.5 UnoCSS CDN runtime sample deck (본 세션, done, §A.5 실증) —
+  `skills/html-slides-builder/references/examples/uno-cdn-deck.html` 신규 (~9 KB).
+  3-slide deck (Title / Section / Content + `data-spot="hint"` callout) — ASTRYX 4-layer
+  cascade + UnoCSS CDN runtime utility classes + Marpit metadata comments + `data-theme`
+  toggle + `localStorage` + keydown + `@media print`. verify_deck.py ALL GATES
+  PASSED. 부수적 보강: verify_deck.py gate 4 allowlist 확장 (cdn.jsdelivr.net /
+  unpkg.com, web fonts 와 같은 카테고리) + regex 매치 trailing host 포함 보강 (group(0)
+  이 `<script src="https://` 까지만 매치하던 버그 → `https?://[^"\']+` 로 host 까지 매치).
 
 ## Next Actions
 

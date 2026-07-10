@@ -84,6 +84,16 @@
   CDN runtime (utility-class authoring, opt-in)" cross-reference 단락 추가. *기본*
   작성법은 ASTRYX hand-authored + Open Props (이미 §A hybrid 정책으로 구현),
   UnoCSS 는 *opt-in* 작성법 대안으로 안내.
+- §A.5 UnoCSS CDN runtime sample deck (2026-07-10, §A.5 실증):
+  `skills/html-slides-builder/references/examples/uno-cdn-deck.html` 신규 (~9 KB).
+  3-slide deck (Title / Section / Content + `data-spot="hint"` callout) — ASTRYX
+  4-layer cascade (`reset / tokens / astryx-base / astryx-theme`) + UnoCSS CDN runtime
+  utility classes + Marpit metadata comments + `data-theme` toggle + `localStorage`
+  persistence + keydown nav + `@media print` 16:9. Open in browser to verify keyboard
+  nav + print + theme toggle. `verify_deck.py --gate 1|2|3|4 --mood-check --strict` ALL
+  GATES PASSED. verify_deck.py gate 4 allowlist 확장 (cdn.jsdelivr.net / unpkg.com,
+  web fonts 와 같은 카테고리) + regex 매치 trailing host 포함 보강 (group(0) 이
+  `<script src="https://` 까지만 매치하던 버그 → `https?://[^"\']+` 로 host 까지 매치).
 - ASTRYX 4-layer cascade + Open Props preset (html-slides-builder, astryx-component-map.md):
   §2.4 tokens layer slot (Panda CSS `@layer tokens` *개념만* 차용 — framework 도입 X) +
   §6.4 Open Props sub-atomic absorption recipe. §6.3 Forest 가 §6.5 로 renumber, §6.3 은
