@@ -76,6 +76,14 @@
   유지. *선택적* 도구로 UnoCSS CDN runtime 한 줄 추가 가능 — 작성자가
   Tailwind-syntax (utility-class) 선호 시. SKILL.md 또는 astryx-component-map.md 에
   §A.5 (선택적) 섹션으로 추가 가능.
+- §A.5 선택적 UnoCSS CDN runtime 안내 (2026-07-10, antd/UnoCSS 후속):
+  `references/astryx-component-map.md` 에 §10 (선택적 UnoCSS CDN runtime) 절 신규
+  — adoption 기준 / adoption 하지 말아야 할 경우 / `un-cloak` + script 1줄 recipe /
+  trade-off 표 (ASTRYX default vs UnoCSS optional vs antd not-viable) /
+  verification. SKILL.md §ASTRYX-Inspired Design System 절에 "Optional UnoCSS
+  CDN runtime (utility-class authoring, opt-in)" cross-reference 단락 추가. *기본*
+  작성법은 ASTRYX hand-authored + Open Props (이미 §A hybrid 정책으로 구현),
+  UnoCSS 는 *opt-in* 작성법 대안으로 안내.
 - ASTRYX 4-layer cascade + Open Props preset (html-slides-builder, astryx-component-map.md):
   §2.4 tokens layer slot (Panda CSS `@layer tokens` *개념만* 차용 — framework 도입 X) +
   §6.4 Open Props sub-atomic absorption recipe. §6.3 Forest 가 §6.5 로 renumber, §6.3 은

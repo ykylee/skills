@@ -52,13 +52,14 @@
       "Marpit §3 hand-written 발현 검증 (2026-07-10) — 3-slide test deck /tmp/_test_warm_deck.html (ephemeral): 4-layer cascade (reset / tokens / astryx-base / astryx-theme) + /* @theme: warm */ + /* mood: WARM */ + <!-- slide N: ROLE — title --> + <!-- @scope: ... --> + data-spot= hint + data-theme toggle. verify_deck.py --gate 1 (--strict) / --gate 2 / --gate 3 (3 slides) / --gate 4 (3 notes) / --mood-check (warm hue family, dark=#1C1917, light=#FAF7F2) 모두 통과. 부수적 보강: verify_deck.py 의 --mood-check 가 --bg-dark 만 찾던 것을 --bg fallback 으로 보강. handoff Risks 의 Marpit section-ancestor scoping hand-written 재현 inference 해소.",
       ".gitignore 의 __pycache__/ 패턴 추가 (2026-07-10, 가장자리 변경) — **/__pycache__/ + *.py[cod] + *$py.class. scripts/_frontmatter.py / scripts/skill-lint / scripts/skill-discover 의 .pyc 캐시 추적 차단. 기존 scripts/__pycache__/ 정리.",
       "Ant Design (antd) 적용 가능성 검토 (2026-07-10) — 도입 보류. (a) deep-research 5 axes: antd v5/v6 CSS-in-JS runtime architecture, vanilla HTML 진입점 없음 (유일한 static-extract 는 SSR-time 전용), cssVar runtime-hash 제약, 1920x1080 는 orthogonal blocker. (b) minimal sample build: Vite 5 + React 18 + antd 5.21, dist 552 kB (JS 555 kB / gzip 178 kB / CSS 48 bytes), node_modules 161 MB, build step 필수. 우리 deck ~20-50 kB 대비 ~10x, no-build 원칙 위배. 권고: UnoCSS CDN runtime 또는 ASTRYX 정합 hand-authored layer. 다음 세션: UnoCSS 도입 검토 후보.",
-      "UnoCSS 적용 가능성 검토 (2026-07-10, antd 후속) — minimal sample HTML + CDN runtime 정량 측정: raw 175 kB / gzip 48 kB (https://cdn.jsdelivr.net/npm/@unocss/runtime/uno.global.js) / no build step / npm 불필요. antd (gzip 178 kB) 대비 ~3.7x 작음 + no-build 정합. 단 FOUC caveat (un-cloak 으로 mitigation) + atomic CSS runtime generation overhead + @media print dynamic injection 정합 미검증. 결론: ASTRYX hand-authored 가 1순위, UnoCSS CDN runtime 이 옵션. 권고: 기본 §A hybrid 정책 유지, 선택적 UnoCSS CDN runtime 가능."
+      "UnoCSS 적용 가능성 검토 (2026-07-10, antd 후속) — minimal sample HTML + CDN runtime 정량 측정: raw 175 kB / gzip 48 kB (https://cdn.jsdelivr.net/npm/@unocss/runtime/uno.global.js) / no build step / npm 불필요. antd (gzip 178 kB) 대비 ~3.7x 작음 + no-build 정합. 단 FOUC caveat (un-cloak 으로 mitigation) + atomic CSS runtime generation overhead + @media print dynamic injection 정합 미검증. 결론: ASTRYX hand-authored 가 1순위, UnoCSS CDN runtime 이 옵션. 권고: 기본 §A hybrid 정책 유지, 선택적 UnoCSS CDN runtime 가능.",
+      "§A.5 선택적 UnoCSS CDN runtime 안내 (2026-07-10, antd/UnoCSS 후속) — astryx-component-map.md §10 (선택적 UnoCSS CDN runtime) 절 신규. SKILL.md §ASTRYX-Inspired Design System 절에 cross-reference 단락 추가. ASTRYX hand-authored + Open Props 가 기본, UnoCSS 는 opt-in 작성법 대안. verify_deck.py 모든 gate + --mood-check + --strict 그대로 통과 (UnoCSS 는 authoring syntax 만 영향)."
     ],
     "environment_constraints": []
   },
   "backlog": {
     "latest_backlog_path": "ai-workflow/memory/active/backlog/2026-07-10.md",
-    "task_count": 16,
+    "task_count": 17,
     "in_progress_items": [],
     "blocked_items": [],
     "done_items": [
@@ -77,7 +78,8 @@
       "Marpit §3 hand-written 발현 검증 (3-slide test deck /tmp/_test_warm_deck.html ephemeral, 4-layer cascade + metadata comments + data-spot + data-theme toggle. verify_deck.py --gate 1|2|3|4 + --mood-check + --strict 모두 통과. 부수적 보강: verify_deck.py 의 --mood-check 가 --bg-dark 만 찾던 것을 --bg fallback 으로 보강, SKILL.md / astryx-component-map.md §6 theme preset 예시 코드와 정합). handoff Risks 해소.",
       ".gitignore 의 __pycache__/ 패턴 추가 (가장자리 변경) — **/__pycache__/ + *.py[cod] + *$py.class. Python 3 가 scripts/_frontmatter.py / scripts/skill-lint / scripts/skill-discover 의 .pyc 캐시를 git 추적 차단. 기존 untracked scripts/__pycache__/ 정리.",
       "Ant Design (antd) 적용 가능성 검토 (2026-07-10) — 도입 보류. deep-research 5 axes (CSS-in-JS architecture / vanilla HTML 부재 / cssVar runtime-hash / static-extract SSR-only / 1920x1080 정합) + minimal sample build (Vite 5 + React 18 + antd 5.21, dist 552 kB, JS 555 kB / gzip 178 kB / CSS 48 bytes, node_modules 161 MB, build step 필수). 우리 html-slides-builder deck (~20-50 kB) 대비 ~10x, no-build 원칙 위배. 권고: UnoCSS CDN runtime 또는 ASTRYX 정합 hand-authored layer (이미 §A hybrid 정책 구현).",
-      "UnoCSS 적용 가능성 검토 (2026-07-10, antd 후속) — minimal sample HTML + CDN runtime 정량 측정: raw 175 kB / gzip 48 kB / no build step / npm 불필요. antd sample (gzip 178 kB, build step 필수) 대비 ~3.7x 작음 + no-build 정합. 단 FOUC caveat + atomic CSS runtime generation overhead + @media print dynamic injection 정합 미검증. 결론: ASTRYX hand-authored 가 1순위, UnoCSS CDN runtime 이 옵션. 권고: 기본 §A hybrid 정책 유지, *선택적* UnoCSS CDN runtime 가능."
+      "UnoCSS 적용 가능성 검토 (2026-07-10, antd 후속) — minimal sample HTML + CDN runtime 정량 측정: raw 175 kB / gzip 48 kB / no build step / npm 불필요. antd sample (gzip 178 kB, build step 필수) 대비 ~3.7x 작음 + no-build 정합. 단 FOUC caveat + atomic CSS runtime generation overhead + @media print dynamic injection 정합 미검증. 결론: ASTRYX hand-authored 가 1순위, UnoCSS CDN runtime 이 옵션. 권고: 기본 §A hybrid 정책 유지, *선택적* UnoCSS CDN runtime 가능.",
+      "§A.5 선택적 UnoCSS CDN runtime 안내 (2026-07-10, antd/UnoCSS 후속) — astryx-component-map.md §10 (선택적 UnoCSS CDN runtime) 절 신규 (adoption 기준 / 안 할 경우 / un-cloak + script 1줄 recipe / trade-off 표 / verification). SKILL.md §ASTRYX-Inspired Design System 절에 cross-reference 단락. ASTRYX hand-authored + Open Props 가 기본, UnoCSS 는 opt-in 작성법 대안."
     ]
   },
   "next_documents": [

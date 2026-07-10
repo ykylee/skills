@@ -6,7 +6,7 @@
 - Scope: current focus, task status, key changes, next actions, risks
 - Audience: AI agents, maintainers
 - Status: draft
-- Updated: 2026-07-10 (TASK-F done + wiki 신규 + Axes 2/3 deep-research + §A Open Props/tokens layer 통합 + §A 잔여 frontmatter 정책 결정 + §A hybrid 정책 *구현* (parser + 3 SKILL.md depth-2 nested 재구성) + §A Marpit §3 hand-written 발현 검증 (test deck + verify_deck.py --bg fallback) + §B .gitignore `__pycache__/` + push + antd 적용 가능성 검토 (도입 보류) + UnoCSS 적용 가능성 검토 (ASTRYX 1순위 + UnoCSS 옵션 권고) 진행)
+- Updated: 2026-07-10 (TASK-F done + wiki 신규 + Axes 2/3 deep-research + §A Open Props/tokens layer 통합 + §A 잔여 frontmatter 정책 결정 + §A hybrid 정책 *구현* (parser + 3 SKILL.md depth-2 nested 재구성) + §A Marpit §3 hand-written 발현 검증 (test deck + verify_deck.py --bg fallback) + §B .gitignore `__pycache__/` + push + antd 적용 가능성 검토 (도입 보류) + UnoCSS 적용 가능성 검토 (ASTRYX 1순위 + UnoCSS 옵션) + §A.5 선택적 UnoCSS CDN runtime 안내 (§10 + SKILL.md cross-reference) 진행)
 - Related docs: [Purpose](./PURPOSE.md), [Project Profile](./PROJECT_PROFILE.md), [Work Backlog](./work_backlog.md)
 
 ## Current Focus
@@ -177,13 +177,20 @@
   Open Props absorption (§A hybrid 정책) 유지. *선택적* 도구로 UnoCSS CDN runtime
   한 줄 추가 가능 — 작성자가 Tailwind-syntax (utility-class) 선호 시. SKILL.md 또는
   astryx-component-map.md 에 §A.5 (선택적) 섹션으로 추가 가능.
+- §A.5 선택적 UnoCSS CDN runtime 안내 (본 세션, done, antd/UnoCSS 후속) —
+  `references/astryx-component-map.md` 에 §10 (선택적 UnoCSS CDN runtime) 절 신규
+  — adoption 기준 / 안 할 경우 / `un-cloak` + script 1줄 recipe / trade-off 표 (ASTRYX
+  default vs UnoCSS optional vs antd not-viable) / verification. SKILL.md §ASTRYX-
+  Inspired Design System 절에 "Optional UnoCSS CDN runtime (utility-class authoring,
+  opt-in)" cross-reference 단락 추가. **기본** 작성법은 ASTRYX hand-authored + Open
+  Props (이미 §A hybrid 정책으로 구현), UnoCSS 는 *opt-in* 작성법 대안으로 안내.
 
 ## Next Actions
 
-- [x] TASK-F commit (`abf0fcf`) + wiki/index.md 신규 작성 + wiki commit (`4b98c38`) + Axes 2/3 후속 deep-research commit (`c284442`) + Open Props + tokens layer 통합 commit (`1459873`) + §A 잔여 frontmatter 정책 결정 commit (`1a1461a`) + §A hybrid 정책 *구현* — parser 단일화 commit (`297d016`) + SKILL.md depth-2 nested 재구성 commit (`e5e3d61`) + 운영 문서 동기화 commit (`334b98f`) + §A Marpit §3 hand-written 발현 검증 commit (`19ccd7e`) + §B .gitignore `__pycache__/` commit (`35dabd5`) + push 완료 + §antd 적용 가능성 검토 commit (`cfd3286`) + §A UnoCSS 적용 가능성 검토 commit (예정)
+- [x] TASK-F commit (`abf0fcf`) + wiki/index.md 신규 작성 + wiki commit (`4b98c38`) + Axes 2/3 후속 deep-research commit (`c284442`) + Open Props + tokens layer 통합 commit (`1459873`) + §A 잔여 frontmatter 정책 결정 commit (`1a1461a`) + §A hybrid 정책 *구현* — parser 단일화 commit (`297d016`) + SKILL.md depth-2 nested 재구성 commit (`e5e3d61`) + 운영 문서 동기화 commit (`334b98f`) + §A Marpit §3 hand-written 발현 검증 commit (`19ccd7e`) + §B .gitignore `__pycache__/` commit (`35dabd5`) + push 완료 + §antd 적용 가능성 검토 commit (`cfd3286`) + §A UnoCSS 적용 가능성 검토 commit (`02d0aeb`) + §A.5 선택적 UnoCSS CDN runtime 안내 commit (예정)
 - [ ] 다음 세션 (선택 항목):
-  - **A. SKILL.md / astryx-component-map.md 에 §A.5 (선택적 UnoCSS CDN runtime) 섹션 추가** — 작성자 Tailwind-syntax 선호 시 한 줄 + utility-class 권장
-  - **B. Browser 시각 검증** — 실제 브라우저에서의 4-layer cascade / data-theme toggle / UnoCSS FOUC 시각 확인
+  - **A. Browser 시각 검증** — 실제 브라우저에서의 4-layer cascade / data-theme toggle / UnoCSS FOUC 시각 확인
+  - **B. UnoCSS 다른 preset (mini / attributify) 안내** — 본 task 는 default Uno build 만
   - **C. 신규 task** — 도메인 스킬 1~2개 / harness 어댑터 / 운영 도구 추가 보강
 
 ## Risks & Blockers

@@ -527,4 +527,73 @@ After building a deck with the ASTRYX base + a chosen theme, run these checks:
 - [ ] Anti-slop audit score ≤ 3/10
 - [ ] The deck looks like part of a designed system, not a styled doc
 
+---
+
+## 10. Optional: UnoCSS CDN runtime (utility-class authoring)
+
+The ASTRYX hand-authored layer (§5) is the *default* for html-slides-builder. When the
+author prefers Tailwind-syntax utility-class authoring (e.g. `class="bg-stone-950 text-stone-50
+p-8"`), adopt [UnoCSS](https://unocss.dev/integrations/runtime)'s CDN runtime as an *opt-in*
+adjunct. This section is **not** a replacement for ASTRYX — it is an alternative authoring
+syntax for the same deck output.
+
+**When to reach for UnoCSS instead of hand-authored CSS:**
+
+- You already think in utility-class (Tailwind / Wind3) and want faster authoring cycles.
+- The deck is *one-off* and you don't need to ship a hand-tuned design system with it.
+- You want `dark:`, `hover:`, `md:` variants without writing the CSS yourself.
+
+**When NOT to reach for UnoCSS:**
+
+- You want the deck to be the *smallest possible* .html (UnoCSS CDN adds ~48 kB gzip
+  runtime on top of your deck body).
+- `@media print` fidelity is critical — UnoCSS injects styles at runtime in the browser;
+  print-to-PDF works for most variants but `print:` variants can be verified only in an
+  actual browser.
+- FOUC is unacceptable for your context — UnoCSS scans the DOM at load time and injects
+  styles after first paint; use the `un-cloak` attribute to mitigate.
+
+**Recipe — single-script-tag adoption:**
+
+```html
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>UnoCSS-runtime deck</title>
+  <!-- UnoCSS CDN runtime (Uno build, wind3 preset). ~48 kB gzip. -->
+  <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime/uno.global.js"></script>
+</head>
+<body un-cloak>
+  <div class="min-h-screen bg-stone-950 text-stone-50 p-12 font-sans">
+    <h1 class="text-5xl font-bold tracking-tight">Slide title</h1>
+    <p class="mt-4 text-stone-400 text-lg">Body text in utility classes.</p>
+  </div>
+</body>
+</html>
+```
+
+Then keep the ASTRYX 3-layer cascade in `<style>` for theme overrides (`@media print`,
+`prefers-reduced-motion`, `.deck` canvas, keyframe transitions). UnoCSS handles utility
+classes; ASTRYX handles structure + theme + motion.
+
+**Trade-off summary (gzip):**
+
+| Authoring style | Bundle | Build | Runtime |
+|---|---|---|---|
+| ASTRYX hand-authored (default) | deck-only (~30 kB) | none | vanilla |
+| UnoCSS CDN runtime (optional) | deck + ~48 kB runtime | none | vanilla DOM scan |
+| antd build (not viable) | deck + ~178 kB + React | Vite 필수 | React 18 |
+
+**Verification:**
+
+```bash
+# UnoCSS runtime file size + integrity (sanity check at scaffold time)
+curl -sI https://cdn.jsdelivr.net/npm/@unocss/runtime/uno.global.js
+# Expect: HTTP/2 200, application/javascript, cache-control: public, max-age=604800
+```
+
+The deck still passes `verify_deck.py --gate 1|2|3|4 --mood-check --strict` — UnoCSS only
+affects *authoring syntax*, not the rendered output.
+
 If all five pass, the ASTRYX discipline is doing its job.

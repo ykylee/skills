@@ -227,6 +227,8 @@ For decks where brand consistency matters (multi-deck libraries, executive audie
 
 **Optional tokens layer (NEW — 4-layer cascade):** for decks where you also want to consume a sub-atomic tokens library (Open Props is the recommended choice — see `references/astryx-component-map.md` §2.4 and §6.4), insert `@layer tokens { :root { /* primitive imports */ } }` between `@layer reset` and `@layer astryx-base`. The base layer then re-exports primitives as semantic tokens (`--space-4: var(--op-size-7)`). The theme layer stays theme-scoped — Open Props adoption does not affect theme switching. Skip the tokens layer entirely if you don't need primitive absorption; the cascade remains valid as a 3-layer structure.
 
+**Optional UnoCSS CDN runtime (utility-class authoring, opt-in):** when the author prefers Tailwind-syntax authoring over hand-authored CSS, add a single `<script src="https://cdn.jsdelivr.net/npm/@unocss/runtime/uno.global.js"></script>` to `<head>` and `<body un-cloak>` to suppress first-paint FOUC. ~48 kB gzip runtime. Keep the ASTRYX 3-layer cascade in `<style>` for theme overrides and motion. See `references/astryx-component-map.md` §10 for the full recipe and trade-off table (vs ASTRYX default and antd not-viable).
+
 **When to skip the ASTRYX layer:**
 - One-off personal talk
 - 5 slides or fewer
