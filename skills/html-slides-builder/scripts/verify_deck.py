@@ -92,10 +92,13 @@ def mood_check(html: str) -> tuple[bool, list[str]]:
         msgs.append("FAIL: no `/* mood: WARM|COOL|FOREST|MONO */` comment in :root — mood undeclared")
         return False, msgs
     palette = MOOD_PALETTES.get(mood)
-    dark = extract_var_colors(html, "bg-dark")
+    # Accept either --bg-dark (explicit) or --bg (SKILL.md / astryx-component-map.md §6
+    # theme presets use --bg for the dark background). Fallback keeps the verifier
+    # aligned with the documented examples.
+    dark = extract_var_colors(html, "bg-dark") or extract_var_colors(html, "bg")
     light = extract_var_colors(html, "bg-light")
     if not dark or not light:
-        msgs.append(f"FAIL: --bg-dark or --bg-light missing for mood={mood}")
+        msgs.append(f"FAIL: --bg-dark (or --bg) or --bg-light missing for mood={mood}")
         return False, msgs
     if mood == "mono":
         msgs.append(f"OK mood={mood}: dark={dark} light={light} (mono exempts hue check)")

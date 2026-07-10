@@ -42,6 +42,15 @@
   구조로 재구성. hermes namespace 폐기. skill-lint E040 path 갱신 (`metadata.claude_code.
   harness_compat`). lint 검증: skill-lint 3 SKILL.md clean, skill-discover 3 entries 정상,
   markdownlint 0 error.
+- Marpit §3 hand-written 발현 검증 (2026-07-10): 3-slide test deck (`/tmp/_test_warm_deck.html`,
+  ephemeral) — 4-layer cascade (`reset / tokens / astryx-base / astryx-theme`) + `/* @theme:
+  warm */` + `/* mood: WARM */` + `<!-- slide N: ROLE — title -->` + `<!-- @scope: ... -->` +
+  `data-spot="hint"` + `data-theme` toggle. 검증 결과: gate 1 (--strict metadata check) +
+  gate 2 (scaffold) + gate 3 (3 slides) + gate 4 (3 notes) + `--mood-check` (warm hue family,
+  dark #1C1917 + light #FAF7F2) 모두 통과. 부수적 보강: `verify_deck.py` 의 `--mood-check` 가
+  `--bg-dark` 만 찾던 것을 `--bg` fallback 으로 보강 (SKILL.md / astryx-component-map.md §6
+  theme preset 예시 코드와 정합). handoff Risks 항목 ("Marpit section-ancestor scoping 의
+  hand-written 재현은 inference") 해소.
 - ASTRYX 4-layer cascade + Open Props preset (html-slides-builder, astryx-component-map.md):
   §2.4 tokens layer slot (Panda CSS `@layer tokens` *개념만* 차용 — framework 도입 X) +
   §6.4 Open Props sub-atomic absorption recipe. §6.3 Forest 가 §6.5 로 renumber, §6.3 은

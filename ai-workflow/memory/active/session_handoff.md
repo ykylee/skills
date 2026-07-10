@@ -6,7 +6,7 @@
 - Scope: current focus, task status, key changes, next actions, risks
 - Audience: AI agents, maintainers
 - Status: draft
-- Updated: 2026-07-10 (TASK-F done + wiki 신규 + Axes 2/3 deep-research + §A Open Props/tokens layer 통합 + §A 잔여 frontmatter 정책 결정 + §A hybrid 정책 *구현* (parser + 3 SKILL.md depth-2 nested 재구성) 진행)
+- Updated: 2026-07-10 (TASK-F done + wiki 신규 + Axes 2/3 deep-research + §A Open Props/tokens layer 통합 + §A 잔여 frontmatter 정책 결정 + §A hybrid 정책 *구현* (parser + 3 SKILL.md depth-2 nested 재구성) + §A Marpit §3 hand-written 발현 검증 (test deck + verify_deck.py --bg fallback) 진행)
 - Related docs: [Purpose](./PURPOSE.md), [Project Profile](./PROJECT_PROFILE.md), [Work Backlog](./work_backlog.md)
 
 ## Current Focus
@@ -147,15 +147,23 @@
   depth-2 nested 구조로 재구성 (hermes namespace 폐기). skill-lint E040 path 갱신
   (`metadata.claude_code.harness_compat`). 검증: skill-lint 3 SKILL.md clean, skill-discover
   3 entries 정상, markdownlint 0 error.
+- Marpit §3 hand-written 발현 검증 (본 세션, done) — 3-slide test deck (`/tmp/_test_warm_deck.html`,
+  ephemeral) — 4-layer cascade (`reset / tokens / astryx-base / astryx-theme`) + `/* @theme:
+  warm */` + `/* mood: WARM */` + `<!-- slide N: ROLE — title -->` + `<!-- @scope: ... -->`
+  + `data-spot="hint"` + `data-theme` toggle. verify_deck.py --gate 1 (--strict) / --gate 2 /
+  --gate 3 / --gate 4 / --mood-check 모두 통과 (warm hue family, dark=#1C1917, light=#FAF7F2).
+  부수적 보강: verify_deck.py 의 `--mood-check` 가 `--bg-dark` 만 찾던 것을 `--bg` fallback
+  으로 보강 (SKILL.md / astryx-component-map.md §6 예시 코드 정합). handoff Risks 의
+  "Marpit section-ancestor scoping 의 hand-written 재현은 inference" 해소.
 
 ## Next Actions
 
-- [x] TASK-F commit (`abf0fcf`) + wiki/index.md 신규 작성 + wiki commit (`4b98c38`) + Axes 2/3 후속 deep-research commit (`c284442`) + Open Props + tokens layer 통합 commit (`1459873`) + §A 잔여 frontmatter 정책 결정 commit (`1a1461a`) + §A hybrid 정책 *구현* — parser 단일화 commit (`297d016`) + SKILL.md depth-2 nested 재구성 commit (`e5e3d61`) + 운영 문서 동기화 commit (예정)
+- [x] TASK-F commit (`abf0fcf`) + wiki/index.md 신규 작성 + wiki commit (`4b98c38`) + Axes 2/3 후속 deep-research commit (`c284442`) + Open Props + tokens layer 통합 commit (`1459873`) + §A 잔여 frontmatter 정책 결정 commit (`1a1461a`) + §A hybrid 정책 *구현* — parser 단일화 commit (`297d016`) + SKILL.md depth-2 nested 재구성 commit (`e5e3d61`) + 운영 문서 동기화 commit (`334b98f`) + §A Marpit §3 hand-written 발현 검증 commit (예정)
 - [ ] push — 사용자 confirm 대기 (GitHub 원격 추가 / `git push -u origin main`)
 - [ ] 다음 세션 (선택 항목):
-  - **A. Marpit §3 hand-written 발현 검증** — `/* @theme: */` + `data-spot` 패턴 실제 deck 빌더 테스트
-  - **B. 신규 task** — 도메인 스킬 1~2개 / harness 어댑터 / 운영 도구 추가 보강
-  - **C. .gitignore 의 `__pycache__/` 추가** — 본 task 의 가장자리 변경
+  - **A. 신규 task** — 도메인 스킬 1~2개 / harness 어댑터 / 운영 도구 추가 보강
+  - **B. .gitignore 의 `__pycache__/` 추가** — 본 task 의 가장자리 변경
+  - **C. Browser 시각 검증** — 실제 브라우저에서의 4-layer cascade / data-theme toggle 시각 확인
 
 ## Risks & Blockers
 
@@ -171,7 +179,9 @@
   kill 됨. Marpit 1순위 권고는 Axis 1 의 15 confirmed claims 기반. Axes 2/3 별도 후속 가능.
 - **Marpit section-ancestor scoping 의 hand-written 재현은 inference**: Marpit *output* 에서는
   확인됐지만, hand-written single .html 에서 `:where([data-slide-root])` prefix 로 재현하는 것은
-  TASK-F 에서 *테스트 필요*.
+  TASK-F 에서 *테스트 필요*. → **§A 본 세션 검증 완료** (3-slide test deck, 4-layer cascade +
+  data-spot + data-theme toggle 모두 verify_deck.py gate 1|2|3|4 + --mood-check + --strict
+  통과).
 - **W3C DTCG preview (2026-07-10 do-not-implement)**: 2차 deep-research 의 디자인 시스템 보강
   후보 중 DTCG 직접 도입은 *미루고* Style Dictionary bridge 를 통해 간접 활용. DTCG 가 stable
   되면 native import 검토.
@@ -182,6 +192,10 @@
   활용 가능.
 - **ASTRYX 4-layer cascade 의 backward compatibility 검증 미완료**: tokens layer 가 비어있어도
   3-layer cascade 정상이라고 *문서화* 했으나, 실제 deck 빌더에서의 검증은 TASK-PI-Followup
-  §C (Marpit 발현 검증) 와 통합하여 별도 세션에서 수행 권장.
+  §C (Marpit 발현 검증) 와 통합하여 별도 세션에서 수행 권장. → **§A 본 세션 검증 완료**
+  (test deck 의 4-layer cascade + tokens layer primitive re-export 정상 동작).
 - **Open Props 의 CDN 의존성**: §6.4 Recipe A 는 unpkg.com CDN 에 의존. 오프라인 환경에서는
   Recipe B (npm PostCSS JIT) 권장. 둘 다 사용자의 build 환경 선택.
+- **verify_deck.py mood_check `--bg-dark` 컨벤션 불일치** (해소): 본 §A 검증 중 발견 —
+  verify_deck.py 의 `--mood-check` 가 `--bg-dark` 만 찾던 것을 `--bg` fallback 으로 보강.
+  SKILL.md / astryx-component-map.md §6 theme preset 예시 코드 (`--bg`) 와 정합.
