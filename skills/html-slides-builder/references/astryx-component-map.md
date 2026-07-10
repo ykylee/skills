@@ -601,4 +601,45 @@ Section / Content + data-spot callout) that pairs the ASTRYX 4-layer cascade wit
 UnoCSS CDN runtime. Open in a browser, press `T` to toggle the warm theme, `O` for
 overview, `?` for help. Verify against `verify_deck.py` as a one-shot scaffold test.
 
+**FOUC caveat (operational note, verified 2026-07-10 via headless Chrome):**
+
+The `<body un-cloak>` attribute alone is *insufficient* to eliminate FOUC. The UnoCSS
+runtime scans the DOM *after* first paint, then injects utilities, then the `un-cloak`
+attribute is observed and the body un-hides. Sequence:
+
+1. Page loads, HTML parser hits `<body un-cloak>` → UnoCSS CSS not yet injected → first
+   paint shows raw HTML (including any comments not inside `<head>`).
+2. UnoCSS runtime script loads (async via CDN), scans DOM, generates utilities, *then*
+   applies the `[un-cloak]` rule.
+3. Stable paint — utilities applied.
+
+To eliminate FOUC, apply *one of* the following patterns in `<head>`:
+
+- **Pre-paint critical CSS inline** — extract the utility classes actually used on slide 1
+  (background color, title color / size, body font) into a `<style>` tag *before* the CDN
+  `<script>` tag. The runtime injects additional utilities after first paint, but the
+  initial paint is no longer raw HTML. See `references/examples/uno-cdn-deck.html` for the
+  inline pre-paint pattern this skill ships.
+- **Drop `<body un-cloak>` + use `visibility: hidden` + JS toggle** — set
+  `document.body.style.visibility = 'visible'` inside a `DOMContentLoaded` listener
+  *after* UnoCSS has had a tick to inject. Trades a one-frame white flash for a one-frame
+  blank.
+- **Use a build step + UnoCSS pre-rendered output** (Vite / Vinxi). Best result, but
+  breaks the `no-build` principle.
+
+**Recommendation (priority order):**
+
+1. **ASTRYX hand-authored (§5) is the default** — it has *no* FOUC because the cascade
+   lives in `<style>` and ships with first paint.
+2. **UnoCSS CDN runtime** is appropriate *only* when the author strongly prefers
+   Tailwind/Wind3 syntax and is willing to accept (a) a one-frame FOUC in normal
+   browsers, and (b) network failure modes where the CDN is unreachable.
+3. **Critical CSS inline** (this skill's shipped pattern) is the *minimum viable* FOUC
+   remediation for UnoCSS adoption. It does *not* eliminate FOUC; it shrinks the visible
+   window from "raw HTML" to "unstyled-but-correctly-laid-out".
+
+The deck shipped at `references/examples/uno-cdn-deck.html` includes the inline pre-paint
+pattern. If you fork it, copy the `<style>` block in `<head>` (lines after
+`<!-- UnoCSS CDN runtime -->`) along with the rest.
+
 If all five pass, the ASTRYX discipline is doing its job.

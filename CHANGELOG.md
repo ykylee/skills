@@ -108,6 +108,14 @@
   에서는 정상 동작 예상 (sandbox/network 한계 외). FOUC 가 *실제 사용자 환경에서도*
   발생할 경우 `<body un-cloak>` 만으로 mitigation 부족 — CSS pre-injection 또는
   critical CSS inline 고려 필요 (다음 세션 task 후보).
+- FOUC mitigation (2026-07-10, A1+A3 결합): §A 잔여. `references/astryx-component-map.md`
+  §10 에 **FOUC caveat** 단락 추가 — `<body un-cloak>` 의 한계 명시 + 3가지 mitigation
+  pattern (pre-paint critical CSS inline / `visibility: hidden` + JS toggle / pre-rendered
+  build) + priority ordering (ASTRYX §5 가 1순위, UnoCSS 옵션). `references/examples/
+  uno-cdn-deck.html` 의 `<head>` 에 *pre-paint critical CSS inline* 추가 — slide 1 의
+  실제 utility classes (~30 rules + body visibility toggle) inline 으로 pre-inject,
+  UnoCSS runtime 이 *이후* 추가 utilities 채움. verify_deck.py ALL GATES PASSED (file 9 →
+  11.6 KB).
 - ASTRYX 4-layer cascade + Open Props preset (html-slides-builder, astryx-component-map.md):
   §2.4 tokens layer slot (Panda CSS `@layer tokens` *개념만* 차용 — framework 도입 X) +
   §6.4 Open Props sub-atomic absorption recipe. §6.3 Forest 가 §6.5 로 renumber, §6.3 은
