@@ -20,6 +20,9 @@ metadata:
 
 ## Overview
 
+**CRITICAL RULE: Language Preference**
+By default, ALWAYS generate the presentation content and slides in **Korean (한국어)** unless the user explicitly requests another language.
+
 Build a self-contained `.html` file that is a keyboard-navigable slide deck. The output is a single HTML file with inline CSS and JavaScript that opens in any modern browser, scales to the viewport, persists position across reloads, and prints to PDF cleanly. The deck follows a fixed 16:9 canvas (1920x1080), one or two background colors, sparse typography, and a Surface-First composition commitment.
 
 This skill complements `claude-design` (general design process) by adding the **deck-specific** concerns claude-design does not encode: story architecture, slide-role recipes, presenter features (notes, timer, overview), keyboard ergonomics, print/PDF export, and a presentation-pacing anti-slop audit. It is distinct from `powerpoint` (which is .pptx-only) and from `consulting-deepdive-report` (which produces the *report* that often feeds the deck).

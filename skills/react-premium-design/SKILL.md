@@ -5,6 +5,9 @@ description: Design and implement high-end, dynamic React web interfaces with a 
 
 # Premium React Design Skill
 
+**CRITICAL RULE: Language Preference**
+By default, ALWAYS generate the UI text, placeholder content, and documentation in **Korean (한국어)** unless the user explicitly requests another language.
+
 This skill governs the creation of **Web Frontend Designs** in React. Your primary goal is to generate high-end, dynamic, and visually stunning web interfaces that exude a premium feel, completely avoiding generic "bootstrappy" aesthetics.
 
 ## 1. The "Wow" Factor & Core Aesthetics
