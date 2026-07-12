@@ -1,0 +1,241 @@
+/* 
+ * PremiumApp.module.css
+ * Core design tokens and styles demonstrating Astryx/antd philosophies.
+ */
+
+.appContainer {
+  /* 1. Token Definitions (Light Theme Default) */
+  --bg-base: #FAFAFA;
+  --bg-elevated: #FFFFFF;
+  --fg-strong: #0F172A; /* Slate 900 */
+  --fg-base: #334155;   /* Slate 700 */
+  --fg-muted: #64748B;  /* Slate 500 */
+  
+  --accent-primary: #2563EB; /* Vibrant Blue */
+  --accent-hover: #1D4ED8;
+  
+  --border-subtle: rgba(15, 23, 42, 0.08);
+  
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 25px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -4px rgba(0, 0, 0, 0.02);
+
+  --font-sans: 'Inter', 'SF Pro Display', -apple-system, sans-serif;
+  --transition-smooth: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  background-color: var(--bg-base);
+  color: var(--fg-base);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  transition: var(--transition-smooth);
+}
+
+/* Dark Theme Overrides */
+.appContainer[data-theme="dark"] {
+  --bg-base: #0B0F19; /* Deep Slate */
+  --bg-elevated: #111827;
+  --fg-strong: #F8FAFC;
+  --fg-base: #CBD5E1;
+  --fg-muted: #94A3B8;
+  
+  --accent-primary: #3B82F6;
+  --accent-hover: #60A5FA;
+  
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+}
+
+/* 2. Navigation Layer */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 48px;
+  background-color: var(--bg-elevated);
+  border-bottom: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--fg-strong);
+  letter-spacing: -0.02em;
+}
+
+.navActions {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.navLink {
+  background: none;
+  border: none;
+  color: var(--fg-muted);
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.navLink:hover {
+  color: var(--fg-strong);
+}
+
+.themeToggle {
+  background: var(--bg-base);
+  border: 1px solid var(--border-subtle);
+  color: var(--fg-strong);
+  padding: 8px 16px;
+  border-radius: 99px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  box-shadow: var(--shadow-sm);
+}
+
+.themeToggle:hover {
+  background: var(--bg-elevated);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.themeToggle:active {
+  transform: scale(0.96);
+}
+
+/* 3. Hero Section */
+.hero {
+  max-width: 800px;
+  margin: 120px auto 80px;
+  text-align: left; /* Adhering to anti-slop readability guideline */
+  padding: 0 48px;
+}
+
+.title {
+  font-size: 72px;
+  font-weight: 800;
+  color: var(--fg-strong);
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  margin-bottom: 24px;
+}
+
+.accentText {
+  color: var(--accent-primary);
+}
+
+.subtitle {
+  font-size: 24px;
+  color: var(--fg-muted);
+  line-height: 1.5;
+  margin-bottom: 48px;
+  max-width: 600px;
+}
+
+.heroActions {
+  display: flex;
+  gap: 16px;
+}
+
+/* Buttons (No default system UI) */
+.primaryButton, .secondaryButton {
+  padding: 16px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  font-family: inherit;
+}
+
+.primaryButton {
+  background-color: var(--accent-primary);
+  color: #FFFFFF;
+  border: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.primaryButton:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.primaryButton:active {
+  transform: scale(0.98);
+}
+
+.secondaryButton {
+  background-color: transparent;
+  color: var(--fg-strong);
+  border: 1px solid var(--border-subtle);
+}
+
+.secondaryButton:hover {
+  background-color: var(--bg-elevated);
+  transform: translateY(-2px);
+}
+
+.secondaryButton:active {
+  transform: scale(0.98);
+}
+
+/* 4. Feature Section & Cards */
+.featureSection {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 48px 120px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 32px;
+}
+
+.card {
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-smooth);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: transparent;
+}
+
+.cardIcon {
+  font-size: 32px;
+  margin-bottom: 24px;
+  background: var(--bg-base);
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+}
+
+.cardTitle {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--fg-strong);
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+
+.cardText {
+  font-size: 16px;
+  color: var(--fg-muted);
+  line-height: 1.6;
+}
