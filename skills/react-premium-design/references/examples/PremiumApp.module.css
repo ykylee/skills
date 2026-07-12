@@ -14,6 +14,8 @@
   --accent-primary: #2563EB; /* Vibrant Blue */
   --accent-hover: #1D4ED8;
   
+  --bg-glass: rgba(255, 255, 255, 0.7);
+  
   --border-subtle: rgba(15, 23, 42, 0.08);
   
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -34,6 +36,7 @@
 .appContainer[data-theme="dark"] {
   --bg-base: #0B0F19; /* Deep Slate */
   --bg-elevated: #111827;
+  --bg-glass: rgba(17, 24, 39, 0.7);
   --fg-strong: #F8FAFC;
   --fg-base: #CBD5E1;
   --fg-muted: #94A3B8;
@@ -48,13 +51,15 @@
   --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
 }
 
-/* 2. Navigation Layer */
+/* 2. Navigation Layer (Glassmorphism) */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 24px 48px;
-  background-color: var(--bg-elevated);
+  background-color: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border-subtle);
   box-shadow: var(--shadow-sm);
   position: sticky;
