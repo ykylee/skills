@@ -32,10 +32,28 @@ This skill governs the creation of **Web Frontend Designs** in React. Your prima
 - **Styling**: Use CSS Modules (`Component.module.css`) or standard Vanilla CSS with strict class scoping. Do NOT use Tailwind unless explicitly requested by the user.
 - **Zero Placeholders**: Do not use gray placeholder boxes. Use the `generate_image` tool to create actual, stunning assets for the application.
 
-## 5. Anti-Slop Guidelines
+## 5. Contextual Design Selection (Archetypes)
+When fulfilling a user request, analyze the purpose of the application and choose the appropriate design archetype. Refer to the corresponding template in `references/examples/`:
+
+- **SaaS / Admin Dashboard (`DashboardApp.jsx`)**: 
+  - **Use for**: Internal tools, B2B SaaS, data-heavy views.
+  - **Style**: High information density, sidebar navigation, tabular data layouts, strict grids, and cooler/professional color palettes.
+- **Issue Tracker / Kanban (`IssueTrackerApp.jsx`)**:
+  - **Use for**: Project management, ticketing systems (Jira/Linear style).
+  - **Style**: Ultra-dense functional UI, multi-pane layouts (sidebar, list, detail pane), micro-tags (status, priority), highly border-driven separation, and ultra-tight typography (4px/8px gaps).
+- **E-Commerce / Showcase (`CommerceApp.jsx`)**:
+  - **Use for**: B2C products, marketing pages, visual experiences.
+  - **Style**: Highly experiential. Large imagery, masonry grids, bold CTAs, heavy use of glassmorphism on sticky elements, and vibrant accent colors.
+- **Content / Blog (`ContentApp.jsx`)**:
+  - **Use for**: Blogs, documentation, long-form reading.
+  - **Style**: Readability-focused. Narrow max-widths (e.g., 65ch), perfect typographic scaling (line-height, font-size contrast), minimal UI distractions, and eye-comfort light themes (e.g., `#FFFCF9`).
+- **General / Landing Page (`PremiumApp.jsx`)**:
+  - **Use for**: General purpose landing pages or when the intent is ambiguous.
+
+## 6. Anti-Slop Guidelines
 - **BAN** on "default system UI" unstyled buttons and inputs. All form elements must be custom-styled.
 - **BAN** on center-aligned massive walls of text. Align text to the left for readability unless it's a short, punchy hero headline.
 - **MANDATORY**: Adhere strictly to a 4px or 8px baseline grid for all margins, paddings, and gaps (e.g., `4px, 8px, 12px, 16px, 24px, 32px, 48px, 64px`). Do not use random pixel values.
 
 ## Reference Examples
-Refer to `references/examples/PremiumApp.jsx` and `PremiumApp.module.css` for a baseline architectural implementation of these principles.
+Refer to the `references/examples/` directory for baseline architectural implementations of these principles.
