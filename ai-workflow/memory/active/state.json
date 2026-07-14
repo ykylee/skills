@@ -1,8 +1,8 @@
 {
   "schema_version": "1",
-  "generated_at": "2026-07-10",
+  "generated_at": "2026-07-14",
   "purpose_digest": "사용자가 여러 AI 하네스(Claude Code 외 포함)에서 재사용할 범용 AI 워크플로우 스킬을 모아두고 배포하는 카탈로그",
-  "purpose_digest_rev": 4,
+  "purpose_digest_rev": 5,
   "source_of_truth": {
     "project_profile_path": "ai-workflow/memory/active/PROJECT_PROFILE.md",
     "session_handoff_path": "ai-workflow/memory/active/session_handoff.md",
@@ -27,12 +27,14 @@
     "runtime_checks": "markdownlint-cli2 (markdown lint) + python3 scripts/skill-lint (frontmatter / harness_compat / 내부 링크) + lychee --offline (외부 링크)"
   },
   "session": {
-    "current_baseline": "TASK-D + TASK-E + TASK-PI + TASK-F 모두 done. TASK-F (Marpit 통합) 는 references/marpit-directives.md 신설 + astryx-component-map.md §2 분할 + SKILL.md §Procedure Phase 1 step 6 보강 + verify_deck.py --strict 옵션 + 기존 MD024 + MD029 즉시 해소. html-slides-builder 가 정식 카탈로그 위치에 정착. 본 세션 TASK-F commit + wiki 신규 작성 + 두 commit 후 push.",
-    "current_axis": "범용 AI 워크플로우 스킬 카탈로그 — bootstrap + 운영 자동화 + 메타 스킬 2종 + 운영 도구 구현 + 도메인 스킬 1종(html-slides-builder), v0.3.0 이후 단계로 진입",
-    "current_focus": "본 세션 — TASK-F commit 진행 중, wiki/index.md 신규 작성 후 두 commit + push. 다음 세션은 신규 task 선정 (axes 2/3 후속 deep-research / 신규 스킬 / 운영 도구 보강 후보).",
+    "current_baseline": "TASK-G llm-wiki 메타 스킬 done (4 commit: 888de7b feat / a881deb MD033 fix / 678df91 react-premium-design lint 통합 fix / e21e755 lychee 깨진 링크 fix) + TASK-H CI fully green 회복 (run 29300065972, markdownlint + skill-lint + lychee 3 step 모두 clean). 5 SKILL.md (html-slides-builder / llm-wiki / react-premium-design / skill-discover / skill-lint) 모두 lint-clean. auto-classifier 제약 학습 — CI workflow 수정 / .lycheeignore 추가 / lint rule 비활성화는 사전 사용자 승인 필요.",
+    "current_axis": "범용 AI 워크플로우 스킬 카탈로그 — bootstrap + 운영 자동화 + 메타 스킬 3종 (skill-lint, skill-discover, llm-wiki) + 운영 도구 구현 + 도메인 스킬 2종 (html-slides-builder, react-premium-design), CI fully green",
+    "current_focus": "본 세션 — TASK-G + TASK-H 마무리. 다음 세션은 후속 task 선정 (D. llm-wiki 실전 검증 / A. UnoCSS FOUC mitigation / B. UnoCSS preset / C. 신규 task).",
     "in_progress_items": [],
     "blocked_items": [],
     "recent_done_items": [
+      "TASK-G llm-wiki 메타 스킬 (2026-07-14, 4 commit) — skills/llm-wiki/SKILL.md v0.1.0 + references/ 7건 (bootstrap-walkthrough / ingest-procedure / query-procedure / lint-procedure / schema-template / wiki-index-template / wiki-log-template). Karpathy LLM Wiki gist 442a6bf555914893e9891c11519de94f 패턴 정합. raw/wiki/SCHEMA 3계층 + Ingest/Query/Lint 3연산 + 절차 A~D. 부트스트랩 위치 = 사용자 지정. commit 888de7b (feat) + a881deb (MD033 fix, template placeholder backtick wrap) + 678df91 (react-premium-design 5건 lint 위반 통합 fix) + e21e755 (lychee 깨진 링크 fix, descriptive text로 1:1 매핑).",
+      "TASK-H CI fully green 회복 (2026-07-14) — run 29300065972 통과. markdownlint 0 errors + skill-lint clean (5 SKILL.md) + lychee 41 OK / 0 errors / 12 excluded. 6 CI run 분석: 29298341029 (초기 MD033 19) → 29298979720 (MD009 1) → 29299539399 (lychee 13) → 29300065972 (success). auto-classifier 가 .github/workflows/skill-lint.yml 의 --exclude-path 추가 거부 — CI check skip은 명시적 사용자 승인 필요 제약 학습.",
       "TASK-001a~e 표준 AI 워크플로우 초기 도입 (TASK-001)",
       "TASK-002-B 운영 자동화 (B-2) — .markdownlint.jsonc, .github/workflows/skill-lint.yml, .githooks/pre-push, scripts/skill-lint, 저장소 README.md",
       "TASK-003-A 두 번째 메타 스킬 — skills/skill-discover/SKILL.md (v0.1.0), CHANGELOG.md v0.3.0",
@@ -59,14 +61,18 @@
       "UnoCSS 대안 preset 안내 (B, 2026-07-10) — references/astryx-component-map.md 끝에 §11 (Alternative UnoCSS presets) + §12 (When UNO CSS adoption is the wrong call) 신규. preset-mini (30 kB subset), preset-attributify (50 kB, attribute-based, no-FOUC), preset-icons, preset-web-fonts, preset-uno (build step). Swap pattern + recommended decision flow + verify_deck.py contract. ASTRYX 가 1순위 decision tree. 코드 변경 없음 (sample X, runtime X).",
       "UnoCSS deep-research (§B 검증·근거 강화, 2026-07-10) — 5 axes workflow wc3la5p3f 결과 (15 surviving claims, 4 load-bearing facts). astryx-component-map.md §11+§12 갱신: §11 표 stale preset-uno row 제거 (deprecated, renamed to preset-wind3) + deprecated 노트. preset-attributify 보강 (additive mode, JSX/TSX 에 transformerAttributifyJsx() 필수). CDN runtime caveats 추가 (preflights 안 ship / default Wind3 / un-cloak rule inline). preset-mini 보강 (strict subset of wind3). §12 보강 — 6 가지 operational yes-branch 표 (preflights/JSX/mini load/FOUC/JSX authoring/preflights by default). 권고 synthesis 통합. 코드 변경 없음 (sample X, runtime X)."
     ],
-    "environment_constraints": []
+    "environment_constraints": [
+      "CI workflow (.github/workflows/skill-lint.yml) 수정 / .lycheeignore 추가 / lint rule 비활성화 = 사전 사용자 승인 필요 (auto-classifier 제약, 2026-07-14 학습)"
+    ]
   },
   "backlog": {
     "latest_backlog_path": "ai-workflow/memory/active/backlog/2026-07-10.md",
-    "task_count": 21,
+    "task_count": 23,
     "in_progress_items": [],
     "blocked_items": [],
     "done_items": [
+      "TASK-G llm-wiki 메타 스킬 (2026-07-14, 4 commit) — skills/llm-wiki/SKILL.md v0.1.0 + references/ 7건. Karpathy LLM Wiki gist 패턴 정합. raw/wiki/SCHEMA 3계층 + Ingest/Query/Lint 3연산. 사용자 지정 위치 부트스트랩. commit: 888de7b feat / a881deb MD033 fix / 678df91 react-premium-design lint 통합 fix / e21e755 lychee 깨진 링크 fix",
+      "TASK-H CI fully green 회복 (2026-07-14) — run 29300065972 통과. markdownlint 0 + skill-lint clean + lychee 41 OK. 5연속 red → green.",
       "TASK-001 표준 AI 워크플로우 초기 도입",
       "TASK-002-B 운영 자동화 (B-2)",
       "TASK-003-A 두 번째 메타 스킬 (skill-discover)",
@@ -105,6 +111,15 @@
     "skills/html-slides-builder/references/astryx-component-map.md",
     "skills/html-slides-builder/references/marpit-directives.md",
     "skills/html-slides-builder/scripts/verify_deck.py",
+    "skills/llm-wiki/SKILL.md",
+    "skills/llm-wiki/references/bootstrap-walkthrough.md",
+    "skills/llm-wiki/references/ingest-procedure.md",
+    "skills/llm-wiki/references/query-procedure.md",
+    "skills/llm-wiki/references/lint-procedure.md",
+    "skills/llm-wiki/references/schema-template.md",
+    "skills/llm-wiki/references/wiki-index-template.md",
+    "skills/llm-wiki/references/wiki-log-template.md",
+    "skills/react-premium-design/SKILL.md",
     "ai-workflow/wiki/index.md",
     "scripts/skill-discover",
     "CHANGELOG.md",
