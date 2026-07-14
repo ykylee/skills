@@ -1,4 +1,4 @@
-# <Wiki Name> — Log
+# `<Wiki Name>` — Log
 
 > 시간순 변경 기록. **append-only**.
 >

@@ -1,4 +1,4 @@
-# <Wiki Name> — Index
+# `<Wiki Name>` — Index
 
 > 콘텐츠 카탈로그. 모든 ingest 후 갱신. LLM 이 유지.
 >
@@ -7,42 +7,42 @@
 > - **커버리지**: `raw/` 대비 wiki citation 비율로 측정 (lint 단계).
 
 - **마지막 갱신**: YYYY-MM-DD
-- **총 페이지 수**: <N>
-- **총 raw 원천**: <N>
+- **총 페이지 수**: `<N>`
+- **총 raw 원천**: `<N>`
 - **coverage**: <0.X>
 
 ## Entities
 
 > 고유 명사 (모델, 시스템, 사람). 한 줄 = *링크 + 한 줄 정의*.
 
-- [entity-<slug>](./wiki/entity-<slug>.md) — <한 줄 정의>
-- [entity-<slug>](./wiki/entity-<slug>.md) — <한 줄 정의>
+- [entity-`<slug>`](./wiki/entity-`<slug>`.md) — <한 줄 정의>
+- [entity-`<slug>`](./wiki/entity-`<slug>`.md) — <한 줄 정의>
 
 ## Concepts
 
 > 정의 가능한 개념, 용어.
 
-- [concept-<slug>](./wiki/concept-<slug>.md) — <한 줄 정의>
+- [concept-`<slug>`](./wiki/concept-`<slug>`.md) — <한 줄 정의>
 
 ## Comparisons
 
 > 다중 entity 비교.
 
-- [comparison-<topic>](./wiki/comparison-<topic>.md) — <비교 주제 한 줄>
+- [comparison-`<topic>`](./wiki/comparison-`<topic>`.md) — <비교 주제 한 줄>
 
 ## Syntheses
 
 > 다중 raw 종합, 의사결정 가이드.
 
-- [synthesis-<topic>](./wiki/synthesis-<topic>.md) — <가이드 주제 한 줄>
+- [synthesis-`<topic>`](./wiki/synthesis-`<topic>`.md) — <가이드 주제 한 줄>
 
 ## Recent Ingest
 
 > 최근 5건만 표시 (전체는 [wiki/log.md](./wiki/log.md)).
 
-- YYYY-MM-DD: raw/<file> → <N> new pages, <N> updated, <N> contradictions
-- YYYY-MM-DD: raw/<file> → <N> new pages, <N> updated
-- YYYY-MM-DD: raw/<file> → <N> updated only
+- YYYY-MM-DD: raw/`<file>` → `<N>` new pages, `<N>` updated, `<N>` contradictions
+- YYYY-MM-DD: raw/`<file>` → `<N>` new pages, `<N>` updated
+- YYYY-MM-DD: raw/`<file>` → `<N>` updated only
 
 ## Open Contradictions
 

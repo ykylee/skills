@@ -1,4 +1,4 @@
-# <Wiki Name> — Schema
+# `<Wiki Name>` — Schema
 
 > 운영 계약. 사용자 + LLM 이 공동으로 진화시키는 단일 진실 출처 (source of truth).
 > 본 문서 자체가 wiki 의 일부이며 lint 대상.
