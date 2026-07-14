@@ -74,6 +74,10 @@
 
 - [skill-lint/SKILL.md](../../skills/skill-lint/SKILL.md) — manifest 검증 스킬 절차 원형
 - [skill-discover/SKILL.md](../../skills/skill-discover/SKILL.md) — 카탈로그 검색 스킬 절차 원형
+- [llm-wiki/SKILL.md](../../skills/llm-wiki/SKILL.md) — Karpathy LLM Wiki 패턴 (영구 markdown 위키 부트스트랩 / 운영, raw + wiki + SCHEMA 3계층 + Ingest/Query/Lint 3연산)
+- [llm-wiki/references/bootstrap-walkthrough.md](../../skills/llm-wiki/references/bootstrap-walkthrough.md) — wiki 부트스트랩 단계별 walkthrough
+- [llm-wiki/references/ingest-procedure.md](../../skills/llm-wiki/references/ingest-procedure.md) — 원천 → wiki 통합 절차 + 모범 사례
+- [llm-wiki/references/lint-procedure.md](../../skills/llm-wiki/references/lint-procedure.md) — wiki 건강검진 절차 + health 보고서 양식
 
 ## §5 In-Session Slash Commands
 

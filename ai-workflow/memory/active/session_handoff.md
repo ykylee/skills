@@ -6,22 +6,28 @@
 - Scope: current focus, task status, key changes, next actions, risks
 - Audience: AI agents, maintainers
 - Status: draft
-- Updated: 2026-07-10 (TASK-F done + wiki 신규 + Axes 2/3 deep-research + §A Open Props/tokens layer 통합 + §A 잔여 frontmatter 정책 결정 + §A hybrid 정책 *구현* (parser + 3 SKILL.md depth-2 nested 재구성) + §A Marpit §3 hand-written 발현 검증 (test deck + verify_deck.py --bg fallback) + §B .gitignore `__pycache__/` + push + antd 적용 가능성 검토 (도입 보류) + UnoCSS 적용 가능성 검토 (ASTRYX 1순위 + UnoCSS 옵션) + §A.5 선택적 UnoCSS CDN runtime 안내 + sample deck + Browser 시각 검증 (warm-deck ✅ / uno-cdn-deck ASTRYX ✅ + FOUC 발견) 진행)
+- Updated: 2026-07-13 (본 세션, in_progress) — llm-wiki 메타 스킬 MVP 작성 (Karpathy 패턴, SKILL.md + references/ 7건, 사용자 지정 위치 부트스트랩 + Ingest/Query/Lint 3연산). 전 세션 산출물: TASK-F + wiki + Axes 2/3 + §A hybrid 정책 + §A Marpit 검증 + §B .gitignore + antd/UnoCSS 검토 + §A.5 안내 + sample deck + Browser 시각 검증.
 - Related docs: [Purpose](./PURPOSE.md), [Project Profile](./PROJECT_PROFILE.md), [Work Backlog](./work_backlog.md)
 
 ## Current Focus
 
-- **TASK-D + TASK-E + TASK-PI + TASK-F 완료, wiki 신규 + 세션 마무리**: TASK-001 (a~e) +
-  TASK-002-B (운영 자동화) + TASK-003-A (skill-discover SKILL.md) + TASK-002-B-verify (1차 CI) +
-  TASK-A-2 (Node 20 deprecation 해소) + TASK-C (skill-discover 실제 구현, .index.json 캐시) +
-  TASK-D (html-deck 위치 이동 + frontmatter 보정 + 인덱스 갱신) +
-  TASK-E (이름 변경 `html-deck` → `html-slides-builder` + 운영 문서 동기화 + lint 검증) +
-  TASK-PI (외부 레퍼런스 deep-research, 1순위 = Marpit) +
-  TASK-F (Marpit 통합 — `references/marpit-directives.md` 신설, astryx-component-map.md §2 확장,
-  SKILL.md §Procedure Phase 1 step 6 보강, verify_deck.py `--strict` 옵션, 기존 MD024 + MD029
-  즉시 해소) 모두 done.
-  본 세션의 추가 산출물: `ai-workflow/wiki/index.md` 신규 (R4 anchor 기반 인덱스, 운영 도구 +
-  레퍼런스 link).
+- **TASK-G llm-wiki 메타 스킬 MVP 작성 (in_progress)**: Karpathy LLM Wiki 패턴을 본 카탈로그에
+  메타 스킬로 등록. 사용자 지정 위치에 `raw/` + `wiki/` + `SCHEMA.md` 3계층 영구 markdown
+  위키를 부트스트랩하고 Ingest/Query/Lint 3연산으로 운영. SKILL.md + `references/` 7건
+  (bootstrap-walkthrough / ingest-procedure / query-procedure / lint-procedure /
+  schema-template / wiki-index-template / wiki-log-template). CHANGELOG / README /
+  session_handoff / wiki index 동기화. lint 검증 통과 후 commit 예정.
+- **직전 세션 마감**: TASK-D + TASK-E + TASK-PI + TASK-F 완료, wiki 신규 + 세션 마무리.
+  TASK-001 (a~e) + TASK-002-B (운영 자동화) + TASK-003-A (skill-discover SKILL.md) +
+  TASK-002-B-verify (1차 CI) + TASK-A-2 (Node 20 deprecation 해소) + TASK-C (skill-discover
+  실제 구현, .index.json 캐시) + TASK-D (html-deck 위치 이동 + frontmatter 보정 +
+  인덱스 갱신) + TASK-E (이름 변경 `html-deck` → `html-slides-builder` + 운영 문서
+  동기화 + lint 검증) + TASK-PI (외부 레퍼런스 deep-research, 1순위 = Marpit) +
+  TASK-F (Marpit 통합 — `references/marpit-directives.md` 신설, astryx-component-map.md
+  §2 확장, SKILL.md §Procedure Phase 1 step 6 보강, verify_deck.py `--strict` 옵션,
+  기존 MD024 + MD029 즉시 해소) 모두 done.
+  본 세션의 추가 산출물: `ai-workflow/wiki/index.md` 신규 (R4 anchor 기반 인덱스, 운영
+  도구 + 레퍼런스 link).
   두 commit (① TASK-F, ② wiki) 진행.
 
 ## Work Status
@@ -51,6 +57,17 @@
   - `scripts/verify_deck.py` `--strict` 옵션 (gate 1 `/* @theme: */` + `/* mood: */` 부재 시 WARN)
   - 기존 MD024 + MD029 즉시 해소 (CHANGELOG `### Infra` 분리 + SKILL.md Phase 2/3/4 step 1~N renumber)
   - lint 사전 검증 clean (markdownlint-cli2 0 error, skill-lint 3 SKILL.md clean)
+- TASK-G llm-wiki 메타 스킬 (in_progress): **done (작성 단계)**
+  - `skills/llm-wiki/SKILL.md` v0.1.0 — Karpathy LLM Wiki gist 442a6bf555914893e9891c11519de94f 패턴
+    정합 + raw/wiki/SCHEMA 3계층 + Ingest/Query/Lint 3연산 + 절차 A~D.
+  - `skills/llm-wiki/references/` 7건 — bootstrap-walkthrough / ingest-procedure / query-procedure /
+    lint-procedure / schema-template / wiki-index-template / wiki-log-template.
+  - 카탈로그 동기화: `README.md` (루트) 트리 갱신, `CHANGELOG.md` [Unreleased] ### Added 1줄,
+    `ai-workflow/wiki/index.md` §4 메타 스킬 4개 항목 + references 3개 link 추가,
+    `session_handoff.md` (본 문서) 동기화.
+  - user 결정: 스킬 이름 = `llm-wiki`, 부트스트랩 위치 = 사용자 지정 (절대/상관 경로 자유).
+  - **잔여**: lint 검증 (skill-lint 4 SKILL.md clean) + commit. 자동화 (`scripts/bootstrap-wiki.py`),
+    qmd 통합, lint 자동 fix 는 Next version.
 - N/A: blocked
 - N/A: blocked
 
@@ -192,14 +209,25 @@
   PASSED. 부수적 보강: verify_deck.py gate 4 allowlist 확장 (cdn.jsdelivr.net /
   unpkg.com, web fonts 와 같은 카테고리) + regex 매치 trailing host 포함 보강 (group(0)
   이 `<script src="https://` 까지만 매치하던 버그 → `https?://[^"\']+` 로 host 까지 매치).
+- TASK-G llm-wiki 메타 스킬 MVP (본 세션, in_progress, 작성 단계 done) — 사용자 요구
+  *"llm wiki 관리 스킬"* + Karpathy LLM Wiki gist #442a6bf555914893e9891c11519de94f 패턴
+  정합. `skills/llm-wiki/SKILL.md` v0.1.0 + `references/` 7건 (bootstrap-walkthrough.md,
+  ingest-procedure.md, query-procedure.md, lint-procedure.md, schema-template.md,
+  wiki-index-template.md, wiki-log-template.md). raw/wiki/SCHEMA 3계층 + Ingest/Query/Lint
+  3연산 + 절차 A~D. 부트스트랩 위치 = 사용자 지정 (절대/상관 경로 자유). 카탈로그
+  동기화: README 트리, CHANGELOG [Unreleased] Added 1줄, ai-workflow/wiki/index.md §4
+  메타 스킬 4개 + references 3개 link 추가, session_handoff Current Focus + Work Status +
+  Key Changes + Next Actions 동기화. 잔여: skill-lint 검증 + commit.
 
 ## Next Actions
 
 - [x] TASK-F commit (`abf0fcf`) + wiki/index.md 신규 작성 + wiki commit (`4b98c38`) + Axes 2/3 후속 deep-research commit (`c284442`) + Open Props + tokens layer 통합 commit (`1459873`) + §A 잔여 frontmatter 정책 결정 commit (`1a1461a`) + §A hybrid 정책 *구현* — parser 단일화 commit (`297d016`) + SKILL.md depth-2 nested 재구성 commit (`e5e3d61`) + 운영 문서 동기화 commit (`334b98f`) + §A Marpit §3 hand-written 발현 검증 commit (`19ccd7e`) + §B .gitignore `__pycache__/` commit (`35dabd5`) + push 완료 + §antd 적용 가능성 검토 commit (`cfd3286`) + §A UnoCSS 적용 가능성 검토 commit (`02d0aeb`) + §A.5 선택적 UnoCSS CDN runtime 안내 commit (`9930205`) + sample deck commit (`d6449bf`) + Browser 시각 검증 commit (예정)
+- [ ] **TASK-G llm-wiki commit (예정)** — `skills/llm-wiki/` 디렉터리 (SKILL.md + references/ 7건) + README / CHANGELOG / wiki/index.md / session_handoff.md 동기화. lint 검증 (skill-lint + markdownlint) clean 확인 후 commit.
 - [ ] 다음 세션 (선택 항목):
   - **A. UnoCSS FOUC mitigation** — `<body un-cloak>` 만으로 부족. critical CSS inline 또는 UnoCSS pre-rendered build 전환 (Vite/vinxi 등). 사용자가 실제 browser 환경에서 재검증 권장.
   - **B. UnoCSS 다른 preset (mini / attributify) 안내** — 본 task 는 default Uno build 만.
   - **C. 신규 task** — 도메인 스킬 1~2개 / harness 어댑터 / 운영 도구 추가 보강.
+  - **D. llm-wiki 실전 검증** — 실제 도메인 (예: AI 모델 카탈로그) 에 bootstrap → 5~10 회 ingest → 1 회 lint 실전 워크플로우 검증 (별도 task, TASK-G commit 후).
 
 ## Risks & Blockers
 

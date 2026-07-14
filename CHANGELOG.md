@@ -13,6 +13,7 @@
 ## [Unreleased]
 
 ### Added
+- `llm-wiki` 스킬 (v0.1.0, meta): Karpathy의 [LLM Wiki gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) 패턴을 구현하는 메타 스킬. 사용자 지정 위치에 `raw/` + `wiki/` + `SCHEMA.md` 3계층 영구 markdown 위키를 부트스트랩하고 Ingest/Query/Lint 3연산으로 운영. 위치: `skills/llm-wiki/`, `references/` 7건 (bootstrap-walkthrough / ingest-procedure / query-procedure / lint-procedure / schema-template / wiki-index-template / wiki-log-template). MVP 0.1.0 — 절차만 정의, `scripts/bootstrap-wiki.py` 자동화는 Next version.
 - `html-slides-builder` 스킬 (v1.1.0, doc): 단일 1920x1080 HTML 슬라이드 빌더 (키보드 네비,
   PDF 인쇄, 6종 content-type spine, ASTRYX 테마 레이어). 위치: `skills/html-slides-builder/`.
   `references/` 2건 (astryx-component-map.md, presentation-patterns.md), `scripts/verify_deck.py` 1건.
