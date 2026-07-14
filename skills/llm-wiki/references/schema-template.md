@@ -100,6 +100,6 @@ wiki-인스턴스 추가 규칙:
 
 ## 다음에 읽을 문서
 
-- 본 wiki 의 [wiki/index.md](./wiki/index.md) — 전체 페이지 카탈로그
-- 본 wiki 의 [wiki/log.md](./wiki/log.md) — 최근 ingest / lint 흐름
+- 본 wiki 의 `wiki/index.md` — 전체 페이지 카탈로그
+- 본 wiki 의 `wiki/log.md` — 최근 ingest / lint 흐름
 - 상위 메타 스킬: [llm-wiki SKILL.md](../SKILL.md) — 절차의 source of truth
