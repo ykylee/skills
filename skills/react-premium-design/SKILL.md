@@ -1,6 +1,14 @@
 ---
 name: react-premium-design
-description: Design and implement high-end, dynamic React web interfaces with a clean light theme default, inspired by premium design systems like Ant Design (antd) and Astryx. Use when the user requests a premium React web frontend or UI components.
+description: Premium React web frontend design (antd / Astryx inspired). Light theme default, Korean text default. Use when requesting premium React UI or components.
+metadata:
+  claude_code:
+    when_to_use: "premium React UI", "antd 스타일", "Astryx 스타일", "high-end React 컴포넌트"
+    harness_compat:
+      - claude-code
+      - generic-md
+    category: code
+    version: 0.2.0
 ---
 
 # Premium React Design Skill
@@ -9,6 +17,21 @@ description: Design and implement high-end, dynamic React web interfaces with a 
 By default, ALWAYS generate the UI text, placeholder content, and documentation in **Korean (한국어)** unless the user explicitly requests another language.
 
 This skill governs the creation of **Web Frontend Designs** in React. Your primary goal is to generate high-end, dynamic, and visually stunning web interfaces that exude a premium feel, completely avoiding generic "bootstrappy" aesthetics.
+
+## When to use
+
+- "premium React UI 만들어줘", "high-end React 컴포넌트" 등 premium React 인터페이스 요청 시
+- antd / Astryx 디자인 시스템 영감의 dashboard / commerce / blog / landing page 작성 시
+- 라이트 테마 기본, 한국어 UI 기본이 필요한 경우
+- Glassmorphism, premium palette, 4px/8px baseline grid 적용이 필요한 경우
+
+## Procedure
+
+1. **archetype 식별**: 사용자 의도를 §5 의 5가지 archetype 중 하나로 매핑.
+2. **디자인 시스템 적용**: §1 (aesthetics) + §2 (token-based CSS / atomic components) + §3 (micro-animations) 동시 적용.
+3. **워크플로우 준수**: §4 (React + CSS Modules / Vanilla CSS, NO Tailwind, generate_image 사용) 따른다.
+4. **baseline 참고**: §5 archetype + [references/examples/](./references/examples/) 디렉터리에서 baseline 코드 확인.
+5. **anti-slop 검증**: §6 의 4px/8px baseline grid, 커스텀 form 스타일, 좌측 정렬 확인.
 
 ## 1. The "Wow" Factor & Core Aesthetics
 - **Light Theme Default**: By default, applications must use a pristine Light Theme (e.g., `#FFFFFF` or `#FAFAFA` backgrounds).
@@ -36,9 +59,9 @@ This skill governs the creation of **Web Frontend Designs** in React. Your prima
 - **Zero Placeholders**: Do not use gray placeholder boxes. Use the `generate_image` tool to create actual, stunning assets for the application.
 
 ## 5. Contextual Design Selection (Archetypes)
-When fulfilling a user request, analyze the purpose of the application and choose the appropriate design archetype. Refer to the corresponding template in `references/examples/`:
+When fulfilling a user request, analyze the purpose of the application and choose the appropriate design archetype. Refer to the corresponding template in [references/examples/](./references/examples/):
 
-- **SaaS / Admin Dashboard (`DashboardApp.jsx`)**: 
+- **SaaS / Admin Dashboard (`DashboardApp.jsx`)**:
   - **Use for**: Internal tools, B2B SaaS, data-heavy views.
   - **Style**: High information density, sidebar navigation, tabular data layouts, strict grids, and cooler/professional color palettes.
 - **Issue Tracker / Kanban (`IssueTrackerApp.jsx`)**:
@@ -59,4 +82,5 @@ When fulfilling a user request, analyze the purpose of the application and choos
 - **MANDATORY**: Adhere strictly to a 4px or 8px baseline grid for all margins, paddings, and gaps (e.g., `4px, 8px, 12px, 16px, 24px, 32px, 48px, 64px`). Do not use random pixel values.
 
 ## Reference Examples
-Refer to the `references/examples/` directory for baseline architectural implementations of these principles.
+
+Refer to the [references/examples/](./references/examples/) directory for baseline architectural implementations of these principles.
