@@ -189,6 +189,25 @@
   (§3.1 예시와 같은 stale 경로였음).
 
 ### Fixed
+- **`llm-wiki` graph 검사 규칙 정정 (2026-07-21, v0.1.1 → v0.2.0)**: TASK-M 실전 검증의
+  결함 ④. 조사해 보니 한 건이 아니라 세 갈래였다.
+  - **역방향 link 대칭성 검사 폐기** (`lint-procedure.md` §3.1). "A→B 면 B→A 도" 규칙이
+    `ingest` §6 (새 entity → 비교/개념 페이지, 한 경우) 보다 훨씬 넓게 적용돼 있었다.
+    실측에서 지적 4건이 **전부 오탐** — `synthesis → concept` 같은 상하위 인용은 비대칭이
+    옳다. 대칭성은 도달 가능성의 대리 지표일 뿐이라 orphan 검사로 대체.
+  - **orphan 처방의 논리 오류 수정** (`ingest-procedure.md` §6·§10, `SKILL.md` §B.5):
+    orphan 을 *들어오는* link 0 으로 정의하면서 처방은 "최소 1개 **outgoing** link 보장"
+    이었다. 나가는 link 는 자신의 orphan 상태를 바꾸지 못한다. "기존 관련 페이지 *에서*
+    새 페이지로 들어오는 link 최소 1개" 로 정정.
+  - **orphan 의 index link 취급 정의** (`lint-procedure.md` §3.1, `SKILL.md` §D.1):
+    `index.md` link 를 incoming 으로 셀지가 미정의였고 결과가 뒤집혔다. `ingest` §7 이
+    모든 페이지의 index 등재를 요구하므로 index 를 세면 orphan 이 원리적으로 발생 불가
+    — **index 제외** 로 확정.
+  - 부수: `ingest` §6 의 상대 경로 예시 `../entity-x/` → `./entity-x.md` (페이지는 `wiki/`
+    안 형제).
+  - 검증: 검증 위키에 새 규칙 적용 시 **오탐 4건 → 진짜 orphan 1건** (`entity-llm-wiki`,
+    콘텐츠 페이지 중 이를 가리키는 것이 실제로 없음). 지적 수는 줄고 신호는 늘었다.
+  - **미수정**: ⑤ bootstrap 의 SCHEMA 플레이스홀더 치환 체크리스트 누락.
 - **`llm-wiki` 템플릿 결함 4건 (2026-07-21, v0.1.0 → v0.1.1)**: 실전 검증 (bootstrap →
   ingest 6회 → query → lint) 중 발견. 절차 자체가 아니라 *복사되는 템플릿* 의 문제.
   - `wiki-index-template.md` 경로 오류 — 예시가 `./wiki/entity-<slug>.md` 인데 `index.md`

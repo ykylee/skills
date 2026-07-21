@@ -21,9 +21,17 @@ lint 는 *선택* 이 아니라 *정기 의무*.
 
 ### 3.1 graph 검사
 
-- **orphan 페이지**: 들어오는 link 0. SCHEMA 의 cross-link 규약 위반 가능성 ↑.
+- **orphan 페이지**: 다른 *콘텐츠 페이지* 에서 들어오는 link 가 0.
+  **`wiki/index.md` 의 link 는 세지 않는다** — ingest §7 이 모든 페이지의 index 등재를
+  요구하므로, index 를 incoming 으로 치면 orphan 이 원리적으로 발생할 수 없어 검사가
+  공허해진다. (실측: index 포함 시 orphan 0건 / 제외 시 1건.)
 - **dead link**: `[[wiki/<X>]]` 인데 `X` 존재 안 함.
-- **누락된 역방향 link**: A→B 가 있는데 B→A 가 없음 (대칭성 위배).
+
+> **역방향 link 대칭성은 검사하지 않는다** (v0.2.0 에서 제거). "A→B 가 있으면 B→A 도
+> 있어야 한다" 는 규칙은 도달 가능성의 *대리 지표* 인데, 실전 검증에서 지적 4건이 **전부
+> 오탐**이었다 — `synthesis → concept` 같은 상하위 인용은 비대칭이 옳고, 전부 링크하면
+> 개념/도구 페이지가 역참조 목록으로 비대해진다. 도달 가능성은 위 orphan 검사가 직접
+> 측정하므로 대리 지표가 불필요하다.
 
 검사 방법:
 
@@ -88,7 +96,7 @@ lint 가 발견하는 패턴별 권장:
 
 | 발견 | 권장 |
 |---|---|
-| orphan | 관련 entity/comparison 페이지에 link 1개 추가 |
+| orphan | 관련 페이지 **에서 그 orphan 으로** 가는 link 1개 추가 (반대 방향 아님) |
 | dead-link | 대상 페이지 작성 또는 link 제거 |
 | stale (> 임계) | 새 raw 로 freshen 또는 deprecated 마커 |
 | unresolved contradiction | 사용자 결정 (위 §3.3 참조) |

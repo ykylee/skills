@@ -81,9 +81,15 @@ tags: [<tag1>, <tag2>]   # 선택
 
 ## 6. cross-reference 보강
 
-- 새 entity 페이지 → 기존 비교/개념 페이지에서 *역방향 링크* 추가
-- `[[wiki/<page>]]` 형식 (vault tool 인지) + 상대 경로 (`../entity-x/`) 둘 다 허용
-- orphan 페이지 (들어오는 link 0) 만들지 말 것 — 최소 1개 outgoing link 보장
+- 새 페이지를 만들면 **기존 관련 페이지에서 새 페이지로 *들어오는* link 를 최소 1개** 만든다.
+  orphan 은 *들어오는* link 가 0 인 상태이므로, 새 페이지가 남에게 거는 outgoing link 로는
+  해소되지 않는다.
+- `wiki/index.md` 등재는 orphan 해소로 치지 않는다 (lint §3.1) — 모든 페이지가 index 에
+  오르므로 index 만으로는 도달 가능성의 신호가 되지 못한다.
+- `[[wiki/<page>]]` 형식 (vault tool 인지) + 상대 경로 (`./entity-x.md`) 둘 다 허용.
+  페이지는 `wiki/` 안 형제이므로 `../` 가 아니다.
+- 역방향 link 를 *기계적으로 대칭* 맞추지 않는다. `synthesis → concept` 처럼 상하위 인용은
+  비대칭이 자연스럽다 (lint 는 v0.2.0 부터 대칭을 검사하지 않는다).
 
 ## 7. index 갱신
 
@@ -131,5 +137,5 @@ append-only. *수정/삭제 금지*.
 | index 갱신 누락 | 다음 query 시 stale 페이지 참조 | 매 ingest 후 즉시 |
 | log 형식 표준 안 지킴 | grep `^## \[` 실패 | 표준 형식 강제 |
 | 모순을 자동 해결 | 사용자 의도 무시 | flag 만, 결정은 사용자 |
-| cross-link를 무시 | orphan / 고립 페이지 | entity 페이지마다 outgoing link ≥ 1 |
+| cross-link를 무시 | orphan / 고립 페이지 | 새 페이지마다 *들어오는* link ≥ 1 (index 제외) |
 | `updated` 메타 미갱신 | lint 가 false-positive stale 경고 | 매 ingest 후 즉시 |

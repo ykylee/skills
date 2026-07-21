@@ -8,7 +8,7 @@ metadata:
       - claude-code
       - generic-md
     category: meta
-    version: 0.1.1
+    version: 0.2.0
 ---
 
 # llm-wiki
@@ -78,7 +78,9 @@ Karpathy의 [LLM Wiki gist](https://gist.github.com/karpathy/442a6bf555914893e98
 4. **페이지 갱신 또는 생성**:
    - 기존 페이지 갱신 시 *해당 섹션만* 갱신, 무관 부분 보존.
    - 신규 생성 시 frontmatter (`created`, `updated`, `sources`, `aliases`) 채움.
-5. **cross-reference 보강**: 관련 페이지 양방향 링크, orphan 방지.
+5. **cross-reference 보강**: 기존 관련 페이지 *에서* 새 페이지로 들어오는 link 를 최소
+   1개 만든다 (orphan 방지). `index.md` 등재는 여기 포함되지 않으며, 기계적 대칭도
+   요구하지 않는다.
 6. **index 갱신**: `wiki/index.md` 에 새/갱신 페이지 1줄 추가. stale 항목 제거.
 7. **log 갱신**: `wiki/log.md` 에 한 줄 형식 표준 entry append.
 8. **모순 플래그**: 기존 주장과 충돌 시 페이지 본문에
@@ -103,7 +105,7 @@ Karpathy의 [LLM Wiki gist](https://gist.github.com/karpathy/442a6bf555914893e98
 주기적으로 (예: 매 N 회 ingest 후, 또는 일 1회) 실행. **drift 가 1순위 실패 모드**이므로
 lint pass 는 선택이 아닌 정기 의무.
 
-1. **graph 검사**: orphan 페이지, dead link.
+1. **graph 검사**: orphan 페이지 (콘텐츠 페이지 기준, `index.md` link 제외), dead link.
 2. **stale 검사**: `updated` 메타가 임계 (기본 30일) 이전인 페이지.
 3. **contradiction 검사**: ⚠ 마커 + log 대조.
 4. **coverage 검사**: `raw/` 대비 wiki 페이지 coverage 측정.
