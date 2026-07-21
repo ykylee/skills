@@ -3,7 +3,7 @@ name: llm-wiki
 description: 카파시 LLM Wiki 패턴으로 영구 markdown 위키를 부트스트랩·운영합니다. raw/wiki/schema 3계층과 Ingest/Query/Lint 3연산을 정의. "위키 만들어줘", "이 자료 wiki에 추가", "wiki에서 X 검색", "wiki lint" 요청에 사용.
 metadata:
   claude_code:
-    when_to_use: "위키 부트스트랩", "위키에 추가해줘", "위키에서 검색", "wiki lint", "drift 검사"
+    when_to_use: '"위키 부트스트랩", "위키에 추가해줘", "위키에서 검색", "wiki lint", "drift 검사"'
     harness_compat:
       - claude-code
       - generic-md

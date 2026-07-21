@@ -180,6 +180,19 @@
 - markdownlint 기존 lint error 해소: `CHANGELOG.md` 의 두 번째 `### Changed` (TASK-002-B 운영
   자동화 항목) → `### Infra` 로 분리 (MD024 siblings_only 해소). `SKILL.md` §Procedure Phase 2/3/4
   의 step 번호 7~13 → 각 Phase 별 1~N 으로 renumber (MD029 ol-prefix 해소).
+- **표준 YAML 파서 비호환 frontmatter 3건 (2026-07-21)**: 5 SKILL.md 중 3건이 표준 YAML
+  파서에서 파싱 실패하던 것을 수정. 값은 그대로 두고 따옴표만 보정 — 의미 변경 없음.
+  - `html-slides-builder` `description` — 평문(unquoted) 스칼라 안의 `Triggers:` + 공백이 두 번째
+    mapping key 로 해석됨. 값 전체를 `"` 로 감쌈.
+  - `llm-wiki` / `react-premium-design` `when_to_use` — `"A", "B", "C"` 형태로 닫는 따옴표 뒤에
+    쉼표가 이어져 문법 오류. 값 전체를 `'` 로 감쌈 (내부 `"` 보존).
+  - 배경: 자체 mini-parser (`scripts/_frontmatter.py`) 가 관대해 `skill-lint` 는 clean 을
+    보고했고 CI 도 green 이었으나, agentskills.io canonical 제품군이 사용하는 표준 YAML
+    파서에서는 3건 모두 파싱 불가 상태였다 ([PURPOSE.md §1](./ai-workflow/memory/active/PURPOSE.md)
+    의 cross-harness 재사용 목적과 충돌).
+  - 검증: `npx js-yaml` 로 5건 모두 파싱 성공 + mini-parser 와 값 10건 전부 일치 확인.
+  - 재발 방지 (미착수): `skill-lint` 에 표준 YAML 교차검증을 넣지 않는 한 동일 유형이 다시
+    통과함 — 별도 task.
 
 ## [0.3.0] - 2026-07-09
 

@@ -3,7 +3,7 @@ name: react-premium-design
 description: Premium React web frontend design (antd / Astryx inspired). Light theme default, Korean text default. Use when requesting premium React UI or components.
 metadata:
   claude_code:
-    when_to_use: "premium React UI", "antd 스타일", "Astryx 스타일", "high-end React 컴포넌트"
+    when_to_use: '"premium React UI", "antd 스타일", "Astryx 스타일", "high-end React 컴포넌트"'
     harness_compat:
       - claude-code
       - generic-md
