@@ -21,6 +21,8 @@
   - **TASK-M** (커밋 없음) llm-wiki 실전 검증 — 결함 6건 발견. 산출물은 scratchpad 폐기용,
     저장소 무변경.
   - **TASK-N** (`0758500`) llm-wiki 템플릿 결함 4건 수정 (①②③⑥), v0.1.0 → v0.1.1.
+  - **TASK-O** (`3be05f2` + `3af5c5d`) 잔여 결함 ④⑤ 해소, v0.1.1 → v0.2.0.
+    **TASK-M 의 결함 6건 전부 해소 완료.**
 - **6 commit push 완료** (`207f92d..be37d4d`, `be37d4d..0758500`).
 - **다음 세션이 가장 먼저 할 일**: **CI 결과 확인**. `gh` 미설치로 본 세션에서 조회 못 했다.
   TASK-N 의 lychee 가정 (코드 펜스 안 링크는 lychee 가 추출 안 함) 이 여기서 판정된다.
@@ -130,6 +132,21 @@
     `../SKILL.md` 가 복사 후 깨짐 (lychee 는 원본 위치만 봄) ⑥ 오타 2건.
   - **②는 CI 무수정으로 해결** — 예시 행을 fenced code block 에. `--exclude-path` 미사용.
   - 검증: 수정 템플릿으로 **재-bootstrap 해서 링크 해석 확인** (주장이 아니라 재현).
+- TASK-O llm-wiki 잔여 결함 ④⑤ (2026-07-21, done, `3be05f2` + `3af5c5d`, v0.2.0):
+  - **④ 는 세 갈래였다**: (a) lint §3.1 이 모든 `A→B` 에 `B→A` 요구 — ingest §6 은 한
+    경우만 규정 = *설계 결정* → 사용자 결정으로 **대칭성 검사 폐기**. (b) orphan 을
+    *들어오는* link 0 으로 정의하고 처방은 "**outgoing** link ≥ 1" = **논리 오류** → 정정
+    ("기존 관련 페이지 *에서* 들어오는 link ≥ 1"). (c) orphan 이 `index.md` link 를 세는지
+    미정의 → **index 제외** 확정 (포함하면 ingest §7 이 전 페이지 등재를 요구하므로 검사가
+    원리적으로 공허).
+  - 검증: 규칙 교체 전후 — **오탐 4건 → 진짜 orphan 1건** (`entity-llm-wiki`).
+    이전 규칙으로는 영원히 안 잡혔을 것. 지적 수는 줄고 신호는 늘었다.
+  - **⑤ 는 누락된 게 목록이 아니라 *구분* 이었다**: 플레이스홀더 37개(32줄)가 (A) 치환할
+    인스턴스 값 / (B) 보존할 형식 예시 두 종류인데 walkthrough 가 이를 안 알려줬다.
+    (B) 를 치환하면 파일명·frontmatter·링크 *규격 설명 자체가 사라진다*.
+    §4.1 신설 ((A)/(B) 2표) + §6 실수표 2행 + SKILL.md §A.5 연결.
+  - 검증: 체크리스트가 37개 전부를 덮는지 기계 확인 (미포함 0) + TASK-M 산출 SCHEMA 대조
+    ((A) 방치 0 / (B) 보존 7).
 
 ## Key Changes
 
@@ -310,12 +327,7 @@
 - [x] **6 commit push 완료** (`207f92d..be37d4d`, `be37d4d..0758500`).
 - [ ] **[최우선] CI 결과 확인** — `gh` 미설치로 본 세션 조회 불가.
   <https://github.com/ykylee/skills/actions>. TASK-N 의 lychee 가정이 여기서 판정됨.
-- [ ] **④ lint 역방향 link 대칭성 규칙** (TASK-M 미수정) — lint 는 전 page type 에 대칭을
-  요구하나 ingest 절차는 언제 상호적이어야 하는지 미정의. 절차대로 ingest 한 결과 4건이
-  걸렸고 **4건 모두 고치면 안 되는 것**이었다 (`synthesis → concept` 등 상하위 인용).
-  권고 방향: 동급 (`entity ↔ entity`) 에만 대칭 요구. **규칙 변경이라 사용자 판단 필요**.
-- [ ] **⑤ bootstrap 의 SCHEMA 플레이스홀더 체크리스트** (TASK-M 미수정) — 절차 A 5단계와
-  walkthrough §4 가 §1/§3/§4/§5 만 언급. 제목 `<Wiki Name>`, §2, §6, §7 은 지시 없이 방치.
+- [x] **④⑤ 해소 (TASK-O)** — TASK-M 의 결함 6건 전부 처리 완료. llm-wiki v0.2.0.
 - [ ] 다음 세션 (선택 항목):
   - **E. CI 에 표준 YAML 단계 추가** — E002 는 stdlib 범위 3종만 본다. `npx js-yaml` 을
     CI 에 넣으면 전체 스펙 검증이 된다 (node 는 markdownlint-cli2 때문에 이미 설치됨).
