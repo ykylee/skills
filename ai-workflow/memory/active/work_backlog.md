@@ -6,7 +6,7 @@
 - 범위: 전체 태스크 목록, 우선순위, 진행 상태, 날짜별 기록 연결
 - 대상 독자: 개발자, AI 에이전트, 프로젝트 매니저
 - 상태: stable
-- 최종 수정일: 2026-07-10
+- 최종 수정일: 2026-07-21
 - 관련 문서: [세션 인계](./session_handoff.md), [프로젝트 프로파일](../../docs/PROJECT_PROFILE.md)
 
 ## 1. 운영 원칙
@@ -17,6 +17,7 @@
 ## 2. 날짜별 백로그
 - [2026-07-09](./backlog/2026-07-09.md)
 - [2026-07-10](./backlog/2026-07-10.md)
+- [2026-07-14](./backlog/2026-07-14.md)
 
 ## 3. 전체 작업 상태 요약
 - [x] TASK-001: 표준 AI 워크플로우 초기 도입 (a~e 세션 1·2 전부 done, 2026-07-09)
@@ -44,3 +45,5 @@
 - [x] FOUC mitigation (2026-07-10, A1+A3 결합): astryx-component-map.md §10 에 FOUC caveat 단락 추가 (3가지 mitigation pattern + priority ordering). uno-cdn-deck.html 의 `<head>` 에 *pre-paint critical CSS inline* 추가 (slide 1 의 actual utility classes ~30 rules + body visibility toggle). verify_deck.py ALL GATES PASSED (file 9 → 11.6 KB). ASTRYX §5 가 1순위, UnoCSS 옵션 (FOUC 발생 시 inline mitigation 으로 *first paint 의 raw text* → *unstyled-but-correctly-laid-out* 으로 개선, 완전 제거는 아님).
 - [x] UnoCSS 대안 preset 안내 (2026-07-10, B): `references/astryx-component-map.md` 끝에 §11 (Alternative UnoCSS presets) + §12 (When UNO CSS adoption is the wrong call) 신규. preset-mini (30 kB subset), preset-attributify (attribute-based, no-FOUC, 50 kB), preset-icons, preset-web-fonts, preset-uno (build step). Swap pattern + recommended decision flow + verify_deck.py contract + ASTRYX 가 1순위 *decision tree*. 코드 변경 없음 (sample 변경 X, runtime 변경 X).
 - [x] UnoCSS deep-research (2026-07-10, §B 검증·근거 강화): 5 axes workflow `wc3la5p3f` 결과 (15 claims, 4 load-bearing facts). §11 표 갱신 — stale `preset-uno` row 제거 (deprecated, renamed to preset-wind3) + deprecated 노트. `preset-attributify` 보강 (additive mode + JSX transformerAttributifyJsx() 필요). CDN runtime caveats 추가 (preflights 안 ship / default Wind3 / un-cloak rule inline). `preset-mini` 보강 (strict subset of wind3, container/animation/gradient 제외). §12 보강 — 6 가지 operational yes-branch 표 (preflights/JSX/mini load/FOUC/JSX authoring/preflights by default). 권고 synthesis 통합. 코드 변경 없음.
+- [x] TASK-G: llm-wiki 메타 스킬 (2026-07-14, 4 commit) — `skills/llm-wiki/SKILL.md` v0.1.0 + `references/` 7건 (bootstrap-walkthrough / ingest-procedure / query-procedure / lint-procedure / schema-template / wiki-index-template / wiki-log-template). Karpathy LLM Wiki gist `442a6bf555914893e9891c11519de94f` 패턴 정합. raw/wiki/SCHEMA 3계층 + Ingest/Query/Lint 3연산 + 절차 A~D. 부트스트랩 위치 = 사용자 지정. commit: `888de7b` feat / `a881deb` MD033 fix / `678df91` react-premium-design lint 통합 fix / `e21e755` lychee 깨진 링크 fix. 부수 성과: 카탈로그 전체 5 SKILL.md lint-clean.
+- [x] TASK-H: CI fully green 회복 (2026-07-14) — run `29300065972` 통과 (markdownlint 0 errors + skill-lint clean 5 SKILL.md + lychee 41 OK / 0 errors / 12 excluded). 4 CI run 분석: `29298341029` (MD033 19) → `29298979720` (MD009 1 + react-premium-design 5) → `29299539399` (lychee 13) → `29300065972` (success). **신규 운영 제약 학습**: CI workflow 수정 / `.lycheeignore` 추가 / lint rule 비활성화 = 사전 사용자 승인 필요 (auto-classifier 가 `--exclude-path` 추가 거부).

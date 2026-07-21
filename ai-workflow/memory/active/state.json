@@ -1,13 +1,13 @@
 {
   "schema_version": "1",
-  "generated_at": "2026-07-14",
+  "generated_at": "2026-07-21",
   "purpose_digest": "사용자가 여러 AI 하네스(Claude Code 외 포함)에서 재사용할 범용 AI 워크플로우 스킬을 모아두고 배포하는 카탈로그",
   "purpose_digest_rev": 5,
   "source_of_truth": {
     "project_profile_path": "ai-workflow/memory/active/PROJECT_PROFILE.md",
     "session_handoff_path": "ai-workflow/memory/active/session_handoff.md",
     "work_backlog_index_path": "ai-workflow/memory/active/work_backlog.md",
-    "latest_backlog_path": "ai-workflow/memory/active/backlog/2026-07-10.md",
+    "latest_backlog_path": "ai-workflow/memory/active/backlog/2026-07-14.md",
     "repository_assessment_path": "ai-workflow/memory/active/project_status_assessment.md"
   },
   "project": {
@@ -66,7 +66,7 @@
     ]
   },
   "backlog": {
-    "latest_backlog_path": "ai-workflow/memory/active/backlog/2026-07-10.md",
+    "latest_backlog_path": "ai-workflow/memory/active/backlog/2026-07-14.md",
     "task_count": 23,
     "in_progress_items": [],
     "blocked_items": [],
@@ -101,7 +101,7 @@
     "ai-workflow/memory/active/PROJECT_PROFILE.md",
     "ai-workflow/memory/active/session_handoff.md",
     "ai-workflow/memory/active/work_backlog.md",
-    "ai-workflow/memory/active/backlog/2026-07-10.md",
+    "ai-workflow/memory/active/backlog/2026-07-14.md",
     "ai-workflow/memory/active/project_status_assessment.md",
     "skills/README.md",
     "skills/skill-lint/SKILL.md",
