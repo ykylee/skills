@@ -82,15 +82,23 @@ Claude-Code-flavored 확장 필드는 **`metadata.claude_code.*` 아래 depth-2 
 #### 3.1.0 YAML 인용 규칙 (필수)
 
 frontmatter 는 **표준 YAML 파서로 파싱 가능해야** 한다. 자체 mini-parser
-(`scripts/_frontmatter.py`) 는 관대해서 아래 오류를 통과시키므로, `skill-lint` 가 clean 이어도
-안전하지 않다. 두 가지가 실제로 발생했다 (2026-07-21 수정):
+(`scripts/_frontmatter.py`) 는 의도적으로 관대해서 아래 오류를 그냥 통과시킨다. 두 가지가
+실제로 발생했다 (2026-07-21 수정):
 
 - **평문 스칼라 안의 콜론+공백** — `description: ... Triggers: 'a', 'b'` 는 `Triggers:` 를
   두 번째 key 로 해석해 파싱 실패. → 값 전체를 `"` 로 감쌀 것.
 - **닫는 따옴표 뒤의 쉼표** — `when_to_use: "A", "B"` 는 `"A"` 에서 스칼라가 끝나므로 뒤의
   `, "B"` 가 문법 오류. → 값 전체를 `'` 로 감쌀 것 (내부 `"` 는 그대로 유지).
 
-의심되면 커밋 전에 확인:
+이 두 유형과 미닫힘 따옴표는 **`skill-lint` 가 `E002` 로 자동 검출**한다 (2026-07-21 추가).
+별도 명령 없이 평소대로 실행하면 된다:
+
+```bash
+python3 scripts/skill-lint --path skills
+```
+
+`E002` 는 전체 YAML 스펙 검증이 *아니라* 위 3종만 본다. 복잡한 frontmatter (multi-line
+scalar, anchor, flow mapping 등) 를 쓴다면 표준 파서로 직접 확인한다:
 
 ```bash
 sed -n '2,/^---$/p' skills/<name>/SKILL.md | sed '$d' > /tmp/fm.yaml
@@ -186,7 +194,7 @@ npx --yes js-yaml /tmp/fm.yaml    # 파싱 실패 시 non-zero + 위치 표시
 - [ ] 디렉터리명 = `name` (kebab-case)
 - [ ] `description` ≤ 200자, 1-line
 - [ ] `metadata.claude_code.harness_compat` ≥ 1 (depth-2 nested 위치 확인)
-- [ ] frontmatter 가 표준 YAML 파서로 파싱됨 (§3.1.0 인용 규칙)
+- [ ] frontmatter 가 표준 YAML 파서로 파싱됨 — `skill-lint` `E002` 가 자동 검사 (§3.1.0)
 - [ ] 본문에 `## When to use` / `## Procedure` 가 존재
 - [ ] `references/`, `assets/`, `scripts/` 가 실제로 사용됨 (placeholder 금지)
 - [ ] `CHANGELOG.md` 에 본 변경 1줄 기록

@@ -171,6 +171,22 @@
 - `CHANGELOG.md` — 저장소 루트이므로 `./ai-workflow/...` 링크로 수정 (이전 `../ai-workflow/...`).
 - `PROJECT_PROFILE.md` — `../../core/global_workflow_standard.md` 로 수정 (이전 `../core/...`,
   한 단계 위로 부족).
+- **`skill-lint` E002 — 표준 YAML 교차검증 (2026-07-21)**: mini-parser 가 관대해서 표준 YAML
+  파서가 거부하는 값을 통과시키던 사각지대를 닫았다. 앞선 frontmatter 3건이 CI green 상태로
+  깨져 있던 원인.
+  - `scripts/_frontmatter.py` 에 `check_yaml_strict()` 추가 — **stdlib-only 유지** (PyYAML
+    도입 없음, PROJECT_PROFILE §3 정합). 검출 3종: 평문 스칼라의 콜론+공백 / 닫는 따옴표 뒤
+    잔여 내용 / 미닫힘 따옴표. 위반 시 파일 기준 줄 번호와 함께 `E002`.
+  - `_strip_quotes()` 버그 수정 — `.strip('"').strip("'")` 이 따옴표를 개수 제한 없이
+    벗겨내어 `say 'hi'` 의 끝 따옴표를 잘라먹던 것을 *짝이 맞는 한 쌍* 만 제거하도록 변경.
+  - 검증: js-yaml 과의 차등 테스트 16 케이스 (정상 8 / 깨짐 8) **전부 일치, false positive 0**.
+    URL 값 (`https://…`), 평문 아포스트로피, `''` / `\"` escape, inline list, comment 는
+    정상 통과. 실제 5 SKILL.md 는 전체 키 재귀 비교로 js-yaml 과 **불일치 0**.
+  - 한계: 전체 YAML 스펙 검증이 아니다. multi-line scalar / anchor / flow mapping 은 대상
+    밖이며, `skills/README.md` §3.1.0 에 표준 파서 직접 확인 절차를 함께 안내한다.
+- `skills/skill-lint/SKILL.md` — §Procedure 에 E002 단계 추가 (이후 단계 renumber),
+  rule code 목록에 `E002` 추가, `E040` 경로를 `metadata.claude_code.harness_compat` 로 보정
+  (§3.1 예시와 같은 stale 경로였음).
 
 ### Fixed
 - 1차 CI 실패 (`29022405829`) — markdownlint 스타일 48 errors 비활성화로 해결.

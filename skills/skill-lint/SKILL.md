@@ -55,16 +55,23 @@ metadata:
    - 일반 markdown 규칙(MD001~MD058) 은 그대로 사용.
    - 본 카탈로그 특유의 추가 규칙은 `.markdownlint.jsonc` 에 정의(아래 §Custom rules 참조).
 3. **frontmatter parse**: 각 `SKILL.md` 의 YAML frontmatter 를 파싱한다. 파싱 실패는 `E001`.
-4. **required keys 검사**: `name`, `description` 이 존재하는지 확인. 누락 시 `E010`.
-5. **name 형식 검사**: `^[a-z0-9]+(-[a-z0-9]+)*$` 매치 + *디렉터리명과 일치*. 위반 시 `E020`.
-6. **description 검사**: 1-line, ≤ 200자. 위반 시 `E030`.
-7. **harness_compat 검사**: `metadata.harness_compat` 가 배열이고 ≥ 1 요소. 위반 시 `E040`.
-8. **본문 구조 검사**: `## When to use` / `## Procedure` 단락 존재. 누락 시 `W100` (strict 시 에러).
-9. **references 링크 검사**:
-   - 본문이 `references/`, `assets/`, `scripts/` 의 *존재하지 않는* 파일을 참조하면 `E200`.
-   - 본문이 *한 번도 참조하지 않는* `references/`, `assets/`, `scripts/` 가 있으면 `W110` (strict 시 에러).
-10. **lychee 실행**: `lychee --offline "skills/**/*.md"` 로 외부 링크의 정적 무결성 확인. 깨지면 `E210`.
-11. **집계**: violations 배열을 만들고 종료 코드 결정.
+4. **표준 YAML 호환 검사**: mini-parser (`scripts/_frontmatter.py`) 는 *의도적으로 관대* 해서,
+   표준 YAML 파서가 거부하는 값도 통과시킨다. 그 관대함이 값을 조용히 망가뜨리는 구조를
+   따로 잡아낸다. 위반 시 `E002`. 검출 대상 3종:
+   - 평문(unquoted) 스칼라 안의 콜론+공백 — 두 번째 mapping key 로 해석됨
+   - 닫는 따옴표 뒤에 남은 내용 (`when_to_use: "A", "B"`) — 문법 오류
+   - 닫히지 않은 따옴표
+5. **required keys 검사**: `name`, `description` 이 존재하는지 확인. 누락 시 `E010`.
+6. **name 형식 검사**: `^[a-z0-9]+(-[a-z0-9]+)*$` 매치 + *디렉터리명과 일치*. 위반 시 `E020`.
+7. **description 검사**: 1-line, ≤ 200자. 위반 시 `E030`.
+8. **harness_compat 검사**: `metadata.claude_code.harness_compat` 가 배열이고 ≥ 1 요소.
+   위반 시 `E040`.
+9. **본문 구조 검사**: `## When to use` / `## Procedure` 단락 존재. 누락 시 `W100` (strict 시 에러).
+10. **references 링크 검사**:
+    - 본문이 `references/`, `assets/`, `scripts/` 의 *존재하지 않는* 파일을 참조하면 `E200`.
+    - 본문이 *한 번도 참조하지 않는* `references/`, `assets/`, `scripts/` 가 있으면 `W110` (strict 시 에러).
+11. **lychee 실행**: `lychee --offline "skills/**/*.md"` 로 외부 링크의 정적 무결성 확인. 깨지면 `E210`.
+12. **집계**: violations 배열을 만들고 종료 코드 결정.
 
 ### Custom rules (`.markdownlint.jsonc` 예시)
 
@@ -101,10 +108,11 @@ metadata:
 ## Error codes
 
 - `E001` — frontmatter YAML 파싱 실패
+- `E002` — 표준 YAML 파서 비호환 (콜론+공백 / 닫는 따옴표 뒤 내용 / 미닫힘 따옴표)
 - `E010` — required key 누락 (`name` / `description`)
 - `E020` — `name` 형식 위반 또는 디렉터리명 불일치
 - `E030` — `description` 1-line 또는 길이 위반
-- `E040` — `harness_compat` 누락 또는 비어있음
+- `E040` — `metadata.claude_code.harness_compat` 누락 또는 비어있음
 - `E200` — 깨진 내부 링크
 - `E210` — 깨진 외부 링크 (lychee)
 - `W100` — 본문 단락(`When to use` / `Procedure`) 누락

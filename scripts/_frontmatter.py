@@ -11,9 +11,13 @@
   → `metadata.claude_code.harness_compat: [list]` 같은 2-depth nested 의 *list 값* 도 지원
 - 들여쓰기 prefix 가 정확히 *한 단계 더 깊거나 얕음* 일 때만 진입/탈출
 
+본 모듈의 관대함이 *값을 조용히 망가뜨리는* 경우를 잡기 위해 `check_yaml_strict` 를 함께
+제공한다 (표준 YAML 파서가 거부하는 구조 검출; skill-lint 의 E002).
+
 Usage:
-    from _frontmatter import parse_frontmatter
+    from _frontmatter import parse_frontmatter, check_yaml_strict
     fm, errors = parse_frontmatter(text)
+    yaml_errors = check_yaml_strict(text)
 """
 from __future__ import annotations
 
@@ -25,9 +29,105 @@ _LIST_ITEM_RE = re.compile(r"^\s+-\s+")
 # nested key 의 시작 (들여쓰기 + `key:` 형태).
 # 들여쓰기 깊이는 호출자가 *prefix* 로 검사한다.
 
-# list item 의 text 부분에서 quote strip
+# list item 의 text 부분에서 quote strip.
+# *짝이 맞는 한 쌍* 만 제거한다. 이전 구현 (`.strip('"').strip("'")`) 은 따옴표 문자를
+# 개수 제한 없이 양쪽에서 벗겨내서, `say 'hi'` 같은 값의 끝 따옴표를 잘라먹었다.
 def _strip_quotes(s: str) -> str:
-    return s.strip().strip('"').strip("'")
+    s = s.strip()
+    if len(s) >= 2 and s[0] == s[-1] and s[0] in ('"', "'"):
+        return s[1:-1]
+    return s
+
+
+def _scan_quoted(value: str) -> int:
+    """따옴표로 시작하는 scalar 에서 *닫는 따옴표* 의 인덱스를 찾는다.
+
+    double-quoted 는 `\\` escape 를, single-quoted 는 `''` (따옴표 2개 = 리터럴 1개) 를
+    고려한다. 닫히지 않으면 -1.
+    """
+    q = value[0]
+    i = 1
+    while i < len(value):
+        c = value[i]
+        if q == '"':
+            if c == "\\":
+                i += 2
+                continue
+            if c == '"':
+                return i
+        else:
+            if c == "'":
+                if i + 1 < len(value) and value[i + 1] == "'":
+                    i += 2
+                    continue
+                return i
+        i += 1
+    return -1
+
+
+def _check_scalar(value: str) -> str:
+    """scalar 값 하나가 표준 YAML 에서 파싱 가능한지 검사. 문제 없으면 빈 문자열."""
+    value = value.strip()
+    if not value:
+        return ""
+    # flow collection (`[a, b]`, `{a: b}`) 은 본 검사 범위 밖
+    if value[0] in "[{":
+        return ""
+    if value[0] in ('"', "'"):
+        end = _scan_quoted(value)
+        if end == -1:
+            return f"따옴표가 닫히지 않음: {value[:40]}"
+        rest = value[end + 1:].strip()
+        if rest and not rest.startswith("#"):
+            return (
+                f"닫는 따옴표 뒤에 내용이 있음 (표준 YAML 문법 오류): "
+                f"...{value[max(0, end - 8):end + 1]} >>> {rest[:30]}"
+            )
+        return ""
+    # 평문(plain) 스칼라: 콜론+공백은 두 번째 mapping key 로 해석된다
+    if ": " in value or value.endswith(":"):
+        return (
+            f"평문 스칼라에 콜론+공백이 있음 (두 번째 key 로 해석됨). "
+            f"값 전체를 따옴표로 감쌀 것: {value[:50]}"
+        )
+    return ""
+
+
+def check_yaml_strict(text: str) -> list:
+    """frontmatter 가 *표준 YAML 파서* 에서도 파싱 가능한지 검사.
+
+    본 모듈의 mini-parser 는 의도적으로 관대하므로, 관대함이 *값을 조용히 망가뜨리는*
+    구조만 골라 잡아낸다. 전체 YAML 스펙 검증이 아니다 — 실제로 카탈로그에서 발생한
+    두 유형 (평문 스칼라의 콜론+공백, 닫는 따옴표 뒤 쉼표) 과 미닫힘 따옴표를 본다.
+
+    Returns:
+        [(code, line, message), ...]. line 은 *파일 기준* 1-based 줄 번호.
+    """
+    if not text.startswith("---"):
+        return []
+    end = text.find("\n---", 3)
+    if end == -1:
+        return []
+
+    errors: list = []
+    lines = text[3:end].strip("\n").split("\n")
+    # `strip("\n")` 이 시작 마커 뒤 개행을 제거하므로 lines[0] = 파일의 2번째 줄
+    # (1번째 줄은 `---`). 따라서 idx 0 → line 2.
+    offset = 2
+    for idx, line in enumerate(lines):
+        content = line.strip()
+        if not content or content.startswith("#"):
+            continue
+        if content.startswith("- "):
+            value = content[2:]
+        elif ":" in content:
+            value = content.partition(":")[2]
+        else:
+            continue
+        msg = _check_scalar(value)
+        if msg:
+            errors.append(("E002", idx + offset, msg))
+    return errors
 
 
 def _parse_block(lines: list[str], start_idx: int, prefix: str) -> tuple[dict, int]:
