@@ -189,6 +189,26 @@
   (§3.1 예시와 같은 stale 경로였음).
 
 ### Fixed
+- **`llm-wiki` 템플릿 결함 4건 (2026-07-21, v0.1.0 → v0.1.1)**: 실전 검증 (bootstrap →
+  ingest 6회 → query → lint) 중 발견. 절차 자체가 아니라 *복사되는 템플릿* 의 문제.
+  - `wiki-index-template.md` 경로 오류 — 예시가 `./wiki/entity-<slug>.md` 인데 `index.md`
+    자체가 `wiki/` 안에 있어 `wiki/wiki/` 를 가리켰다 (8개 항목 전부). `./entity-foo.md` 로 보정.
+  - `wiki-index-template.md` 에 markdown 링크가 **0개** 였던 것을 복원. `e21e755` (lychee
+    CI green) 이 링크를 `(page: …)` 서술형으로 바꿨는데, index 는 Query 절차 §C.1 의 1차
+    검색 인덱스라 페이지 이동이 끊겼다. 예시 행을 **fenced code block** 안에 두어 링크
+    문법을 보존하면서 lychee 의 링크 추출 대상에서 제외 — `wiki-log-template.md` 가 이미
+    쓰던 "예시는 지우고 시작" 관례와 같은 방향. 부수 효과로 `a881deb` 의 백틱 wrap 이
+    불필요해져 `<slug>` → `foo` 로 단순화.
+  - `schema-template.md` 의 `[llm-wiki SKILL.md](../SKILL.md)` — `references/` 안에서만
+    유효하고 사용자 위치로 복사하면 깨졌다 (lychee 는 원본 위치만 보므로 통과). 서술형
+    경로로 교체하고 복사 후 기준임을 명시.
+  - 오타 2건 — `mucic/index/log` (bootstrap-walkthrough), `AI 모델 wikil는` (schema-template).
+  - 검증: 수정한 템플릿으로 재-bootstrap → 펜스를 벗긴 실제 링크가 destination 에서
+    해석됨 (수정 전이면 `wiki/wiki/…`). 코드 펜스·코드 스팬 제외 상대 링크 15건 전부 해석.
+    markdownlint 18 files 0 issues, skill-lint --strict clean.
+  - **미수정 (별도 task)**: lint 의 역방향 link 대칭성 규칙이 ingest 절차와 불일치 (동급
+    관계가 아닌 `synthesis → concept` 까지 대칭 요구), bootstrap 의 SCHEMA 플레이스홀더
+    치환 체크리스트 누락.
 - 1차 CI 실패 (`29022405829`) — markdownlint 스타일 48 errors 비활성화로 해결.
 - 2차 CI 실패 (`29022615698`) — lychee `command not found` (PATH 미적용) → install-action 으로 해결.
 - 3차 CI 실패 (`29022734640`) — `CHANGELOG.md` / `PROJECT_PROFILE.md` 깨진 링크 2건 수정.

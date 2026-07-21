@@ -41,7 +41,8 @@
 | `comparison-*` | `comparison-<topic>.md` | 다중 entity 비교 | `comparison-frontier-2026.md` |
 | `synthesis-*` | `synthesis-<topic>.md` | 다중 raw 종합, 의사결정 가이드 | `synthesis-model-selection.md` |
 
-> 도메인에 따라 page type 추가 가능. 예: AI 모델 wikil는 `release-note-*` 추가.
+> 도메인에 따라 page type 추가 가능. 예: AI 모델 wiki 는 `release-note-*` 추가.
+> page type 을 추가하면 `wiki/index.md` 에도 대응하는 절을 추가한다.
 
 ## 4. Frontmatter 규약
 
@@ -100,6 +101,10 @@ wiki-인스턴스 추가 규칙:
 
 ## 다음에 읽을 문서
 
-- 본 wiki 의 `wiki/index.md` — 전체 페이지 카탈로그
-- 본 wiki 의 `wiki/log.md` — 최근 ingest / lint 흐름
-- 상위 메타 스킬: [llm-wiki SKILL.md](../SKILL.md) — 절차의 source of truth
+> 아래 경로는 *복사된 위치 기준* 이다. 본 템플릿 파일 위치에서는 존재하지 않으므로
+> markdown 링크로 쓰지 않는다 (복사 후 링크가 깨지는 것을 막기 위함).
+
+- `./wiki/index.md` — 전체 페이지 카탈로그
+- `./wiki/log.md` — 최근 ingest / lint 흐름
+- 상위 메타 스킬 `llm-wiki` 의 `SKILL.md` — 절차의 source of truth.
+  카탈로그 내 경로는 `skills/llm-wiki/SKILL.md`

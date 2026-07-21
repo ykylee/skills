@@ -8,7 +8,7 @@ metadata:
       - claude-code
       - generic-md
     category: meta
-    version: 0.1.0
+    version: 0.1.1
 ---
 
 # llm-wiki

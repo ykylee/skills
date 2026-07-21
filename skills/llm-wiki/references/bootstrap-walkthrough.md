@@ -40,7 +40,7 @@ cp skills/llm-wiki/references/wiki-log-template.md    /path/to/my-wiki/wiki/log.
 ```
 읽기: skills/llm-wiki/references/schema-template.md
 쓰기: /path/to/my-wiki/SCHEMA.md
-(mucic/index/log 도 동일)
+(index / log 템플릿도 동일)
 ```
 
 ## 3. raw/ 시작점
