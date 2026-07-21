@@ -18,9 +18,15 @@
   - **TASK-J** (`e9cc089`) 표준 YAML 비호환 frontmatter 3건 — 값 보존, 따옴표만 보정.
   - **TASK-K** (`e6f44cb`) 카탈로그 문서 — 미등재 1건 + stale authoring 가이드.
   - **TASK-L** (`0cbeb31`) `skill-lint` E002 — 표준 YAML 교차검증 (stdlib-only).
-- **다음 세션이 가장 먼저 할 일**: **4 commit push**. `skills/**` 를 건드리므로 push 시 CI 가
-  돈다. 로컬에서 markdownlint (18 files 0 issues) + skill-lint `--strict` clean 확인했으나
-  **lychee 는 로컬 미설치로 미검증** (본 세션 변경은 링크 무관).
+  - **TASK-M** (커밋 없음) llm-wiki 실전 검증 — 결함 6건 발견. 산출물은 scratchpad 폐기용,
+    저장소 무변경.
+  - **TASK-N** (`0758500`) llm-wiki 템플릿 결함 4건 수정 (①②③⑥), v0.1.0 → v0.1.1.
+- **6 commit push 완료** (`207f92d..be37d4d`, `be37d4d..0758500`).
+- **다음 세션이 가장 먼저 할 일**: **CI 결과 확인**. `gh` 미설치로 본 세션에서 조회 못 했다.
+  TASK-N 의 lychee 가정 (코드 펜스 안 링크는 lychee 가 추출 안 함) 이 여기서 판정된다.
+  - green → 가정 성립, 결함 ② 해결 확정.
+  - red (lychee) → **`--exclude-path` 로 가지 말 것** (TASK-H 에서 거부된 경로).
+    HTML 주석 방식이 다음 후보 — `wiki-log-template.md` 가 이미 쓰고 CI 통과 중.
 - **직전 세션 (2026-07-14)**: TASK-G llm-wiki 메타 스킬 done (4 commit `888de7b` →
   `a881deb` → `678df91` → `e21e755`), TASK-H CI fully green 회복 (run `29300065972`).
   후속 task 후보 (D. llm-wiki 실전 검증, A. UnoCSS FOUC mitigation, B. UnoCSS preset,
@@ -109,6 +115,21 @@
   - `check_yaml_strict()` 신규 — **stdlib-only 유지** (PyYAML 미도입). 검출 3종.
   - `_strip_quotes()` 버그 수정 (따옴표 무제한 제거 → 짝 한 쌍만).
   - js-yaml 차등 테스트 16 케이스 전부 일치 / false positive 0.
+- TASK-M llm-wiki 실전 검증 (2026-07-21, done, **커밋 없음**):
+  - 사용자 선택: *폐기용 검증* + 도메인 = *본 저장소 자체*. 원천을 지어내면 검증이
+    무의미해지므로 (스킬이 잘 되는 것처럼 보이게 쓸 수 있음).
+  - scratchpad `wiki-test/` 에 절차 A → B×6 → C×1 → D×1. **저장소 무변경**.
+  - 원천 6건 전부 저장소 실물. 그중 `e6f44cb^` 시점의 stale authoring 가이드가
+    **실제 모순 재료** (구 `metadata.harness_compat` vs 현 `metadata.claude_code.*`).
+  - 검증 4항목 중 **3 통과** (SCHEMA 적응 / 모순 플래그 흐름 / lint 보고서),
+    **cross-reference 보강 실패** (결함 ④).
+  - **결함 6건**: ①②③⑥ → TASK-N 수정, **④⑤ 미수정** (아래 Next Actions).
+- TASK-N llm-wiki 템플릿 결함 수정 (2026-07-21, done, `0758500`, v0.1.1):
+  - ① index 템플릿 경로가 `wiki/wiki/` 지칭 (8행) ② index 템플릿의 markdown 링크 0개
+    (`e21e755` 부작용 — Query §C.1 의 1차 인덱스가 이동 불가) ③ schema 템플릿의
+    `../SKILL.md` 가 복사 후 깨짐 (lychee 는 원본 위치만 봄) ⑥ 오타 2건.
+  - **②는 CI 무수정으로 해결** — 예시 행을 fenced code block 에. `--exclude-path` 미사용.
+  - 검증: 수정 템플릿으로 **재-bootstrap 해서 링크 해석 확인** (주장이 아니라 재현).
 
 ## Key Changes
 
@@ -286,8 +307,15 @@
 - [x] **TASK-H CI fully green 회복** — run `29300065972` 통과 (markdownlint + skill-lint + lychee 3 step clean). 6 CI run 분석 완료 (29298341029 → 29298979720 → 29299539399 → 29300065972).
 - [x] **TASK-I ~ TASK-L 드리프트 연쇄 정리 (2026-07-21, 4 commit)** — `4accca3` 백로그 /
   `e9cc089` YAML frontmatter / `e6f44cb` 카탈로그 문서 / `0cbeb31` E002 교차검증.
-- [ ] **[최우선] 4 commit push** — `main` 이 `origin/main` 보다 4 앞섬. `skills/**` 변경
-  포함이라 push 시 CI 가 돈다. 로컬 검증은 markdownlint + skill-lint 2 step 만 (lychee 미설치).
+- [x] **6 commit push 완료** (`207f92d..be37d4d`, `be37d4d..0758500`).
+- [ ] **[최우선] CI 결과 확인** — `gh` 미설치로 본 세션 조회 불가.
+  <https://github.com/ykylee/skills/actions>. TASK-N 의 lychee 가정이 여기서 판정됨.
+- [ ] **④ lint 역방향 link 대칭성 규칙** (TASK-M 미수정) — lint 는 전 page type 에 대칭을
+  요구하나 ingest 절차는 언제 상호적이어야 하는지 미정의. 절차대로 ingest 한 결과 4건이
+  걸렸고 **4건 모두 고치면 안 되는 것**이었다 (`synthesis → concept` 등 상하위 인용).
+  권고 방향: 동급 (`entity ↔ entity`) 에만 대칭 요구. **규칙 변경이라 사용자 판단 필요**.
+- [ ] **⑤ bootstrap 의 SCHEMA 플레이스홀더 체크리스트** (TASK-M 미수정) — 절차 A 5단계와
+  walkthrough §4 가 §1/§3/§4/§5 만 언급. 제목 `<Wiki Name>`, §2, §6, §7 은 지시 없이 방치.
 - [ ] 다음 세션 (선택 항목):
   - **E. CI 에 표준 YAML 단계 추가** — E002 는 stdlib 범위 3종만 본다. `npx js-yaml` 을
     CI 에 넣으면 전체 스펙 검증이 된다 (node 는 markdownlint-cli2 때문에 이미 설치됨).
@@ -350,8 +378,14 @@
 - **E002 차등 테스트 corpus 의 한계**: 16 케이스 전부 일치 / false positive 0 이지만, corpus
   자체를 본 세션에서 설계했으므로 "미검출 0" 은 그 범위 안의 이야기. 실제 사용 중 새 유형이
   나오면 케이스를 추가할 것.
-- **lychee 로컬 미설치**: 본 세션 변경은 링크 무관이라 영향 없으나, 로컬에서 CI 3-step 중
-  2-step (markdownlint + skill-lint) 만 재현 가능한 상태. push 후 CI 결과 확인 필요.
+- **lychee 로컬 미설치**: 로컬에서 CI 3-step 중 2-step (markdownlint + skill-lint) 만
+  재현 가능. **TASK-N 에서 이 제약이 실제 미검증 가정으로 남았다** — 코드 펜스 안 링크를
+  lychee 가 추출하지 않는다는 것은 markdown 파서의 표준 동작이지만 본 환경에서 확인한
+  사실이 아니다. CI 결과로만 판정 가능.
+- **템플릿 검증의 구조적 사각지대 (TASK-M 발견)**: lychee 는 템플릿을 *원본 위치* 에서만
+  검사한다. 템플릿은 사용자 위치로 **복사되어** 쓰이므로, 복사 후에만 깨지는 링크
+  (결함 ③) 는 어떤 CI 단계도 잡지 못한다. 결함 ① 의 `wiki/wiki/` 경로도 같은 이유로
+  통과했다. 템플릿류는 *복사 후 기준* 으로 별도 검증이 필요하다.
 - **`skill-lint` 의 cwd 제약 (사전 존재, 미수정)**: `check_file` 의
   `path.relative_to(repo_root)` 때문에 `--path` 가 cwd 하위가 아니면 `ValueError`.
   저장소 밖 디렉터리 검사 불가. 본 세션 테스트 시 저장소 안에 임시 픽스처를 두어 우회.

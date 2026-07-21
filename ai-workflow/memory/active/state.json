@@ -27,12 +27,14 @@
     "runtime_checks": "markdownlint-cli2 (markdown lint) + python3 scripts/skill-lint (frontmatter / harness_compat / 내부 링크) + lychee --offline (외부 링크)"
   },
   "session": {
-    "current_baseline": "TASK-I~L 드리프트 연쇄 정리 done (4 commit: 4accca3 백로그 / e9cc089 YAML frontmatter 3건 / e6f44cb 카탈로그 문서 / 0cbeb31 skill-lint E002 교차검증). **4 commit 전부 미 push**. 핵심: skill-lint clean + CI green 이어도 표준 YAML 파서에서 5 SKILL.md 중 3건이 파싱 실패 상태였음 — mini-parser 의 의도적 관대함이 원인. E002 로 실제 발생 3종 차단 (stdlib-only 유지, PyYAML 미도입). 5 SKILL.md 모두 표준 YAML OK + lint clean.",
+    "current_baseline": "TASK-I~N 6건 done, 6 commit 전부 push 완료 (207f92d..be37d4d, be37d4d..0758500). 전반부(I~L) = 드리프트 연쇄 정리 + E002 표준 YAML 교차검증. 후반부(M~N) = llm-wiki 실전 검증 (bootstrap → ingest 6 → query → lint) 으로 결함 6건 발견, 그중 템플릿 결함 4건 수정 (v0.1.1). **CI 결과 미확인** — gh 미설치. TASK-N 의 lychee 가정 (코드 펜스 안 링크 미추출) 이 CI 로 판정된다.",
     "current_axis": "범용 AI 워크플로우 스킬 카탈로그 — 메타 스킬 3종 (skill-lint, skill-discover, llm-wiki) + 도메인 스킬 2종 (html-slides-builder, react-premium-design) + 운영 도구 3종. 검증 계층 강화 단계 (E002 표준 YAML 교차검증 도입).",
-    "current_focus": "다음 세션 최우선 = 4 commit push (skills/** 포함이라 CI 가 돎, lychee 는 로컬 미검증). 그 다음 후보: E. CI 에 js-yaml 단계 추가 (CI 수정 = 사전 승인 필요) / D. llm-wiki 실전 검증 / A. UnoCSS FOUC mitigation / B. UnoCSS preset / C. 신규 task.",
+    "current_focus": "다음 세션 최우선 = CI 결과 확인 (https://github.com/ykylee/skills/actions). red(lychee) 면 --exclude-path 로 가지 말고 HTML 주석 방식으로 (log 템플릿이 쓰는 검증된 패턴). 그 다음: ④ lint 역방향 대칭성 규칙 (사용자 판단 필요) / ⑤ bootstrap 플레이스홀더 체크리스트 / E. CI 에 js-yaml 단계 (사전 승인 필요) / A·B. UnoCSS.",
     "in_progress_items": [],
     "blocked_items": [],
     "recent_done_items": [
+      "TASK-M llm-wiki 실전 검증 (2026-07-21, 커밋 없음 — 산출물 폐기용) — 사용자 선택으로 폐기용 검증 + 도메인 = 본 저장소 자체 (원천을 지어내면 검증 무의미). scratchpad wiki-test/ 에 절차 A → B×6 → C×1 → D×1, 저장소 무변경. 원천 6건 전부 저장소 실물이고 e6f44cb^ 시점의 stale authoring 가이드가 실제 모순 재료. 검증 4항목 중 3 통과 (SCHEMA 적응 / 모순 플래그 흐름 / lint 보고서), cross-reference 보강 실패. 결함 6건 발견 — ①index 템플릿 경로가 wiki/wiki/ 지칭 ②index 템플릿 markdown 링크 0개 ③schema 템플릿 ../SKILL.md 가 복사 후 깨짐 ④lint 역방향 대칭성이 ingest 절차와 불일치 ⑤bootstrap 플레이스홀더 체크리스트 누락 ⑥오타 2건. 부수 관찰: coverage 1.00 은 부트스트랩 직후라 지표 신호 약함.",
+      "TASK-N llm-wiki 템플릿 결함 4건 수정 (2026-07-21, 0758500, v0.1.0 → v0.1.1) — ①②③⑥ 수정, ④⑤ 미수정. ②는 CI 를 건드리지 않고 해결: 예시 행을 fenced code block 에 두어 링크 문법 보존 + lychee 추출 대상 제외 (--exclude-path 는 TASK-H 에서 거부된 경로라 미사용). 부수 효과로 a881deb 의 백틱 wrap 불필요해져 <slug> → foo 단순화. 검증: 수정 템플릿으로 재-bootstrap 해서 링크 해석 확인 (주장이 아니라 재현), 펜스·코드 스팬 제외 상대 링크 15건 전부 해석, markdownlint 0 / skill-lint --strict clean. 미해결: 코드 펜스 안 링크를 lychee 가 추출하지 않는다는 가정은 로컬 미검증 — CI 판정 대기.",
       "TASK-I 백로그 드리프트 정리 (2026-07-21, 4accca3) — backlog/2026-07-14.md 사후 보강 (TASK-G/H 완료됐으나 날짜별 백로그 부재, PROJECT_PROFILE §4 규약 위반). work_backlog §2 링크 + §3 요약 2줄, state.json 3곳, 2026-07-09/07-10 헤더 in_progress → done. 부수: 본 머신 git identity 미설정 → 사용자 확인 후 --local 설정 (ykylee <ddn777@hotmail.com>), 전역 미변경.",
       "TASK-J 표준 YAML 비호환 frontmatter 3건 (2026-07-21, e9cc089) — 5 SKILL.md 중 3건이 표준 YAML 파서에서 파싱 실패. 원인 2종: 평문 스칼라의 콜론+공백 (html-slides-builder description) / 닫는 따옴표 뒤 쉼표 (llm-wiki·react-premium-design when_to_use). 값 보존, 따옴표만 보정. 검증: npx js-yaml 5건 전부 OK (수정 후 전체 재추출 — js-yaml 은 첫 오류에서 멈춤), mini-parser 와 값 10건 일치. PyYAML 은 pip 인덱스 접근 불가로 미사용.",
       "TASK-K 카탈로그 문서 드리프트 (2026-07-21, e6f44cb) — ① react-premium-design 이 루트 README 트리 + wiki/index.md §4 에 미등재 → 추가 (5개 전부 등재). ② skills/README.md §3.1 예시가 2026-07-10 정책 이전 형태 (top-level when_to_use + metadata.harness_compat) 를 가르쳐 가이드대로 쓰면 E040 실패하던 것을 metadata.claude_code.* 로 보정. ③ §3.1.0 YAML 인용 규칙 신설 (js-yaml 명령은 실제 실행 검증 후 문서화 — 프로세스 치환 형태는 실패해 임시 파일 방식으로 교체). ④ §1.1 은 목록 복사 대신 skill-discover 안내 (손 관리 목록 추가 안 함이 의도).",
@@ -70,15 +72,18 @@
       "PyYAML 사용 불가 — pip 인덱스 접근 실패. 표준 YAML 검증이 필요하면 npx js-yaml (npm 은 동작). scripts/ 는 stdlib-only 유지 (2026-07-21 확인)",
       "lychee 로컬 미설치 — CI 3-step 중 markdownlint + skill-lint 2-step 만 로컬 재현 가능 (2026-07-21)",
       "git identity 는 본 저장소 --local 로만 설정 (ykylee <ddn777@hotmail.com>). 머신 전역은 user.name=ssubb + email 부재 (2026-07-21)",
-      "skill-lint --path 는 cwd 하위만 가능 (path.relative_to(repo_root)). 저장소 밖 디렉터리 검사 불가 (사전 존재 한계, 2026-07-21 확인)"
+      "skill-lint --path 는 cwd 하위만 가능 (path.relative_to(repo_root)). 저장소 밖 디렉터리 검사 불가 (사전 존재 한계, 2026-07-21 확인)",
+      "템플릿류는 CI 사각지대 — lychee 가 템플릿을 *원본 위치* 에서만 검사하므로, 사용자 위치로 복사된 뒤에만 깨지는 링크는 어떤 CI 단계도 잡지 못한다 (TASK-M 결함 ①③ 이 이 경로로 통과했음). 복사 후 기준 별도 검증 필요 (2026-07-21)"
     ]
   },
   "backlog": {
     "latest_backlog_path": "ai-workflow/memory/active/backlog/2026-07-21.md",
-    "task_count": 27,
+    "task_count": 29,
     "in_progress_items": [],
     "blocked_items": [],
     "done_items": [
+      "TASK-M llm-wiki 실전 검증 — 결함 6건 발견, 검증 4항목 중 3 통과 (2026-07-21, 커밋 없음)",
+      "TASK-N llm-wiki 템플릿 결함 4건 수정 ①②③⑥, v0.1.1 (2026-07-21, 0758500)",
       "TASK-I 백로그 드리프트 정리 (2026-07-21, 4accca3)",
       "TASK-J 표준 YAML 비호환 frontmatter 3건 수정 (2026-07-21, e9cc089)",
       "TASK-K 카탈로그 문서 드리프트 정리 — react-premium-design 미등재 + skills/README.md stale authoring 가이드 (2026-07-21, e6f44cb)",
