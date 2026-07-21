@@ -6,16 +6,25 @@
 - Scope: current focus, task status, key changes, next actions, risks
 - Audience: AI agents, maintainers
 - Status: draft
-- Updated: 2026-07-14 (본 세션 마무리) — TASK-G llm-wiki 메타 스킬 done (4 commit: feat + MD033 fix + react-premium-design lint 통합 fix + lychee 깨진 링크 fix) + TASK-H CI fully green 회복 (run `29300065972`). auto-classifier 가 `.github/workflows/skill-lint.yml` 의 `--exclude-path` 추가를 거부 → CI check skip 은 명시적 사용자 승인 필요 제약 학습. 직전 세션 산출물: TASK-F + wiki + Axes 2/3 + §A hybrid 정책 + §A Marpit 검증 + §B .gitignore + antd/UnoCSS 검토 + §A.5 안내 + sample deck + Browser 시각 검증.
+- Updated: 2026-07-21 (본 세션 마무리) — 드리프트 연쇄 정리 4건 done: TASK-I 백로그 (`4accca3`) + TASK-J 표준 YAML 비호환 frontmatter 3건 (`e9cc089`) + TASK-K 카탈로그 문서 (`e6f44cb`) + TASK-L `skill-lint` E002 교차검증 (`0cbeb31`). **4 commit 전부 미 push**. 핵심 교훈: `skill-lint` clean + CI green 이어도 표준 YAML 파서에서는 5건 중 3건이 깨져 있었다 — 검증 도구의 사각지대를 E002 로 닫음. 직전 세션 (2026-07-14): TASK-G llm-wiki + TASK-H CI green 회복.
 - Related docs: [Purpose](./PURPOSE.md), [Project Profile](./PROJECT_PROFILE.md), [Work Backlog](./work_backlog.md)
 
 ## Current Focus
 
-- **TASK-G + TASK-H 본 세션 마무리**: TASK-G llm-wiki 메타 스킬 done (4 commit `888de7b` →
-  `a881deb` → `678df91` → `e21e755`), TASK-H CI fully green 회복 (run `29300065972`,
-  markdownlint + skill-lint + lychee 3 step 모두 clean). 후속 task 후보 (D. llm-wiki
-  실전 검증, A. UnoCSS FOUC mitigation, B. UnoCSS preset, C. 신규 task) 는 Next
-  Actions 에 보존.
+- **본 세션 (2026-07-21) — 드리프트 연쇄 정리 4건, 전부 done**. 출발점은 "프로젝트 파악"
+  이었고 파악 과정에서 드리프트가 연달아 발견되어 TASK-I → TASK-L 로 이어졌다.
+  상세는 [backlog/2026-07-21.md](./backlog/2026-07-21.md).
+  - **TASK-I** (`4accca3`) 백로그 드리프트 — `backlog/2026-07-14.md` 사후 보강.
+  - **TASK-J** (`e9cc089`) 표준 YAML 비호환 frontmatter 3건 — 값 보존, 따옴표만 보정.
+  - **TASK-K** (`e6f44cb`) 카탈로그 문서 — 미등재 1건 + stale authoring 가이드.
+  - **TASK-L** (`0cbeb31`) `skill-lint` E002 — 표준 YAML 교차검증 (stdlib-only).
+- **다음 세션이 가장 먼저 할 일**: **4 commit push**. `skills/**` 를 건드리므로 push 시 CI 가
+  돈다. 로컬에서 markdownlint (18 files 0 issues) + skill-lint `--strict` clean 확인했으나
+  **lychee 는 로컬 미설치로 미검증** (본 세션 변경은 링크 무관).
+- **직전 세션 (2026-07-14)**: TASK-G llm-wiki 메타 스킬 done (4 commit `888de7b` →
+  `a881deb` → `678df91` → `e21e755`), TASK-H CI fully green 회복 (run `29300065972`).
+  후속 task 후보 (D. llm-wiki 실전 검증, A. UnoCSS FOUC mitigation, B. UnoCSS preset,
+  C. 신규 task) 는 Next Actions 에 보존.
 - **직전 세션 마감**: TASK-D + TASK-E + TASK-PI + TASK-F 완료, wiki 신규 + 세션 마무리.
   TASK-001 (a~e) + TASK-002-B (운영 자동화) + TASK-003-A (skill-discover SKILL.md) +
   TASK-002-B-verify (1차 CI) + TASK-A-2 (Node 20 deprecation 해소) + TASK-C (skill-discover
@@ -79,8 +88,27 @@
     반드시 사전 사용자 승인 필요.
   - **6 CI run 분석**: `29298341029` (초기 MD033 19) → `29298979720` (MD009 1) → `29299539399`
     (lychee 13) → `29300065972` (success).
-- N/A: blocked
-- N/A: blocked
+- TASK-I 백로그 드리프트 정리 (2026-07-21, done, `4accca3`):
+  - `backlog/2026-07-14.md` 신규 — TASK-G/H 가 완료됐으나 날짜별 백로그 파일이 없어
+    PROJECT_PROFILE §4 규약과 어긋나 있던 것을 사후 보강. 문서 상단에 *사후 보강 노트* 명시.
+  - `work_backlog.md` §2 링크 + §3 요약 2줄 (§3 에도 누락돼 있었음), `state.json` 3곳,
+    `backlog/2026-07-09.md`·`2026-07-10.md` 헤더 `in_progress` → `done`.
+  - 부수: 본 머신 git identity 미설정 발견 → 사용자 확인 후 `--local` 설정
+    (`ykylee <ddn777@hotmail.com>`, 기존 38 commit 과 동일). **전역 설정은 미변경**.
+- TASK-J 표준 YAML 비호환 frontmatter 3건 (2026-07-21, done, `e9cc089`):
+  - **5 SKILL.md 중 3건이 표준 YAML 파서에서 파싱 실패** 상태였다 — `skill-lint` 는 clean,
+    CI 는 green. 원인 2종: 평문 스칼라의 콜론+공백 (`html-slides-builder` `description` 의
+    `Triggers:` + 공백) / 닫는 따옴표 뒤 쉼표 (`llm-wiki`·`react-premium-design` `when_to_use`).
+  - 값 보존, 따옴표만 보정. mini-parser 가 잘라먹던 `when_to_use` 2건의 값이 원래대로 복원.
+  - PyYAML 은 pip 인덱스 접근 불가 → `npx js-yaml` 로 검증 (npm 은 동작).
+- TASK-K 카탈로그 문서 드리프트 (2026-07-21, done, `e6f44cb`):
+  - `react-premium-design` 이 루트 `README.md` 트리 + `wiki/index.md` §4 에 미등재 → 추가.
+  - `skills/README.md` §3.1 예시가 2026-07-10 정책 *이전* 형태를 가르쳐 **가이드대로 쓰면
+    E040 실패**하던 것을 보정. §3.1.0 YAML 인용 규칙 + §1.1 (목록 대신 skill-discover) 신설.
+- TASK-L `skill-lint` E002 표준 YAML 교차검증 (2026-07-21, done, `0cbeb31`):
+  - `check_yaml_strict()` 신규 — **stdlib-only 유지** (PyYAML 미도입). 검출 3종.
+  - `_strip_quotes()` 버그 수정 (따옴표 무제한 제거 → 짝 한 쌍만).
+  - js-yaml 차등 테스트 16 케이스 전부 일치 / false positive 0.
 
 ## Key Changes
 
@@ -256,7 +284,14 @@
 - [x] TASK-F commit (`abf0fcf`) + wiki/index.md 신규 작성 + wiki commit (`4b98c38`) + Axes 2/3 후속 deep-research commit (`c284442`) + Open Props + tokens layer 통합 commit (`1459873`) + §A 잔여 frontmatter 정책 결정 commit (`1a1461a`) + §A hybrid 정책 *구현* — parser 단일화 commit (`297d016`) + SKILL.md depth-2 nested 재구성 commit (`e5e3d61`) + 운영 문서 동기화 commit (`334b98f`) + §A Marpit §3 hand-written 발현 검증 commit (`19ccd7e`) + §B .gitignore `__pycache__/` commit (`35dabd5`) + push 완료 + §antd 적용 가능성 검토 commit (`cfd3286`) + §A UnoCSS 적용 가능성 검토 commit (`02d0aeb`) + §A.5 선택적 UnoCSS CDN runtime 안내 commit (`9930205`) + sample deck commit (`d6449bf`) + Browser 시각 검증 commit (예정)
 - [x] **TASK-G llm-wiki (4 commit, fully done)** — `888de7b` feat + `a881deb` MD033 fix + `678df91` react-premium-design lint 통합 fix + `e21e755` lychee 깨진 링크 fix.
 - [x] **TASK-H CI fully green 회복** — run `29300065972` 통과 (markdownlint + skill-lint + lychee 3 step clean). 6 CI run 분석 완료 (29298341029 → 29298979720 → 29299539399 → 29300065972).
+- [x] **TASK-I ~ TASK-L 드리프트 연쇄 정리 (2026-07-21, 4 commit)** — `4accca3` 백로그 /
+  `e9cc089` YAML frontmatter / `e6f44cb` 카탈로그 문서 / `0cbeb31` E002 교차검증.
+- [ ] **[최우선] 4 commit push** — `main` 이 `origin/main` 보다 4 앞섬. `skills/**` 변경
+  포함이라 push 시 CI 가 돈다. 로컬 검증은 markdownlint + skill-lint 2 step 만 (lychee 미설치).
 - [ ] 다음 세션 (선택 항목):
+  - **E. CI 에 표준 YAML 단계 추가** — E002 는 stdlib 범위 3종만 본다. `npx js-yaml` 을
+    CI 에 넣으면 전체 스펙 검증이 된다 (node 는 markdownlint-cli2 때문에 이미 설치됨).
+    **CI workflow 수정 = 사전 사용자 승인 필요** (2026-07-14 학습 제약) — 반드시 먼저 물을 것.
   - **A. UnoCSS FOUC mitigation** — `<body un-cloak>` 만으로 부족. critical CSS inline 또는 UnoCSS pre-rendered build 전환 (Vite/vinxi 등). 사용자가 실제 browser 환경에서 재검증 권장.
   - **B. UnoCSS 다른 preset (mini / attributify) 안내** — 본 task 는 default Uno build 만.
   - **C. 신규 task** — 도메인 스킬 1~2개 / harness 어댑터 / 운영 도구 추가 보강.
@@ -307,6 +342,22 @@
   (descriptive text) 으로 해결. **다음 세션 정책**: (a) CI workflow 수정 (어떤 stage 든),
   (b) `.lycheeignore` 같은 CI 설정 파일 추가, (c) lint rule 비활성화 — 모두 *사전 사용자
   승인* 후 진행. 우회 시도 금지.
+- **검증 도구의 사각지대 (2026-07-21 부분 해소, TASK-J/L)**: `skill-lint` clean + CI green
+  이어도 표준 YAML 파서에서는 5건 중 3건이 깨져 있었다. mini-parser 가 의도적으로 관대한
+  결과. E002 로 실제 발생한 3종은 막았으나 **전체 YAML 스펙 검증은 아니다** — multi-line
+  scalar / anchor / flow mapping 은 여전히 사각지대. 완전 해소는 Next Actions §E (CI 에
+  js-yaml 단계, *사전 승인 필요*).
+- **E002 차등 테스트 corpus 의 한계**: 16 케이스 전부 일치 / false positive 0 이지만, corpus
+  자체를 본 세션에서 설계했으므로 "미검출 0" 은 그 범위 안의 이야기. 실제 사용 중 새 유형이
+  나오면 케이스를 추가할 것.
+- **lychee 로컬 미설치**: 본 세션 변경은 링크 무관이라 영향 없으나, 로컬에서 CI 3-step 중
+  2-step (markdownlint + skill-lint) 만 재현 가능한 상태. push 후 CI 결과 확인 필요.
+- **`skill-lint` 의 cwd 제약 (사전 존재, 미수정)**: `check_file` 의
+  `path.relative_to(repo_root)` 때문에 `--path` 가 cwd 하위가 아니면 `ValueError`.
+  저장소 밖 디렉터리 검사 불가. 본 세션 테스트 시 저장소 안에 임시 픽스처를 두어 우회.
+- **git identity 는 `--local` 로만 설정됨 (2026-07-21)**: 본 머신 전역 git 에는
+  `user.name=ssubb` 만 있고 email 부재. 본 저장소에만 `ykylee <ddn777@hotmail.com>` 설정.
+  **다른 저장소에서 커밋하면 같은 오류가 재발**한다.
 - **llm-wiki 의 query 단계 cross-reference 1-hop 한계**: SKILL.md 절차 C 에서 "index lookup
   → targeted read → cross-link 1-hop 추가 정도는 허용" 이라 명시. 2-hop 이상은 비용 ↑
   으로 사용자 focus 재설정 요청. 향후 qmd 통합 시 개선 가능.
