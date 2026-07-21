@@ -64,7 +64,9 @@ Karpathy의 [LLM Wiki gist](https://gist.github.com/karpathy/442a6bf555914893e98
    - `wiki-index-template.md` → `<위치>/wiki/index.md`
    - `wiki-log-template.md` → `<위치>/wiki/log.md`
 4. **raw/ 시작점**: `<위치>/raw/.gitkeep` 생성.
-5. **SCHEMA 적응**: 도메인에 맞춰 page type / frontmatter 키 / 모범 사례 섹션 보강.
+5. **SCHEMA 적응**: 먼저 플레이스홀더를 치환하고 (제목 / 머리말 / §1 / §2 / §6 / §7 —
+   §3·§4·§5 의 `<slug>` 류는 *형식 예시* 라 그대로 둔다), 그 다음 도메인에 맞춰
+   page type / frontmatter 키를 보강한다. 체크리스트는 walkthrough §4.1.
 6. **첫 ingest 안내**: 첫 원천을 `raw/` 에 추가하라고 안내하고 절차 B 로.
 
 전체 walkthrough: [./references/bootstrap-walkthrough.md](./references/bootstrap-walkthrough.md)
