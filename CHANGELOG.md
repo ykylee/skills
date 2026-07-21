@@ -193,6 +193,17 @@
   - 검증: `npx js-yaml` 로 5건 모두 파싱 성공 + mini-parser 와 값 10건 전부 일치 확인.
   - 재발 방지 (미착수): `skill-lint` 에 표준 YAML 교차검증을 넣지 않는 한 동일 유형이 다시
     통과함 — 별도 task.
+- **카탈로그 문서 드리프트 (2026-07-21)**:
+  - `react-premium-design` 미등재 해소 — 저장소 `README.md` 트리와
+    `ai-workflow/wiki/index.md` §4 에 누락되어 있던 것을 추가. 5개 스킬 전부 두 문서에 등재됨.
+  - `skills/README.md` §3.1 frontmatter 예시가 **stale** 하던 것을 수정 — top-level
+    `when_to_use` + `metadata.harness_compat` 를 보여주고 있었으나, 2026-07-10 정책 이후
+    실제 구조는 `metadata.claude_code.*` depth-2 nested 다. 가이드대로 새 스킬을 쓰면
+    `skill-lint` E040 에 걸리는 상태였다. §3.1.3 / §3.1.4 제목과 §6 체크리스트도 동일하게 보정.
+  - `skills/README.md` §3.1.0 (YAML 인용 규칙) 신설 — 위 3건의 실제 실패 유형 2종과
+    `js-yaml` 확인 절차 (동작 검증 완료: 정상 SKILL.md exit 0, 고장 케이스 non-zero).
+  - `skills/README.md` §1.1 — 스킬 목록을 손으로 복사하는 대신 `scripts/skill-discover`
+    로 생성하도록 안내. 손 관리 목록이 늘수록 본 드리프트가 반복되므로 목록을 추가하지 않음.
 
 ## [0.3.0] - 2026-07-09
 

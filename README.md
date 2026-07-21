@@ -14,6 +14,7 @@ skills/                       # 스킬 카탈로그
 ├── .index.json               # skill-discover 캐시 (.gitignore)
 ├── html-slides-builder/      # doc — 단일 1920x1080 HTML 슬라이드 빌더
 ├── llm-wiki/                 # meta — 영구 markdown 위키 부트스트랩 / 운영 (Karpathy 패턴)
+├── react-premium-design/     # code — 프리미엄 React UI (antd / Astryx 계열)
 ├── skill-discover/           # meta — 카탈로그 검색
 └── skill-lint/               # meta — frontmatter / 링크 검증
 

@@ -67,6 +67,7 @@
 - [html-slides-builder/references/astryx-component-map.md](../../skills/html-slides-builder/references/astryx-component-map.md) — ASTRYX 디자인 시스템 3-layer CSS cascade
 - [html-slides-builder/references/marpit-directives.md](../../skills/html-slides-builder/references/marpit-directives.md) — Marpit 3-scope directive + metadata comment 규약
 - [html-slides-builder/scripts/verify_deck.py](../../skills/html-slides-builder/scripts/verify_deck.py) — Phase gate headless verifier
+- [react-premium-design/SKILL.md](../../skills/react-premium-design/SKILL.md) — 프리미엄 React UI 디자인 (antd / Astryx 계열, light theme + 한국어 기본). `references/examples/` 에 참조 구현 6종
 
 ### 메타 스킬
 

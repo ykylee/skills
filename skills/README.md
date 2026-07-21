@@ -4,7 +4,7 @@
 - 범위: 디렉터리 레이아웃, `SKILL.md` 포맷, frontmatter 키, 작성 절차, harness 호환 가이드
 - 대상 독자: 스킬 작성자, AI 에이전트, 카탈로그 기여자
 - 상태: draft
-- 최종 수정일: 2026-07-09
+- 최종 수정일: 2026-07-21
 - 관련 문서: [../ai-workflow/memory/active/PURPOSE.md](../ai-workflow/memory/active/PURPOSE.md), [../ai-workflow/memory/active/PROJECT_PROFILE.md](../ai-workflow/memory/active/PROJECT_PROFILE.md)
 
 ## 1. 카탈로그 정의
@@ -16,6 +16,20 @@
 - **단일 책임**: 한 스킬 = 한 명제. 조합은 호출자(워크플로우)가 담당한다.
 - **harness 비종속 지향**: 스킬 본문은 중립적으로 작성하고, harness 고유 syntax 는 어댑터로 분리한다.
 - **자기-기술**: `name` / `description` 만으로 호출 시점을 알 수 있어야 한다.
+
+### 1.1 현재 카탈로그 목록
+
+본 문서는 *authoring 가이드* 이므로 스킬 목록을 손으로 복사해두지 않는다. 정본은 항상
+`SKILL.md` frontmatter 이고, 다음으로 생성한다:
+
+```bash
+python3 scripts/skill-discover            # 전체 목록
+python3 scripts/skill-discover --json     # 기계 판독
+```
+
+사람이 읽는 요약 트리는 [저장소 README](../README.md) 에 있다. 손으로 관리하는 목록이
+늘어날수록 드리프트가 생기므로 (실제로 `react-premium-design` 이 여러 문서에서 누락된 적이
+있다), 새 스킬 추가 시 목록을 늘리기보다 위 명령으로 확인하는 쪽을 권한다.
 
 ## 2. 디렉터리 구조
 
@@ -46,16 +60,45 @@ skills/
 ---
 name: <kebab-case>                    # 필수, 디렉터리명과 일치
 description: <1-line>                 # 필수, 호출 시점 + 트리거 표현 포함
-when_to_use: <문장 또는 불릿>          # 권장, 본문 시작에 트리거 단계가 있으면 생략 가능
 metadata:
-  harness_compat:                     # 권장, 호환 harness 목록
-    - claude-code
-    - generic-md
-  category: <meta|workflow|doc|code|research|data>  # 권장
-  version: 0.1.0                       # 권장, semver
-  owner: <github-handle 또는 단일 표기>  # 선택
+  claude_code:                        # depth-2 nested (PROJECT_PROFILE §5 정책)
+    when_to_use: <문장>                # 권장, 본문 시작에 트리거 단계가 있으면 생략 가능
+    harness_compat:                   # 권장, 호환 harness 목록
+      - claude-code
+      - generic-md
+    category: <meta|workflow|doc|code|research|data>  # 권장
+    version: 0.1.0                    # 권장, semver
+    author: <표기>                     # 선택
+    license: MIT                      # 선택
+    tags: [a, b]                      # 선택
+    related_skills: [x, y]            # 선택
 ---
 ```
+
+Claude-Code-flavored 확장 필드는 **`metadata.claude_code.*` 아래 depth-2 로 중첩**한다
+(top-level 이나 `metadata.*` 직하가 아니다). 근거와 이력은
+[PROJECT_PROFILE.md §5](../ai-workflow/memory/active/PROJECT_PROFILE.md) 참조.
+
+#### 3.1.0 YAML 인용 규칙 (필수)
+
+frontmatter 는 **표준 YAML 파서로 파싱 가능해야** 한다. 자체 mini-parser
+(`scripts/_frontmatter.py`) 는 관대해서 아래 오류를 통과시키므로, `skill-lint` 가 clean 이어도
+안전하지 않다. 두 가지가 실제로 발생했다 (2026-07-21 수정):
+
+- **평문 스칼라 안의 콜론+공백** — `description: ... Triggers: 'a', 'b'` 는 `Triggers:` 를
+  두 번째 key 로 해석해 파싱 실패. → 값 전체를 `"` 로 감쌀 것.
+- **닫는 따옴표 뒤의 쉼표** — `when_to_use: "A", "B"` 는 `"A"` 에서 스칼라가 끝나므로 뒤의
+  `, "B"` 가 문법 오류. → 값 전체를 `'` 로 감쌀 것 (내부 `"` 는 그대로 유지).
+
+의심되면 커밋 전에 확인:
+
+```bash
+sed -n '2,/^---$/p' skills/<name>/SKILL.md | sed '$d' > /tmp/fm.yaml
+npx --yes js-yaml /tmp/fm.yaml    # 파싱 실패 시 non-zero + 위치 표시
+```
+
+`js-yaml` 은 **첫 오류에서 멈추므로**, 한 건을 고친 뒤에는 전체를 다시 돌려 뒤에 가려져 있던
+오류가 없는지 확인한다.
 
 #### 3.1.1 `name`
 - 형식: `^[a-z0-9]+(-[a-z0-9]+)*$`
@@ -68,7 +111,7 @@ metadata:
   - 호출해야 하는 시점 (트리거 phrase)
 - 예: `"스킬 카탈로그의 manifest 정합성과 frontmatter, 링크를 검증합니다. 새 스킬 추가/PR 전 사용."`
 
-#### 3.1.3 `metadata.harness_compat`
+#### 3.1.3 `metadata.claude_code.harness_compat`
 - 호환 가능한 harness 목록. 가능한 값:
   - `claude-code` — Claude Code native
   - `generic-md` — 어떤 harness 라도 markdown 으로 해석 가능
@@ -76,7 +119,7 @@ metadata:
 - 한 스킬이 **반드시 1개 이상** 의 harness 와 호환되어야 한다.
 - `generic-md` 만 단독으로 두면 가장 범용성이 높다.
 
-#### 3.1.4 `metadata.category`
+#### 3.1.4 `metadata.claude_code.category`
 - 권장 값 (필요 시 확장):
   - `meta` — 카탈로그 운영 / lint / validate
   - `workflow` — 워크플로우 단계 (session-start, doc-sync 등)
@@ -142,7 +185,8 @@ metadata:
 
 - [ ] 디렉터리명 = `name` (kebab-case)
 - [ ] `description` ≤ 200자, 1-line
-- [ ] `metadata.harness_compat` ≥ 1
+- [ ] `metadata.claude_code.harness_compat` ≥ 1 (depth-2 nested 위치 확인)
+- [ ] frontmatter 가 표준 YAML 파서로 파싱됨 (§3.1.0 인용 규칙)
 - [ ] 본문에 `## When to use` / `## Procedure` 가 존재
 - [ ] `references/`, `assets/`, `scripts/` 가 실제로 사용됨 (placeholder 금지)
 - [ ] `CHANGELOG.md` 에 본 변경 1줄 기록
